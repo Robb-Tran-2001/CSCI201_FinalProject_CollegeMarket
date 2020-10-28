@@ -10,7 +10,12 @@ const ItemCard = ({ item, handleClick }) => {
   }
   return (
     <Card
-      style={{ marginTop: 20, cursor: 'pointer' }}
+      style={{
+        marginTop: 30,
+        marginLeft: 15,
+        marginRight: 15,
+        cursor: 'pointer',
+      }}
       onClick={handleClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}

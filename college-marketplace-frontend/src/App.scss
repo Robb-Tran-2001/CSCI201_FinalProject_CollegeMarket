@@ -6,10 +6,13 @@ $card-border-width: 0;
 $card-spacer-x: 0rem;
 $card-spacer-y: 0rem;
 $card-bg: transparent;
+$grid-gutter-width: 0px;
 
 $enable-shadows: true;
 $body-bg: #fafaf0;
-
+body {
+  margin: 0;
+}
 img {
   object-fit: cover;
 }
@@ -30,6 +33,40 @@ img {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
+}
+
+.carousel-container {
+  margin-top: 20vh;
+  margin-bottom: 20vh;
+  display: flex;
+  align-items: center;
+  height: 60vh;
+  padding: 20px;
+}
+
+.desc-container {
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+  margin: 0;
+  background: #fafaf0;
+  height: 100vh;
+  padding: 30px !important;
+}
+
+.buy-button {
+  width: 100%;
+  margin-top: auto;
+  height: 3em;
+}
+
+.modal-close-button {
+  color: #fff;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 10;
+  cursor: pointer;
 }
 
 @import '~bootstrap/scss/bootstrap';
