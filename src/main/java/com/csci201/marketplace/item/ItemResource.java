@@ -29,7 +29,7 @@ public class ItemResource {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("id") String id) {
+	public Response get(@PathParam("id") int id) {
 		Item item = dao.get(id);
 		
 		if (item == null) {
@@ -43,7 +43,7 @@ public class ItemResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(Item item) throws URISyntaxException {
-		String itemID = dao.add(item);
+		int itemID = dao.add(item);
 		URI uri = new URI("/items/" + itemID);
 		return Response.created(uri).build();
 	}
