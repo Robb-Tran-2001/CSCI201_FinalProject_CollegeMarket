@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Spinner } from 'react-bootstrap'
+import { useRecoilState } from 'recoil'
+import { currentItemState } from '../recoil/atoms'
 import ItemCard from './ItemCard'
 import { ItemModal } from './ItemModal'
 
 export const Catalog = () => {
   const [modalItemID, setModalItemID] = useState(-1)
-  const [Items, setItems] = useState(null)
+  const [Items, setItems] = useRecoilState(currentItemState)
   const handleClick = (itemid) => {
     setModalItemID(itemid)
   }
@@ -28,9 +30,17 @@ export const Catalog = () => {
   return (
     <>
       <Container fluid="lg">
-        <Row xs={2} md={4}>
-          {itemCards}
-        </Row>
+        {Items.length !== 0 ? (
+          <Row xs={2} md={4}>
+            {itemCards}
+          </Row>
+        ) : (
+          <Spinner
+            animation="border"
+            variant="primary"
+            className="loading-spinner"
+          />
+        )}
       </Container>
       <ItemModal itemid={modalItemID} close={closeModal} />
     </>

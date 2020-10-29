@@ -3,11 +3,15 @@ import Nav from './components/Nav'
 import './App.scss'
 import { Catalog } from './components/Catalog'
 import { RecoilRoot } from 'recoil'
+import { BrowserRouter } from 'react-router-dom'
+import { Router } from './components/Router'
 function App() {
   return (
     <RecoilRoot>
-      <Nav />
-      <Catalog />
+      <BrowserRouter>
+        <Nav />
+        <Router />
+      </BrowserRouter>
     </RecoilRoot>
   )
 }

@@ -83,7 +83,7 @@ export const ItemModal = ({ itemid, close }) => {
         <Spinner
           animation="border"
           variant="primary"
-          style={{ margin: 'auto auto' }}
+          className="loading-spinner"
         />
       )}
     </Modal>
