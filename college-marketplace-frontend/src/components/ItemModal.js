@@ -27,31 +27,19 @@ export const ItemModal = ({ itemid, close }) => {
 
   useEffect(() => {
     if (itemid === -1) return
-    setItem({
-      name: 'test',
-      price: 300,
-      description:
-        'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
-      image: [
-        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80',
-        'https://www.usc.edu/wp-content/uploads/sites/2/2020/03/COVID_Feature_02.jpg',
-        'https://www.usc.edu/wp-content/uploads/sites/2/2020/10/Scott-Fraser-480-240x150.jpg',
-      ],
-      seller: 'Felix',
-    })
-    setLoaded(true)
-    // fetch('url' + itemid)
-    //   .then((res) => res.json())
-    //   .then(
-    //     (item) => {
-    //       setItem(item)
-    //       setLoaded(true)
-    //     },
-    //     (err) => {
-    //       alert('Loading failed', err)
-    //       close()
-    //     }
-    //   )
+    //setLoaded(true)
+    fetch('http://127.0.0.1:3001/item')
+      .then((res) => res.json())
+      .then(
+        (res) => {
+          setItem(res)
+          setLoaded(true)
+        },
+        (err) => {
+          alert('Loading failed', err)
+          close()
+        }
+      )
   }, [itemid, close])
   return (
     <Modal show={itemid !== -1} onHide={close} animation={false} dialogAs="div">
