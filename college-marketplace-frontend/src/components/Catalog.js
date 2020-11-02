@@ -23,7 +23,7 @@ export const Catalog = () => {
   const itemCards =
     Items &&
     Items.map((item) => (
-      <Col>
+      <Col key={item.id}>
         <ItemCard item={item} handleClick={handleClick} />
       </Col>
     ))
