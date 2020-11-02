@@ -9,9 +9,12 @@ import {
   Image,
   Button,
 } from 'react-bootstrap'
+import { useRecoilValue } from 'recoil'
+import { isAuthorizedState } from '../recoil/atoms'
 export const ItemModal = ({ itemid, close }) => {
   const [loaded, setLoaded] = useState(false)
   const [item, setItem] = useState(null)
+  const IsAuthorized = useRecoilValue(isAuthorizedState)
   const carouselItems =
     item &&
     item.image.map((element, index) => (
@@ -74,7 +77,13 @@ export const ItemModal = ({ itemid, close }) => {
                 <p>
                   <b>{item.seller}</b>
                 </p>
-                <Button className="buy-button">Buy now</Button>
+                {IsAuthorized ? (
+                  <Button className="buy-button">Buy now</Button>
+                ) : (
+                  <Button disabled className="buy-button">
+                    Log in to buy
+                  </Button>
+                )}
               </Container>
             </Col>
           </Row>
