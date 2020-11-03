@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { Form, Button, Row, Modal } from 'react-bootstrap'
 import { SHA256 } from 'crypto-js'
 import { useSetRecoilState } from 'recoil'
-import { isAuthorizedState, usernameState } from '../recoil/atoms'
+import { isAuthorizedState, jwtState, usernameState } from '../recoil/atoms'
 
 export const Login = ({ show, handleClose }) => {
   const setUsername = useSetRecoilState(usernameState)
   const setAuthorized = useSetRecoilState(isAuthorizedState)
+  //   const setToken = useSetRecoilState(jwtState)
+
   const [login, setLogin] = useState(true)
   const [form, setForm] = useState({})
   const [formLoading, setFormLoading] = useState(false)
@@ -34,7 +36,10 @@ export const Login = ({ show, handleClose }) => {
       })
         .then((res) => res.json())
         .then((res) => {
+          sessionStorage.setItem('username', res.name)
           setUsername(res.name)
+          sessionStorage.setItem('token', res.token)
+          //   setToken(res.token)
           setAuthorized(true)
           setFormLoading(false)
           handleClose()

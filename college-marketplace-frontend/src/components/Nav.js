@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import { Navbar, Form, FormControl, Button, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { isAuthorizedState, usernameState } from '../recoil/atoms'
 import { Login } from './Login'
 
 const Nav = () => {
   const [show, setShow] = useState(false)
+  const history = useHistory()
   const handleClickUser = () => {
     if (!IsAuthorized) {
       setShow(true)
     } else {
-      console.log('a')
+      history.push('/user')
     }
   }
   const handleClose = () => setShow(false)

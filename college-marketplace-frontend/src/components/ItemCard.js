@@ -3,13 +3,15 @@ import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import { useRecoilValue } from 'recoil'
 import { isAuthorizedState } from '../recoil/atoms'
+import { buyItem } from './UserActions'
 
 const ItemCard = ({ item, handleClick }) => {
   const [hover, setHover] = useState(false)
   const IsAuthorized = useRecoilValue(isAuthorizedState)
+  const [buyAttempted, setBuyAttempted] = useState(false)
   const handleBuy = (e) => {
     e.stopPropagation()
-    alert(e)
+    setBuyAttempted(true)
   }
   return (
     <Card

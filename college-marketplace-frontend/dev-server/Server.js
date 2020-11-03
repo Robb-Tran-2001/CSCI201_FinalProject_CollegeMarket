@@ -14,10 +14,9 @@ server.use(middlewares)
 server.post('/login', (req, res) => {
   if (req.body.email === 'a@a') {
     //res.send({ token: '1234' })
-    res.setHeader('Set-Cookie', 'token=1234; HttpOnly')
-    res.send({ name: 'tommy trojan' })
+    res.send({ token: '1234', name: 'tommy trojan' })
   } else {
-    res.sendStatus(403)
+    res.sendStatus(401)
   }
 })
 
