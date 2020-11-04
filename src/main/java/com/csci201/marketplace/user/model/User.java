@@ -1,5 +1,7 @@
 package com.csci201.marketplace.user.model;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.awt.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +13,7 @@ public class User { //User interacts with mapper
 	private String name;
 	private String password;
 	private String email;
+	public transient static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	//itemID = key, bid to buy = value
 	private transient Set<Integer> toBuy;
@@ -46,7 +49,7 @@ public class User { //User interacts with mapper
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = encoder.encode(password);
 	}
 
 	public void setEmail(String email) {

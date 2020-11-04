@@ -3,19 +3,25 @@ package com.csci201.marketplace.user.service;
 import com.csci201.marketplace.user.dao.UserDAO;
 import com.csci201.marketplace.user.dao.UserMapper;
 import com.csci201.marketplace.user.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserService implements UserDAO { //implements DAO, interacts with USER
-//    public static UserDAO instance = null;
-    public static List<User> users = new ArrayList<User>();
-    public static DataSource dataSource = null;
-    public static JdbcTemplate jdbcTemplateObject = null;
+import static com.csci201.marketplace.user.model.User.encoder;
 
+@Service
+public class UserService implements UserDAO { //implements DAO, interacts with USER
+    private final UserDAO instance;
+    private static List<User> users = new ArrayList<User>();
+    private static DataSource dataSource = null;
+    private static JdbcTemplate jdbcTemplateObject = null;
+
+    public UserService(UserDAO ud) { instance = ud; }
 
     private int getInfo(User user)
     {
@@ -63,8 +69,8 @@ public class UserService implements UserDAO { //implements DAO, interacts with U
     @Override //login functionality
     public User get(int id, String password) {
         for(User user : users)
-            if(user.getUserID() == id && password.compareTo(user.getPassword()) == 0) return user;
-        String SQL = "SELECT * FROM Users WHERE User.user_id = " + id + "User.password=" + password;
+            if(user.getUserID() == id && encoder.encode(password).compareTo(user.getPassword()) == 0) return user;
+        String SQL = "SELECT * FROM Users WHERE User.user_id = " + id + "User.password=" + encoder.encode(password);
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }

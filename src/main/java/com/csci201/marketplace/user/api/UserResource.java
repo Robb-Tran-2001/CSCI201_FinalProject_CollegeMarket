@@ -1,8 +1,8 @@
 package com.csci201.marketplace.user.api;
 
-import com.csci201.marketplace.user.dao.UserDAO;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
@@ -22,8 +22,15 @@ import javax.ws.rs.core.Response;
 
 @Repository
 public class UserResource { //interacts with user service
-	private UserService service;
-	
+	private final UserService service;
+
+	@Autowired
+	public UserResource(UserService service)
+	{
+		this.service = service;
+	}
+
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> list()
