@@ -5,11 +5,11 @@ import java.util.*;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Repository
+//@Repository
 public class ItemDAO {
 	private static ItemDAO instance;
 	private static List<Item> items = new ArrayList<Item>();
-	private static DataSource dataSource;
+	private static DataSource dataSource = null;
 	private static JdbcTemplate jdbcTemplateObject;
 	
 	static {
@@ -17,7 +17,7 @@ public class ItemDAO {
 		items.add(new Item("pencil", (float) 534.25, new ArrayList<String>(Arrays.asList("www.pencils.com/pic1", "www.writing.com/pic2")), "Cool pencil.", 302));
 	}
 	
-	@Autowired
+//	@Autowired
 	public static void setDataSource(DataSource ds) {
 		dataSource = ds;
 		jdbcTemplateObject = new JdbcTemplate(ds);
