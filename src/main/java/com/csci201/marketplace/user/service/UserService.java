@@ -56,7 +56,7 @@ public class UserService implements UserDAO { //implements DAO, interacts with U
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
     }
 
-    @Override
+    @Override //get by ID
     public User get(int id)
     {
         for(User user : users)
@@ -66,16 +66,16 @@ public class UserService implements UserDAO { //implements DAO, interacts with U
         return li.get(0);
     }
 
-    @Override //login functionality
+    @Override //get by ID and password, login functionality
     public User get(int id, String password) {
         for(User user : users)
-            if(user.getUserID() == id && encoder.encode(password).compareTo(user.getPassword()) == 0) return user;
+            if(user.getUserID() == id && encoder.matches(password, user.getPassword())) return user;
         String SQL = "SELECT * FROM Users WHERE User.user_id = " + id + "User.password=" + encoder.encode(password);
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }
 
-    @Override
+    @Override //delete by ID
     public boolean delete(int id)
     {
         for(User user : users) {
@@ -90,7 +90,7 @@ public class UserService implements UserDAO { //implements DAO, interacts with U
         return false;
     }
 
-    @Override
+    @Override //update by User
     public int update(User user) {
         int id = user.getUserID();
         int counter = 0;
@@ -106,7 +106,7 @@ public class UserService implements UserDAO { //implements DAO, interacts with U
     }
 
     //sign up functionality
-    @Override
+    @Override //add by User
     public int add(User user) {
         for(User us : users)
             if(user.getUserID() == us.getUserID()) return 0;
