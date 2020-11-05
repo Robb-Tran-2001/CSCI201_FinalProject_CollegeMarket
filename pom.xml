@@ -21,7 +21,7 @@
 		<org.springframework.version>5.2.8.RELEASE</org.springframework.version>
 	</properties>
 
-	<dependencies>
+    <dependencies>
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
