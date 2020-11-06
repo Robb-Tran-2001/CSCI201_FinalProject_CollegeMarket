@@ -38,14 +38,15 @@ public class ItemMapper implements RowMapper<Item> {
 		item.setName(rs.getString("name"));
 		item.setDescription(rs.getString("description"));
 		item.setPrice(rs.getFloat("price"));
-		String picsUrls = rs.getString("images_json");
-		
-		String[] pics = picsUrls.split(" ");
-		List<String> picList = new ArrayList<>();
-		for(String s : pics) {
-			picList.add(s);
-		}
-		item.setPictures(picList);
+		item.setPictures(rs.getString("images_json"));
+//		String picsUrls = rs.getString("images_json");
+//		
+//		String[] pics = picsUrls.split(" ");
+//		List<String> picList = new ArrayList<>();
+//		for(String s : pics) {
+//			picList.add(s);
+//		}
+//		item.setPictures(picList);
 		
 		return item;
 	}

@@ -18,19 +18,19 @@ import javax.ws.rs.core.Response;
 @Path("/items")
 public class ItemResource {
 	
-	private ItemDAO dao = ItemDAO.getInstance();
+	private ItemService itemService = Test.itemService;
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Item> list() {
-        return dao.listAll();
+        return itemService.listAll();
     }
 	
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") int id) {
-		Item item = dao.get(id);
+		Item item = itemService.getItemById(id);
 		
 		if (item == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
@@ -43,7 +43,7 @@ public class ItemResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(Item item) throws URISyntaxException {
-		int itemID = dao.add(item);
+		int itemID = itemService.add(item);
 		URI uri = new URI("/items/" + itemID);
 		return Response.created(uri).build();
 	}
@@ -52,7 +52,7 @@ public class ItemResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response put(Item item) throws URISyntaxException {
-		boolean bool = dao.update(item);
+		boolean bool = itemService.update(item);
 		
 		if (bool) {
 			return Response.ok().build();
@@ -64,7 +64,7 @@ public class ItemResource {
 	@DELETE
 	@Path("{id}")
 	public Response delete(@PathParam("id") int id) {
-		boolean bool = dao.delete(id);
+		boolean bool = itemService.delete(id);
 		
 		if (bool) {
 			return Response.ok().build();

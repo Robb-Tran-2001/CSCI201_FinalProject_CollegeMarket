@@ -1,6 +1,6 @@
 package com.csci201.marketplace.item;
 
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,17 +12,34 @@ public class Item {
 	private String name;
 	private String description;
 	private float price;
-	private List<String> pictures = null;
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	private String pictures = null;
+//	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	
 	public Item() {}
 	
-	public Item(String name, float price, List<String> pictures, String description, int itemid) {
+	public Item(int sellerId, String name, double price, int itemid) {
+		this.sellerId = sellerId;
 		this.name = name;
-		this.price = price;
-		this.pictures = pictures;
-		this.description = description;
+		this.price = (float)price;
 		this.itemId = itemid;
+	}
+
+	public Item(int sellerId, String name, String description, double price, String images) {
+		this.sellerId = sellerId;
+		this.name = name;
+		this.description = description;
+		this.price = (float)price;
+		this.pictures = images;
+	}
+
+	public Item(int itemId, int sellerId, int buyerId, String name, String description, double price, String images) {
+		this.itemId = itemId;
+		this.sellerId = sellerId;
+		this.buyerId = buyerId;
+		this.name = name;
+		this.description = description;
+		this.price = (float)price;
+		this.pictures = images;
 	}
 
 	public int getItemId() {
@@ -31,6 +48,7 @@ public class Item {
 
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
+//		Test.it.update(this);
 	}
 
 	public int getSellerId() {
@@ -39,6 +57,7 @@ public class Item {
 
 	public void setSellerId(int sellerId) {
 		this.sellerId = sellerId;
+//		Test.it.update(this);
 	}
 	
 	public int getBuyerId() {
@@ -47,6 +66,7 @@ public class Item {
 
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
+//		Test.it.update(this);
 	}	
 	
 	public String getName() {
@@ -55,6 +75,7 @@ public class Item {
 
 	public void setName(String name) {
 		this.name = name;
+//		Test.it.update(this);
 	}
 
 	public String getDescription() {
@@ -63,36 +84,47 @@ public class Item {
 
 	public void setDescription(String description) {
 		this.description = description;
+//		Test.it.update(this);
 	}
 
 	public float getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setPrice(double price) {
+		this.price = (float)price;
+//		Test.it.update(this);
 	}
 
-	public List<String> getPictures() {
+	public String getPictures() {
 		return pictures;
 	}
 	
-	public String getPicturesString() {
-		StringBuilder s = new StringBuilder("");
-		for(String i : pictures) s.append(i + " ");
-		return s.toString();
-	}
+//	public List<String> getPictures() {
+//		return pictures;
+//	}
+	
+//	public String getPicturesString() {
+//		StringBuilder s = new StringBuilder("");
+//		for(String i : pictures) s.append(i + " ");
+//		return s.toString();
+//	}
 
-	public void setPictures(List<String> pictures) {
-		this.pictures = pictures;
+	public void setPictures(String s) {
+		this.pictures = s;
+//		Test.it.update(this);
 	}
+	
+//	public void setPictures(List<String> pictures) {
+//		this.pictures = pictures;
+//	}
 
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
-
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
+//	public Map<String, Object> getAdditionalProperties() {
+//		return this.additionalProperties;
+//	}
+//
+//	public void setAdditionalProperty(String name, Object value) {
+//		this.additionalProperties.put(name, value);
+//	}
 
 }
