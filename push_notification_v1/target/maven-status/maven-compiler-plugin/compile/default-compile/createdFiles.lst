@@ -1,6 +1,7 @@
 com/baeldung/websocket/MessageDecoder.class
 com/baeldung/item/Item.class
 com/baeldung/websocket/PushEndpoint.class
+com/baeldung/test/ItemDAOTest.class
 com/baeldung/item/ItemResource.class
 com/baeldung/notify_handler/NotifyResource.class
 com/baeldung/item/ItemDAO.class
