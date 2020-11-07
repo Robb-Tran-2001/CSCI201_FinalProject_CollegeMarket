@@ -15,6 +15,9 @@ const Nav = () => {
       history.push('/user')
     }
   }
+  const handleSearch = () => {
+    fetch()
+  }
   const handleClose = () => setShow(false)
   const IsAuthorized = useRecoilValue(isAuthorizedState)
   const Username = useRecoilValue(usernameState)

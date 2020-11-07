@@ -2,11 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { RecoilRoot } from 'recoil'
 import App from './App'
+import { ToastProvider } from 'react-toast-notifications'
+
 import * as serviceWorker from './serviceWorker'
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
