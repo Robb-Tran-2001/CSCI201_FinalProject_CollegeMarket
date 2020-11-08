@@ -1,4 +1,10 @@
-package com.csci201.marketplace.item;
+package com.csci201.marketplace.item.api;
+
+import com.csci201.marketplace.item.Test;
+import com.csci201.marketplace.item.api.*;
+import com.csci201.marketplace.item.dao.*;
+import com.csci201.marketplace.item.model.*;
+import com.csci201.marketplace.item.service.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;

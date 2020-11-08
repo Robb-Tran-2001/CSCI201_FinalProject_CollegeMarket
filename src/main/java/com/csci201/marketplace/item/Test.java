@@ -1,5 +1,11 @@
 package com.csci201.marketplace.item;
 
+import com.csci201.marketplace.item.*;
+import com.csci201.marketplace.item.api.*;
+import com.csci201.marketplace.item.dao.*;
+import com.csci201.marketplace.item.model.*;
+import com.csci201.marketplace.item.service.*;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +22,9 @@ import org.springframework.context.annotation.ComponentScan;
 //@ContextConfiguration(classes = {ItemService.class, ItemDAO.class})
 public class Test {
 	
-	@Qualifier("ItemService")
+//	@Qualifier("ItemService")
 	@Autowired
-	static ItemService itemService;
+	public static ItemService itemService;
 	
 //	public static ItemDAO it = ItemDAO.getInstance();
 	
@@ -26,7 +32,7 @@ public class Test {
 		// TODO Auto-generated method stub
 //		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 		ApplicationContext context = SpringApplication.run(SpringBootApplication.class, args);
-		ItemService itemService = context.getBean("ItemService", ItemService.class);
+		ItemService itemService = context.getBean(ItemService.class);
 		
 		
 		printItems();

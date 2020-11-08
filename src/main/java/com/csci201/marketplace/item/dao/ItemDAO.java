@@ -1,4 +1,10 @@
-package com.csci201.marketplace.item;
+package com.csci201.marketplace.item.dao;
+
+import com.csci201.marketplace.item.*;
+import com.csci201.marketplace.item.api.*;
+import com.csci201.marketplace.item.model.*;
+import com.csci201.marketplace.item.service.*;
+
 
 import java.util.*;
 
@@ -13,43 +19,43 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ItemDAO extends JdbcDaoSupport {
+public class ItemDAO {
 	
-	@Autowired 
-	DataSource dataSource;
+//	@Autowired 
+//	DataSource dataSource;
 	
-	@Autowired
-    private JdbcTemplate jdbcTemplate;
-	
-	@PostConstruct
-	private void initialize(){
-		setDataSource(dataSource);
-	}
+//	@Autowired
+//    private JdbcTemplate jdbcTemplate;
+//	
+//	@PostConstruct
+//	private void initialize(){
+//		setDataSource(dataSource);
+//	}
 	
 	private static ItemMapper itemMapper;
-//	private static ItemDAO instance;
+	private static ItemDAO instance;
 	private static List<Item> items = new ArrayList<Item>();
-//	private static DataSource dataSource;
-//	private static JdbcTemplate jdbcTemplateObject;
+	private static DataSource dataSource;
+	private static JdbcTemplate jdbcTemplate;
 	
 	static {
 		items.add(new Item(100, "PS5", "This is a PS5.", 2., "www.amazon.com/pic1 www.sony.com/pic2"));
 		items.add(new Item(100, "pencil", "Cool pencil.", 534.25, "www.pencils.com/pic1 www.writing.com/pic2"));
 	}
 	
-//	@Autowired
-//	public static void setDataSource(DataSource ds) {
-//		dataSource = ds;
-//		jdbcTemplateObject = new JdbcTemplate(ds);
-//	}
+	@Autowired
+	public static void setDataSource(DataSource ds) {
+		dataSource = ds;
+		jdbcTemplate = new JdbcTemplate(ds);
+	}
 	
-//	public static ItemDAO getInstance() {
-//		if (instance == null) {
-//			return new ItemDAO();
-//		}
-//		
-//		return instance;
-//	}
+	public static ItemDAO getInstance() {
+		if (instance == null) {
+			return new ItemDAO();
+		}
+		
+		return instance;
+	}
 	
 	public void getAll() {
 		String SQL = "SELECT * FROM Items";
