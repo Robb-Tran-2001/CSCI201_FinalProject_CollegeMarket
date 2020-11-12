@@ -1,31 +1,49 @@
 package com.csci201.marketplace.user.model;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+
 import com.csci201.marketplace.Store.Store;
 
 public class UserThread extends Thread {
-	private User user;
+	private Lock lock;
+	private Condition acceptSale;
+	private String action;
+	private Item item;
+	private User buyer;
+	private User seller;
 	//have users network and talk to one another
+	
+	public UserThread(String action, Item item, User buyer, User seller) {
+		this.action = action;
+		this.item = item;
+		this.buyer = buyer;
+		this.seller = seller;
+		
+		lock = new ReentrantLock();
+		acceptSale = lock.newCondition();
+	}
 
 	//adding something up for sale
-	public void sell(int item) {
+	public void sell() {
 		//add a new sql entry of the item
-		Store.getSellers().get(this).add(item);
+		Store.getSellers().get(this.seller).add(item);
 	}
 
 	//wanting to buy something
-	public void buyRequest(int item) {
+	public void buyRequest() {
 		//update item sql entry
 		Store.getBuyers().get(item).add(user);
 	}
 
 	//when successfully sold something
-	public void acceptBid(int item, User buyer) {
+	public void acceptBid() {
 		//delete item sql entry
-		Store.getSellers().get(this).remove(item);
+		Store.getSellers().get(this.seller).remove(item);
 	}
 
-	//successuflly bought something
-	public void buyAccept(int item, User seller) {
+	//Successfully process sale after sale is approved
+	public void processSale() {
 		//delete from buyer
 		Store.getBuyers().remove(item);
 	}
@@ -34,6 +52,39 @@ public class UserThread extends Thread {
 
 	public void run() {
 		
+		try {
+			if (action.equals("sell")) {
+				sell();
+			}
+			else if (action.equals("buy")) {
+				try {
+					lock.lock();
+					System.out.println("Waiting for seller to process " + this.item.getName() + ".");
+					acceptSale.await();
+					synchronized(this) {
+						buyRequest();
+						processSale();
+					}
+				}
+				catch(InterruptedException ie) {
+					System.out.println("interrupted " + ie.getMessage());
+				}
+			}
+			else if (action.equals("approve")) {
+				acceptBid();
+				System.out.println("Seller has approved the sale of" + this.item.getName() + " to " + this.buyer.getName() + ".");
+				acceptSale.signal();
+			}
+			else
+				throw new Exception();
+		}
+		catch(Exception e) {
+			System.out.println("Malformatted action");
+		}
+		
+		
+		
+			
 	}
 	
 }
