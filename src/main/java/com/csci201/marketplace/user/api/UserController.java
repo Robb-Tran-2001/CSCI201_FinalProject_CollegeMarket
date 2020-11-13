@@ -43,7 +43,7 @@ public class UserController { //interacts with user service
 			return Response.ok(user, MediaType.APPLICATION_JSON).build();
 	}
 
-	@GetMapping(path = "login")
+	@GetMapping(path = "login/{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@PathVariable("login") String email, String password) //log in to your profile
 	{
@@ -74,7 +74,7 @@ public class UserController { //interacts with user service
 		return Response.notModified().build();
 	}
 	
-	@DeleteMapping(path = "deleted")
+	@DeleteMapping(path = "{user_id}/deleted")
 	public Response delete(@PathVariable("user_id") int id) {
 		boolean bool = service.delete(id);
 		if (bool) {
