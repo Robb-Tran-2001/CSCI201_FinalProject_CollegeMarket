@@ -1,12 +1,9 @@
 package com.csci201.marketplace.user.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.awt.List;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
+
 
 public class User { //User interacts with mapper
 	private transient int userID;
@@ -20,12 +17,13 @@ public class User { //User interacts with mapper
 	private transient Set<Integer> forSale;
 	
 	
-	public User(int userID, String name, String password, String email)
+	public User(@JsonProperty("user_id") int id, @JsonProperty("name")String name,
+				@JsonProperty("email") String email, @JsonProperty("password") String password)
 	{
 		this.userID = userID;
 		this.name = name;
-		this.password = password;
 		this.email = email;
+		this.password = password;
 	}
 
 	public int getUserID() {

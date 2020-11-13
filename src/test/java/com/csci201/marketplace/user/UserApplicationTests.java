@@ -6,6 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class UserApplicationTests {
 
+	void test1() { //create users
+
+	}
+
 	@Test
 	void contextLoads() {
 	}
