@@ -20,7 +20,7 @@ export const ItemModal = ({ itemid, close }) => {
   const carouselItems =
     item &&
     item.image.map((element, index) => (
-      <Carousel.Item>
+      <Carousel.Item key={index}>
         <img className="d-block w-100" src={element} alt={index} />
       </Carousel.Item>
     ))
