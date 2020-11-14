@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap'
 import { useRecoilValue } from 'recoil'
 import { isAuthorizedState } from '../recoil/atoms'
+import { ITEM_DETAIL_SERVICE_ADDRESS } from '../Paths'
 export const ItemModal = ({ itemid, close }) => {
   const [loaded, setLoaded] = useState(false)
   const [item, setItem] = useState(null)
@@ -31,8 +32,7 @@ export const ItemModal = ({ itemid, close }) => {
 
   useEffect(() => {
     if (itemid === -1) return
-    //setLoaded(true)
-    fetch('http://127.0.0.1:3001/item')
+    fetch(ITEM_DETAIL_SERVICE_ADDRESS + itemid)
       .then((res) => res.json())
       .then(
         (res) => {

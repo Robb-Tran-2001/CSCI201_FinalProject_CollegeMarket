@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Nav, Row, Col, ListGroup, Form, Button, Table } from 'react-bootstrap'
 import { useRecoilValue } from 'recoil'
+import { USER_INFO_SERVICE_ADDRESS } from '../Paths'
 import { usernameState } from '../recoil/atoms'
 import { ItemModal } from './ItemModal'
 
@@ -13,7 +14,7 @@ export const User = () => {
   const handleClose = () => setModalItemID(-1)
   const handleClick = (itemid) => setModalItemID(itemid)
   useEffect(() => {
-    fetch(`http://localhost:3001/user?token=${sessionStorage.getItem('token')}`)
+    fetch(USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('token'))
       .then((res) => res.json())
       .then((res) => {
         console.log(res)
@@ -21,18 +22,19 @@ export const User = () => {
         setOrders(res.orders)
       })
   }, [])
-  const orderTable = orders.map((order) => (
-    <tr
-      key={order.itemid}
-      onClick={() => handleClick(order.itemid)}
-      style={{ cursor: 'pointer' }}
-    >
-      <td>{order.name}</td>
-      <td>${order.price}</td>
-      <td>{order.seller}</td>
-      <td>{order.status ? 'Complete' : 'Pending'}</td>
-    </tr>
-  ))
+  const orderTable = (list) =>
+    list.map((order) => (
+      <tr
+        key={order.itemid}
+        onClick={() => handleClick(order.itemid)}
+        style={{ cursor: 'pointer' }}
+      >
+        <td>{order.name}</td>
+        <td>${order.price}</td>
+        <td>{order.seller}</td>
+        <td>{order.status ? 'Complete' : 'Pending'}</td>
+      </tr>
+    ))
   return (
     <>
       <Row className="mt-5">
@@ -79,15 +81,28 @@ export const User = () => {
               </Button>
             </Form>
           ) : (
-            <Table>
-              <thead>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Seller</th>
-                <th>Status</th>
-              </thead>
-              <tbody>{orderTable}</tbody>
-            </Table>
+            <>
+              <h3>Your purchases: </h3>
+              <Table>
+                <thead>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Seller</th>
+                  <th>Status</th>
+                </thead>
+                <tbody>{orderTable(orders.buy)}</tbody>
+              </Table>
+              <h3>Your listings: </h3>
+              <Table>
+                <thead>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Seller</th>
+                  <th>Status</th>
+                </thead>
+                <tbody>{orderTable(orders.sell)}</tbody>
+              </Table>
+            </>
           )}
         </Col>
       </Row>

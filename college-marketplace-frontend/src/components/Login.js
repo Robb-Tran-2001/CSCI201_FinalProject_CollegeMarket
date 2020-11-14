@@ -3,6 +3,7 @@ import { Form, Button, Row, Modal } from 'react-bootstrap'
 import { SHA256 } from 'crypto-js'
 import { useSetRecoilState } from 'recoil'
 import { isAuthorizedState, jwtState, usernameState } from '../recoil/atoms'
+import { LOGIN_SERVICE_ADDRESS, SIGNUP_SERVICE_ADDRESS } from '../Paths'
 
 export const Login = ({ show, handleClose }) => {
   const setUsername = useSetRecoilState(usernameState)
@@ -27,7 +28,7 @@ export const Login = ({ show, handleClose }) => {
       if (!login) {
         body.name = form.name
       }
-      fetch(`http://localhost:3001/${login ? 'login' : 'signup'}`, {
+      fetch(login ? LOGIN_SERVICE_ADDRESS : SIGNUP_SERVICE_ADDRESS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

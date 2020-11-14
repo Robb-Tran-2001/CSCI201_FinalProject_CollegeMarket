@@ -10,11 +10,6 @@ export const isAuthorizedState = atom({
   default: false,
 })
 
-export const jwtState = atom({
-  key: 'jwtState',
-  default: '',
-})
-
 export const usernameState = atom({
   key: 'usernameState',
   default: '',

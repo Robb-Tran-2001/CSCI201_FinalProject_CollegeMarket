@@ -16,6 +16,7 @@ function App() {
     setUsername(sessionStorage.getItem('username'))
   }
   useEffect(() => {
+    console.log(process.env.NODE_ENV)
     if (Username === '') {
       return
     }
@@ -30,7 +31,7 @@ function App() {
     }
   }, [Username])
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Nav />
       <Router />
     </BrowserRouter>

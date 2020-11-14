@@ -21,7 +21,9 @@ const ItemCard = ({ item, handleClick }) => {
         marginRight: 15,
         cursor: 'pointer',
       }}
-      onClick={handleClick}
+      onClick={() =>
+        handleClick(process.env.NODE_ENV === 'production' ? item.itemid : '')
+      }
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >

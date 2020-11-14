@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Spinner } from 'react-bootstrap'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import { ALL_ITEMS_SERVICE_ADDRESS } from '../Paths'
 import { currentItemState, usernameState } from '../recoil/atoms'
 import ItemCard from './ItemCard'
 import { ItemModal } from './ItemModal'
@@ -12,11 +13,11 @@ export const Catalog = () => {
     setModalItemID(itemid)
   }
   useEffect(() => {
-    fetch('http://127.0.0.1:3001/items')
+    fetch(ALL_ITEMS_SERVICE_ADDRESS)
       .then((res) => res.json())
       .then((res) => setItems(res))
   }, [])
-  
+
   const closeModal = () => {
     setModalItemID(-1)
   }

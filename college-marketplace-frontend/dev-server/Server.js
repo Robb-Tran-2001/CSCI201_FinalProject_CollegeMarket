@@ -20,6 +20,9 @@ server.post('/login', (req, res) => {
   }
 })
 
+server.get('/search', (req, res) => {
+  res.send([])
+})
 server.use(router)
 
 server.listen(3001, () => {
