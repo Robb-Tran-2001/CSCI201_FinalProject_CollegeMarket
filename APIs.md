@@ -4,72 +4,53 @@
 
 ### Item list
 
-#### Approach
-
-**1 Server-side**
-
-> GET http://placeholder.com/api/items?page=2
-
-Client request items with page number and items per page (default to 20?)
-Server returns the set amount of items
-
-**2 Client-side**
-
 > GET http://placeholder.com/api/items
 
-Client request all items at once
-Server returns all the items in one list
+**Format**
 
-#### Format
-
-```
-{
-    "count": 20,
-    "data": [
-        {
-            "name": "placeholder",
-            "price": 300,
-            "picture": "url",
-            "itemid": 1,
-        },
-        {
-            "name": "placeholder",
-            "price": 300,
-            "picture": "url",
-            "itemid": 2,
-        },
-        {
-            "name": "placeholder",
-            "price": 300,
-            "picture": "url",
-            "itemid": 3,
-        },
-    ]
-}
-
+```json
+[
+  {
+    "name": "placeholder",
+    "price": 300,
+    "picture": "url",
+    "itemid": 1
+  },
+  {
+    "name": "placeholder",
+    "price": 300,
+    "picture": "url",
+    "itemid": 2
+  },
+  {
+    "name": "placeholder",
+    "price": 300,
+    "picture": "url",
+    "itemid": 3
+  }
+]
 ```
 
 ---
 
 ### Item detail
 
-#### Approach
-
 > GET http://placeholder.com/api/items/itemid
+
+**_It is better to return a boolean than the actual buyerid_**
 
 **Format**
 
-```
+```json
 {
-    "name": "name",
-    "price": 300,
-    "pictures": [
-        "url1",
-        "url2",
-        "url3"
-    ],
-    "description": "str",
-    "itemid": "itemid"
+  "name": "name",
+  "price": 300,
+  "pictures": ["url1", "url2", "url3"],
+  "description": "str",
+  "itemid": "itemid",
+  "seller": "seller name",
+  "buyer": "buyerid",
+  "sold": true
 }
 ```
 
@@ -77,11 +58,11 @@ Server returns all the items in one list
 
 ### Search
 
-#### Approach
-
 > GET http://placeholder.com/api/items?q=searchterms
 
-#### Format
+**_Spaces will be converted to %20_**
+
+**Format**
 
 _Same as item list_
 
@@ -89,18 +70,30 @@ _Same as item list_
 
 ### Buy item
 
-#### Approach
-
-_**Note:** Need some ways to authenticate the user_
-
 > POST http://placeholder.com/api/items/itemid
+
+or
+
+> POST http://placeholder.com/api/buy
+
+**_We can either use a separate endpoint such as /buy/ and put itemid & token in the request body, or use POST on the specific item with token as body_**
 
 #### Format
 
-```
+```json
 {
-    "userid": "userid",
-    "user_token": "token"
+  "userid": "userid",
+  "user_token": "token"
+}
+```
+
+or
+
+```json
+{
+  "userid": "userid",
+  "user_token": "token",
+  "itemid": "itemid"
 }
 ```
 
@@ -108,47 +101,37 @@ _**Note:** Need some ways to authenticate the user_
 
 ### Sell item
 
-### Approach
-
-_**Note:** Need some ways to authenticate the user_
-
-_**Note:** Need to figure out how to upload photos_
-
 > POST http://placeholder.com/api/items/sell
 
-```
-{
-    "name": "name",
-    "price": 300,
-    "description": "str",
-    "itemid": "itemid"
-}
-```
+The body will be _multipart/formdata_
 
 ---
 
 ## Users
 
+**_For now the email is the username on frontend_**
+
 ### User login
-
-#### Approach
-
-_**Note:** I don't know if this is secure_
 
 > POST http://placeholder/api/user/login
 
+_Backend won't get the actual password but a SHA-256 encrypted username:password pair_
+
+Return 200 and token if correct, 401 if input is incorrect
+
 #### Format
 
-```
+```json
 {
-    "username": "username",
-    "password": "password",
+  "email": "email",
+  "hash": "hash"
 }
 ```
 
-```
+```json
 {
-    "token": "token"
+  "token": "token",
+  "name": "user's name"
 }
 ```
 
@@ -156,18 +139,15 @@ _**Note:** I don't know if this is secure_
 
 ### User signup
 
-#### Approach
-
 > POST http://placeholder.com/api/user/signup
 
 #### Format
 
-```
+```json
 {
-    "username": "username",
-    "password": "password",
-    "school": "school",
-    "age": 30
+  "email": "email",
+  "hash": "hash",
+  "name": "user's actual name"
 }
 ```
 
@@ -175,6 +155,95 @@ _**Note:** I don't know if this is secure_
 
 ### Get user profile
 
-#### Approach
+> GET http://placeholder.com/api/user/profile/userid
 
-> GET http://placeholder.com/api/user/userid
+**_I think this needs to be authenticated too but who cares_**
+
+**Format**
+
+```json
+{
+  "email": "email",
+  "name": "user's name"
+}
+```
+
+---
+
+### Get user orders
+
+> GET http://placeholder.com/api/user/orders/userid
+
+**Format**
+
+```json
+{
+  "selling": [
+    {
+      "name": "placeholder",
+      "price": 300,
+      "buyer": "buyer",
+      "itemid": 1,
+      "sold": false
+    },
+    {
+      "name": "placeholder",
+      "price": 300,
+      "buyer": "buyer",
+      "itemid": 1,
+      "sold": false
+    },
+    {
+      "name": "placeholder",
+      "price": 300,
+      "buyer": "buyer",
+      "itemid": 1,
+      "sold": false
+    }
+  ],
+  "buying": [
+    {
+      "name": "placeholder",
+      "price": 300,
+      "seller": "seller",
+      "itemid": 1,
+      "sold": false
+    },
+    {
+      "name": "placeholder",
+      "price": 300,
+      "seller": "seller",
+      "itemid": 1,
+      "sold": false
+    },
+    {
+      "name": "placeholder",
+      "price": 300,
+      "seller": "seller",
+      "itemid": 1,
+      "sold": false
+    }
+  ]
+}
+```
+
+---
+
+### Update user profile
+
+> POST http://p.com/api/user/profile
+
+**_Can contain 1-3 updates_**
+
+```json
+{
+  "token": "token",
+  "name/email/hash": "."
+}
+```
+
+### Push notifications
+
+> ws://p:8080/push/{username}
+
+**_Is username needed?_**
