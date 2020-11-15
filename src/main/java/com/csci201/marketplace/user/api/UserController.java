@@ -4,44 +4,37 @@ import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Repository
-public class UserResource { //interacts with user service
+@RestController
+@RequestMapping("api/user/")
+public class UserController { //interacts with user service
 	private final UserService service;
 
 	@Autowired
-	public UserResource(UserService service)
+	public UserController(UserService service)
 	{
 		this.service = service;
 	}
 
-
-	@GET
+	@GetMapping(path = "all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> list()
 	{
-		return UserService.listAll();
+		return service.listAll();
 	}
-	
-	@GET
-	@Path("{user_id}")
+
+	@GetMapping(path = "{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("user_id") int id) //get another user's profile
+	public Response get(@PathVariable("user_id") int id) //get another user's profile
 	{
 		User user = service.get(id);
 		if (user == null)
@@ -50,29 +43,29 @@ public class UserResource { //interacts with user service
 			return Response.ok(user, MediaType.APPLICATION_JSON).build();
 	}
 
-	@GET
-	@Path("{user_id}")
+	@GetMapping(path = "login/{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@PathParam("user_id") int id, String password) //log in to your profile
+	public Response login(@PathVariable("login") String email, String password) //log in to your profile
 	{
-		User user = service.get(id, password);
+		User user = service.get(email, password);
 		if (user == null)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		else
 			return Response.ok(user, MediaType.APPLICATION_JSON).build();
 	}
+
+
 	
-	@POST
+	@PostMapping(path = "signup")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response signup(User user) throws URISyntaxException {
+	public Response signup(@RequestBody @PathVariable("signup") User user) throws URISyntaxException {
 		int userID = service.add(user);
 		if(userID == 0) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 		URI uri = new URI("/users/" + userID);
 		return Response.created(uri).build();
 	}
 	
-	@PUT
-	@Path("{user_id}")
+	@PutMapping
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response put(User user) throws URISyntaxException {
 		int row = service.update(user);
@@ -81,16 +74,12 @@ public class UserResource { //interacts with user service
 		return Response.notModified().build();
 	}
 	
-	@DELETE
-	@Path("{user_id}")
-	public Response delete(@PathParam("user_id") int id) {
+	@DeleteMapping(path = "{user_id}/deleted")
+	public Response delete(@PathVariable("user_id") int id) {
 		boolean bool = service.delete(id);
-		
 		if (bool) {
 			return Response.ok().build();
 		}
-		
 		return Response.notModified().build();
 	}
-	
 }
