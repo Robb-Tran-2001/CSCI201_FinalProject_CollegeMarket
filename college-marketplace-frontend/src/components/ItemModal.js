@@ -16,7 +16,10 @@ export const ItemModal = ({ itemid, close }) => {
   const [loaded, setLoaded] = useState(false)
   const [item, setItem] = useState(null)
   const IsAuthorized = useRecoilValue(isAuthorizedState)
-  const [bought, setBought] = useState(false)
+  const [buyAttempted, setBuyAttempted] = useState(false)
+  const handleBuy = () => {
+    setBuyAttempted(true)
+  }
   const carouselItems =
     item &&
     item.image.map((element, index) => (
@@ -79,8 +82,8 @@ export const ItemModal = ({ itemid, close }) => {
                   <b>{item.seller}</b>
                 </p>
                 {IsAuthorized ? (
-                  <Button className="buy-button" disabled={bought}>
-                    Buy now
+                  <Button className="buy-button" disabled={buyAttempted}>
+                    {buyAttempted ? 'Pending' : 'Buy now'}
                   </Button>
                 ) : (
                   <Button disabled className="buy-button">

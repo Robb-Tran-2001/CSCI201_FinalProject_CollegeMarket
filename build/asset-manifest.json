@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/marketplace-service/static/css/main.7bc92854.chunk.css",
+    "main.js": "/marketplace-service/static/js/main.af4e2c41.chunk.js",
+    "main.js.map": "/marketplace-service/static/js/main.af4e2c41.chunk.js.map",
+    "runtime-main.js": "/marketplace-service/static/js/runtime-main.5012c658.js",
+    "runtime-main.js.map": "/marketplace-service/static/js/runtime-main.5012c658.js.map",
+    "static/js/2.b8ba22ed.chunk.js": "/marketplace-service/static/js/2.b8ba22ed.chunk.js",
+    "static/js/2.b8ba22ed.chunk.js.map": "/marketplace-service/static/js/2.b8ba22ed.chunk.js.map",
+    "index.html": "/marketplace-service/index.html",
+    "precache-manifest.0e85e5d668c3a4ad66e1fad217a4e9d0.js": "/marketplace-service/precache-manifest.0e85e5d668c3a4ad66e1fad217a4e9d0.js",
+    "service-worker.js": "/marketplace-service/service-worker.js",
+    "static/css/main.7bc92854.chunk.css.map": "/marketplace-service/static/css/main.7bc92854.chunk.css.map",
+    "static/js/2.b8ba22ed.chunk.js.LICENSE.txt": "/marketplace-service/static/js/2.b8ba22ed.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5012c658.js",
+    "static/js/2.b8ba22ed.chunk.js",
+    "static/css/main.7bc92854.chunk.css",
+    "static/js/main.af4e2c41.chunk.js"
+  ]
+}

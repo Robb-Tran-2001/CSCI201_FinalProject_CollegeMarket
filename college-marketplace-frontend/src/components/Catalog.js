@@ -3,7 +3,11 @@ import { Container, Row, Col, Spinner, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { ALL_ITEMS_SERVICE_ADDRESS } from '../Paths'
-import { currentItemState, usernameState } from '../recoil/atoms'
+import {
+  currentItemState,
+  isAuthorizedState,
+  usernameState,
+} from '../recoil/atoms'
 import ItemCard from './ItemCard'
 import { ItemModal } from './ItemModal'
 
@@ -11,6 +15,7 @@ export const Catalog = () => {
   const [modalItemID, setModalItemID] = useState(-1)
   const [Items, setItems] = useRecoilState(currentItemState)
   const [page, setPage] = useState(1)
+  const IsAuthorized = useRecoilValue(isAuthorizedState)
   const handleClick = (itemid) => {
     setModalItemID(itemid)
   }
@@ -38,17 +43,24 @@ export const Catalog = () => {
     ))
   return (
     <>
-      <Container fluid="lg" className="mt-4">
-        <Button as={Link} to={'/create'}>
-          Create new listing
-        </Button>
+      <Container fluid="lg" className="my-4">
+        {IsAuthorized ? (
+          <Button as={Link} to={'/create'}>
+            Create new listing
+          </Button>
+        ) : (
+          ''
+        )}
         {Items.length !== 0 ? (
           <>
             <Row xs={2} md={4}>
               {itemCards}
             </Row>
             {page !== 1 ? (
-              <Button onClick={() => handlePageChange(page - 1)}>
+              <Button
+                onClick={() => handlePageChange(page - 1)}
+                className="mr-3"
+              >
                 Previous
               </Button>
             ) : (

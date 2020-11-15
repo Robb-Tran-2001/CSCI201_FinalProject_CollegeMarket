@@ -41,8 +41,9 @@ const ItemCard = ({ item, handleClick }) => {
                   marginRight: 5,
                 }}
                 onClick={handleBuy}
+                disabled={buyAttempted}
               >
-                Buy
+                {buyAttempted ? 'Pending' : 'Buy'}
               </Button>
             ) : (
               ''
