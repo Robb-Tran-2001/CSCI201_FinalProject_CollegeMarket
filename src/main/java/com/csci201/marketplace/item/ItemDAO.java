@@ -1,6 +1,13 @@
 package com.csci201.marketplace.item;
 
+
+import java.io.IOException;
 import java.util.*;
+
+import javax.websocket.EncodeException;
+
+import com.csci201.marketplace.pushnotif.model.*;
+import com.csci201.marketplace.pushnotif.websocket.*;
 
 
 public class ItemDAO {
@@ -8,6 +15,7 @@ public class ItemDAO {
 	private static List<Item> items = new ArrayList<Item>();
 	
 	static {
+		System.out.println("Hello there!");
 		items.add(new Item("PS5", (float) 2., new ArrayList<String>(Arrays.asList("www.amazon.com/pic1", "www.sony.com/pic2")), "This is a PS5.", "100"));
 		items.add(new Item("pencil", (float) 534.25, new ArrayList<String>(Arrays.asList("www.pencils.com/pic1", "www.writing.com/pic2")), "Cool pencil.", "302"));
 	}
@@ -61,13 +69,21 @@ public class ItemDAO {
 		return false;
 	}
 	
-	public boolean update(Item item) {
+	public boolean update(Item item) throws IOException, EncodeException {
 		String id = item.getItemid();
 		
 		int counter = 0;
 		
 		for (Item i : items) {
 			if (i.getItemid().equals(id)) {
+				
+//				if (i.isSold() == false && item.isSold() == true) {
+//					// some broadcast notification here
+//					System.out.println("Enters the push notification if");
+//					send_sold_msg(i);
+//				}
+//				
+				
 				items.set(counter, item);
 				return true;
 			}
@@ -75,5 +91,46 @@ public class ItemDAO {
 		}
 		
 		return false;
+	}
+	
+	public boolean update_sell(Item item, String username) throws IOException, EncodeException {
+		String id = item.getItemid();
+		
+		int counter = 0;
+		
+		for (Item i : items) {
+			if (i.getItemid().equals(id)) {
+				
+				if (i.isSold() == false && item.isSold() == true) {
+					// some broadcast notification here
+					System.out.println("Enters the push notification if");
+					send_sold_msg(i, username);
+				}
+				
+				
+				items.set(counter, item);
+				return true;
+			}
+			counter++;
+		}
+		
+		return false;
+	}
+	
+	public void send_sold_msg(Item item, String username) throws IOException, EncodeException {
+		System.out.println("Enters sold message()");
+		
+		Message message = new Message();
+		
+		String temp = item.getName() + " was just sold by " + username + "! Better luck next time";
+		
+		System.out.println("\tMessage: " + temp);
+		
+		message.setMsg(temp);
+		
+//		Message message1 = new Message();
+//		message1.setMsg("henlo friend");
+		
+		PushEndpoint.broadcast(message);
 	}
 }

@@ -1,5 +1,6 @@
 package com.csci201.marketplace.item;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ public class Item {
 	private List<String> pictures = null;
 	private String description;
 	private String itemid;
+	private boolean sold = false;
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	
 	public Item() {}
@@ -21,6 +23,15 @@ public class Item {
 		this.pictures = pictures;
 		this.description = description;
 		this.itemid = itemid;
+	}
+	
+	public Item(Item item) {
+		this.name = item.name;
+		this.price = item.price;
+		this.pictures = item.pictures;
+		this.description = item.description;
+		this.itemid = item.itemid;
+		this.sold = item.sold;
 	}
 
 	public String getName() {
@@ -69,6 +80,14 @@ public class Item {
 
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
+	}
+
+	public boolean isSold() {
+		return sold;
+	}
+
+	public void setSold(boolean sold) {
+		this.sold = sold;
 	}
 
 }
