@@ -19,13 +19,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import com.csci201.marketplace.pushnotif.model.Message;
 import com.csci201.marketplace.pushnotif.websocket.PushEndpoint;
 
 @Path("/items")
 public class ItemResource {
 	
-	private ItemDAO dao = ItemDAO.getInstance();
+//	private ItemDAO dao = ItemDAO.getInstance();
+	
+	private ItemDAO dao;
+	
+	@Autowired
+	public ItemResource(@Qualifier("ItemDAO")ItemDAO idao) {
+		this.dao = idao.getInstance();
+	}
+	
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -86,8 +97,9 @@ public class ItemResource {
 			return Response.notModified().build();
 		}
 		
-		item.setSold(true);
-		
+		// NEED TO PASS IN BUYER ID 
+		item.setBuyerId(         );
+		dao.update(item);
 		boolean bool = dao.update_sell(item, username);
 		
 		//dao.send_sold_msg(item);
