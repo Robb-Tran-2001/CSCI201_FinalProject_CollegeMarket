@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { ALL_ITEMS_SERVICE_ADDRESS } from '../Paths'
 import { currentItemState, usernameState } from '../recoil/atoms'
@@ -37,7 +38,10 @@ export const Catalog = () => {
     ))
   return (
     <>
-      <Container fluid="lg">
+      <Container fluid="lg" className="mt-4">
+        <Button as={Link} to={'/create'}>
+          Create new listing
+        </Button>
         {Items.length !== 0 ? (
           <>
             <Row xs={2} md={4}>
