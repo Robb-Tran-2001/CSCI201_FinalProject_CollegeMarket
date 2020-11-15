@@ -43,16 +43,16 @@ public class Store {
     			String itemName = getItemNameFromAction(currentAction);
     			
     			if (currentAction.contains("sell")) {
-    				executor.execute(new UserThread("sell", getItemFromName(itemName), null, seller));
+    				executor.execute(new UserThread("sell", getItemFromName(itemName), null, getUserFromId(getItemFromName(itemName).getSellerId())));
     			}
     			else if (currentAction.contains("buy")) {
-    				executor.execute(new UserThread("buy", getItemFromName(itemName), buyer, null));
+    				executor.execute(new UserThread("buy", getItemFromName(itemName), getUserFromId(getItemFromName(itemName).getBuyerId()), null));
     			}
     			else if (currentAction.contains("approve")) {
-    				executor.execute(new UserThread("approve", getItemFromName(itemName), buyer, seller));
+    				executor.execute(new UserThread("approve", getItemFromName(itemName), getUserFromId(getItemFromName(itemName).getBuyerId()), getUserFromId(getItemFromName(itemName).getSellerId())));
     			}
-    			else {
-    				throw new Exception("Malformatted action");
+    			else if (currentAction.contains("adduser")){
+    				allUser.add(getUserFromId(Integer.parseInt(itemName)));
     			}
     		}
     	}
@@ -85,5 +85,12 @@ public class Store {
         return action.substring(index + 1);
     }
     
+    public static User getUserFromId(int id) {
+        for (User u: allUser) {
+        	if (u.getUserID() == id) {
+        		return u;
+        	}
+        }
+    }
     
 }
