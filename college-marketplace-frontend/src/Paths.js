@@ -1,7 +1,5 @@
-const public_url = 'marketplace-service'
-
 const prefix =
-  process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3001' : public_url
+  process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3001' : 'api'
 
 export const ALL_ITEMS_SERVICE_ADDRESS = prefix + '/items'
 

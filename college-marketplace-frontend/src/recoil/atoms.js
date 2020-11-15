@@ -1,7 +1,7 @@
 import { atom } from 'recoil'
 
 export const currentItemState = atom({
-  key: 'todoListState',
+  key: 'currItemState',
   default: [],
 })
 
