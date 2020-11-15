@@ -20,8 +20,19 @@ function App() {
     if (Username === '') {
       return
     }
+    console.log(
+      'ws://' +
+        window.location.host +
+        process.env.PUBLIC_URL +
+        '/push/' +
+        sessionStorage.getItem('token')
+    )
     const ws = new WebSocket(
-      'ws://localhost:8080/push_notification_v1/push/' + Username
+      'ws://' +
+        window.location.host +
+        process.env.PUBLIC_URL +
+        '/push/' +
+        sessionStorage.getItem('token')
     )
     ws.onmessage = (event) => {
       addToast(JSON.parse(event.data.msg), { appearance: 'info' })

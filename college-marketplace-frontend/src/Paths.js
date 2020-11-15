@@ -14,3 +14,10 @@ export const SEARCH_SERVICE_ADDRESS = prefix + '/search' // ?q={search terms}
 export const USER_INFO_SERVICE_ADDRESS = prefix + '/user?token=' // token
 
 export const CREATE_ITEM_SERVICE_ADDRESS = prefix + '/create'
+
+export const WEBSOCKET_ADDRESS =
+  'ws://' +
+  window.location.host +
+  process.env.PUBLIC_URL +
+  '/api/push/' +
+  sessionStorage.getItem('token')

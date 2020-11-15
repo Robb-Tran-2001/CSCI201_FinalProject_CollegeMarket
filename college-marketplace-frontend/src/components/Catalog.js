@@ -19,6 +19,7 @@ export const Catalog = () => {
   const handleClick = (itemid) => {
     setModalItemID(itemid)
   }
+
   useEffect(() => {
     fetch(ALL_ITEMS_SERVICE_ADDRESS)
       .then((res) => res.json())
