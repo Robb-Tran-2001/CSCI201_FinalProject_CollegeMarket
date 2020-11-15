@@ -1,4 +1,4 @@
-package com.baeldung.websocket;
+package com.csci201.marketplace.pushnotif.websocket;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-import com.baeldung.model.Message;
+import com.csci201.marketplace.pushnotif.model.Message;
 
 
 // http://localhost:8080/push_notification_v1/

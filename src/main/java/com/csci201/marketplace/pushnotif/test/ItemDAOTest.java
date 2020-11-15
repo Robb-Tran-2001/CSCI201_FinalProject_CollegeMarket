@@ -1,4 +1,4 @@
-package com.baeldung.test;
+package com.csci201.marketplace.pushnotif.test;
 
 import static org.junit.Assert.*;
 
@@ -11,8 +11,8 @@ import javax.websocket.EncodeException;
 
 import org.junit.Test;
 
-import com.baeldung.item.Item;
-import com.baeldung.item.ItemDAO;
+import com.csci201.marketplace.item.Item;
+import com.csci201.marketplace.item.ItemDAO;
 
 public class ItemDAOTest {
 	ItemDAO dao = ItemDAO.getInstance();

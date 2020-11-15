@@ -1,6 +1,6 @@
-package com.baeldung.model;
+package com.csci201.marketplace.pushnotif.model;
 
-import com.baeldung.item.*;
+import com.csci201.marketplace.item.*;
 
 public class Message {
     private String from;

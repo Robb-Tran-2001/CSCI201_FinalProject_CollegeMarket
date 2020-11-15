@@ -1,10 +1,10 @@
-package com.baeldung.websocket;
+package com.csci201.marketplace.pushnotif.websocket;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
-import com.baeldung.model.Message;
+import com.csci201.marketplace.pushnotif.model.Message;
 import com.google.gson.Gson;
 
 public class MessageEncoder implements Encoder.Text<Message> {

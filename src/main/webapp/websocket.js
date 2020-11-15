@@ -31,6 +31,6 @@ function send() {
 
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("PUT", "http://localhost:8080/push_notification_v1/api/items/" + username + "/sell/" + itemID, true)
+    xhttp.open("PUT", "http://localhost:8080/marketplace-service/api/items/" + username + "/sell/" + itemID, true)
     xhttp.send();
 }
