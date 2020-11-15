@@ -48,7 +48,7 @@ public class ItemResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") String id) {
-		Item item = dao.get(id);
+		Item item = dao.get(Integer.parseInt(id));
 		
 		if (item == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
@@ -61,7 +61,7 @@ public class ItemResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(Item item) throws URISyntaxException {
-		String itemID = dao.add(item);
+		String itemID = Integer.toString(dao.add(item));
 		URI uri = new URI("/items/" + itemID);
 		return Response.created(uri).build();
 	}
@@ -87,7 +87,7 @@ public class ItemResource {
 		
 		//String id = "100";
 		
-		Item item = new Item(dao.get(id));
+		Item item = dao.get(Integer.parseInt(id));
 		
 		if (item.isSold()) {
 			// broadcast and return here

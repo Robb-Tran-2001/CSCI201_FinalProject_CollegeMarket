@@ -8,6 +8,7 @@ import javax.websocket.EncodeException;
 import com.csci201.marketplace.pushnotif.model.*;
 import com.csci201.marketplace.pushnotif.websocket.*;
 
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -55,11 +56,11 @@ public class ItemDAO {
        return new ArrayList<Item>(items);
     }
 	
-	public Item get(String id) {
+	public Item get(int id) {
 		//int counter = 0;
 		
 		for (Item item : items) {
-			if (item.getItemid().equals(id)) {
+			if (item.getItemId() == id) {
 				return item;
 			}
 			//counter++;

@@ -4,37 +4,31 @@
 
 ### Item list
 
-> GET http://placeholder.com/api/items?page=2
-
-Client request items with page number and items per page (default to 20?)
-Server returns the set amount of items
+> GET http://placeholder.com/api/items
 
 **Format**
 
 ```json
-{
-  "count": 20,
-  "data": [
-    {
-      "name": "placeholder",
-      "price": 300,
-      "picture": "url",
-      "itemid": 1
-    },
-    {
-      "name": "placeholder",
-      "price": 300,
-      "picture": "url",
-      "itemid": 2
-    },
-    {
-      "name": "placeholder",
-      "price": 300,
-      "picture": "url",
-      "itemid": 3
-    }
-  ]
-}
+[
+  {
+    "name": "placeholder",
+    "price": 300,
+    "picture": "url",
+    "itemid": 1
+  },
+  {
+    "name": "placeholder",
+    "price": 300,
+    "picture": "url",
+    "itemid": 2
+  },
+  {
+    "name": "placeholder",
+    "price": 300,
+    "picture": "url",
+    "itemid": 3
+  }
+]
 ```
 
 ---
@@ -64,7 +58,9 @@ Server returns the set amount of items
 
 ### Search
 
-> GET http://placeholder.com/api/items?q=searchterms&page=2
+> GET http://placeholder.com/api/items?q=searchterms
+
+**_Spaces will be converted to %20_**
 
 **Format**
 
@@ -105,22 +101,9 @@ or
 
 ### Sell item
 
-### Approach
-
-**_Need some ways to authenticate the user_**
-
-**_Need to figure out how to upload photos_**
-
 > POST http://placeholder.com/api/items/sell
 
-```json
-{
-  "name": "name",
-  "price": 300,
-  "description": "str",
-  "itemid": "itemid"
-}
-```
+The body will be _multipart/formdata_
 
 ---
 
@@ -200,19 +183,22 @@ Return 200 and token if correct, 401 if input is incorrect
       "name": "placeholder",
       "price": 300,
       "buyer": "buyer",
-      "itemid": 1
+      "itemid": 1,
+      "sold": false
     },
     {
       "name": "placeholder",
       "price": 300,
       "buyer": "buyer",
-      "itemid": 1
+      "itemid": 1,
+      "sold": false
     },
     {
       "name": "placeholder",
       "price": 300,
       "buyer": "buyer",
-      "itemid": 1
+      "itemid": 1,
+      "sold": false
     }
   ],
   "buying": [
@@ -220,19 +206,22 @@ Return 200 and token if correct, 401 if input is incorrect
       "name": "placeholder",
       "price": 300,
       "seller": "seller",
-      "itemid": 1
+      "itemid": 1,
+      "sold": false
     },
     {
       "name": "placeholder",
       "price": 300,
       "seller": "seller",
-      "itemid": 1
+      "itemid": 1,
+      "sold": false
     },
     {
       "name": "placeholder",
       "price": 300,
       "seller": "seller",
-      "itemid": 1
+      "itemid": 1,
+      "sold": false
     }
   ]
 }
