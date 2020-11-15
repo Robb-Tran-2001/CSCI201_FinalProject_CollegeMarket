@@ -5,8 +5,12 @@ function connect() {
     
     var host = document.location.host;
     var pathname = document.location.pathname;
+
+    var path_arr = pathname.split("/")
+
+    var path = path_arr[1]
     
-    ws = new WebSocket("ws://" + host  + pathname + "push/" + username);
+    ws = new WebSocket("ws://" + host + "/" + path + "/push/" + username);
 
     ws.onmessage = function(event) {
     //var log = document.getElementById("log");
