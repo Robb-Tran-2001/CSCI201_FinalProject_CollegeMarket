@@ -16,6 +16,9 @@ import javax.websocket.server.ServerEndpoint;
 
 import com.baeldung.model.Message;
 
+
+// http://localhost:8080/push_notification_v1/
+
 @ServerEndpoint(value = "/push/{username}", decoders = MessageDecoder.class, encoders = MessageEncoder.class)
 public class PushEndpoint {
     private Session session;

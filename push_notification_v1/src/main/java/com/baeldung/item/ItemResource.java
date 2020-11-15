@@ -88,7 +88,7 @@ public class ItemResource {
 		
 		item.setSold(true);
 		
-		boolean bool = dao.update(item);
+		boolean bool = dao.update_sell(item, username);
 		
 		//dao.send_sold_msg(item);
 		

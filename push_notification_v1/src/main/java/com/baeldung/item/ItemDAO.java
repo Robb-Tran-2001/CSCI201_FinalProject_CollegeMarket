@@ -17,7 +17,7 @@ public class ItemDAO {
 	static {
 		System.out.println("Hello there!");
 		items.add(new Item("PS5", (float) 2., new ArrayList<String>(Arrays.asList("www.amazon.com/pic1", "www.sony.com/pic2")), "This is a PS5.", "100"));
-		items.add(new Item("your mom", (float) 534.25, new ArrayList<String>(Arrays.asList("www.pencils.com/pic1", "www.writing.com/pic2")), "Cool pencil.", "302"));
+		items.add(new Item("pencil", (float) 534.25, new ArrayList<String>(Arrays.asList("www.pencils.com/pic1", "www.writing.com/pic2")), "Cool pencil.", "302"));
 	}
 	
 	public static ItemDAO getInstance() {
@@ -77,10 +77,34 @@ public class ItemDAO {
 		for (Item i : items) {
 			if (i.getItemid().equals(id)) {
 				
+//				if (i.isSold() == false && item.isSold() == true) {
+//					// some broadcast notification here
+//					System.out.println("Enters the push notification if");
+//					send_sold_msg(i);
+//				}
+//				
+				
+				items.set(counter, item);
+				return true;
+			}
+			counter++;
+		}
+		
+		return false;
+	}
+	
+	public boolean update_sell(Item item, String username) throws IOException, EncodeException {
+		String id = item.getItemid();
+		
+		int counter = 0;
+		
+		for (Item i : items) {
+			if (i.getItemid().equals(id)) {
+				
 				if (i.isSold() == false && item.isSold() == true) {
 					// some broadcast notification here
 					System.out.println("Enters the push notification if");
-					send_sold_msg(i);
+					send_sold_msg(i, username);
 				}
 				
 				
@@ -93,15 +117,19 @@ public class ItemDAO {
 		return false;
 	}
 	
-	public void send_sold_msg(Item item) throws IOException, EncodeException {
+	public void send_sold_msg(Item item, String username) throws IOException, EncodeException {
+		System.out.println("Enters sold message()");
+		
 		Message message = new Message();
 		
-		String temp = item.getName() + " was just sold! Better luck next time";
+		String temp = item.getName() + " was just sold by " + username + "! Better luck next time";
+		
+		System.out.println("\tMessage: " + temp);
 		
 		message.setMsg(temp);
 		
-		Message message1 = new Message();
-		message1.setMsg("henlo friend");
+//		Message message1 = new Message();
+//		message1.setMsg("henlo friend");
 		
 		PushEndpoint.broadcast(message);
 	}
