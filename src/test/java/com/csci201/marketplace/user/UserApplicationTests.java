@@ -1,4 +1,4 @@
-package com.csci201.marketplace.user;
+package test.java.com.csci201.marketplace.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
