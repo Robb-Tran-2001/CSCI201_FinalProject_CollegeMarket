@@ -20,13 +20,7 @@ public class JpaConfig {
 }
  */
 
-package com.csci201.marketplace.item.dao;
-
-import com.csci201.marketplace.item.*;
-import com.csci201.marketplace.item.api.*;
-import com.csci201.marketplace.item.model.*;
-import com.csci201.marketplace.item.service.*;
-
+package com.csci201.marketplace.item;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,11 +1,5 @@
 package com.csci201.marketplace.item;
 
-import com.csci201.marketplace.item.*;
-import com.csci201.marketplace.item.api.*;
-import com.csci201.marketplace.item.dao.*;
-import com.csci201.marketplace.item.model.*;
-import com.csci201.marketplace.item.service.*;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +18,7 @@ public class Test {
 	
 //	@Qualifier("ItemService")
 	@Autowired
-	public static ItemService itemService;
+	public static ItemDAO itemDao;
 	
 //	public static ItemDAO it = ItemDAO.getInstance();
 	
@@ -32,7 +26,7 @@ public class Test {
 		// TODO Auto-generated method stub
 //		ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 		ApplicationContext context = SpringApplication.run(SpringBootApplication.class, args);
-		ItemService itemService = context.getBean(ItemService.class);
+		ItemDAO itemDao = context.getBean(ItemDAO.class);
 		
 		
 		printItems();
@@ -41,15 +35,15 @@ public class Test {
 		a.setSellerId(10);
 		a.setName("printer");
 		a.setPrice(49.99);
-		itemService.add(a);
+		itemDao.add(a);
 		printItems();
 		
 		
 	}
 	
 	public static void printItems() {
-		itemService.getAll();
-		List<Item> list = itemService.listAll();
+		itemDao.getAll();
+		List<Item> list = itemDao.listAll();
 		for(Item i : list) {
 			System.out.println("#" + i.getItemId() + "  " + i.getName() + "\t$" + i.getPrice());
 		}

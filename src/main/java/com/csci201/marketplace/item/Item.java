@@ -1,10 +1,4 @@
-package com.csci201.marketplace.item.model;
-
-import com.csci201.marketplace.item.*;
-import com.csci201.marketplace.item.api.*;
-import com.csci201.marketplace.item.dao.*;
-import com.csci201.marketplace.item.service.*;
-
+package com.csci201.marketplace.item;
 
 //import java.util.HashMap;
 import java.util.List;
@@ -18,13 +12,14 @@ public class Item {
 	private String name;
 	private String description;
 	private float price;
-	private String pictures = null;
+	private String pictures;
 //	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 	
 	public Item() {}
 	
 	public Item(int sellerId, String name, double price, int itemid) {
 		this.sellerId = sellerId;
+		this.buyerId = -1;
 		this.name = name;
 		this.price = (float)price;
 		this.itemId = itemid;
@@ -32,6 +27,7 @@ public class Item {
 
 	public Item(int sellerId, String name, String description, double price, String images) {
 		this.sellerId = sellerId;
+		this.buyerId = -1;
 		this.name = name;
 		this.description = description;
 		this.price = (float)price;
@@ -125,6 +121,10 @@ public class Item {
 //		this.pictures = pictures;
 //	}
 
+	public boolean isSold() {
+		return buyerId != -1;
+	}
+	
 //	public Map<String, Object> getAdditionalProperties() {
 //		return this.additionalProperties;
 //	}
