@@ -33,6 +33,11 @@ public class UserService { //implements DAO, interacts with USER
     {
         return userDAO.get(id);
     }
+    
+    //get ID by username
+    public int getID(String username) {
+    	return userDAO.getID(username);
+    }
 
     //get by email and password, login functionality
     public User get(String email, String password) {

@@ -53,7 +53,7 @@ public class ItemDAO {
 	
 	public List<Item> listAll() {
 		this.getAll();
-       return new ArrayList<Item>(items);
+		return new ArrayList<Item>(items);
     }
 	
 	public Item get(int id) {

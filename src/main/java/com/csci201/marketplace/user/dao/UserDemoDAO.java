@@ -52,6 +52,14 @@ public class UserDemoDAO implements UserDAO {
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }
+    
+    @Override // get userID by username
+    public int getID(String username) {
+    	for(User user : users) {
+    		if(username.matches(user.getEmail())) return user.getUserID();
+    	}
+    	return -1;
+    }
 
     @Override //delete by ID
     public boolean delete(int id)

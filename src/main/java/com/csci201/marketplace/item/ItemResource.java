@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.csci201.marketplace.pushnotif.model.Message;
 import com.csci201.marketplace.pushnotif.websocket.PushEndpoint;
+import com.csci201.marketplace.user.service.UserService;
 
 @Path("/items")
 public class ItemResource {
@@ -31,10 +32,12 @@ public class ItemResource {
 //	private ItemDAO dao = ItemDAO.getInstance();
 	
 	private ItemDAO dao;
+	private UserService uservice;
 	
 	@Autowired
-	public ItemResource(@Qualifier("ItemDAO")ItemDAO idao) {
+	public ItemResource(@Qualifier("ItemDAO")ItemDAO idao, UserService us) {
 		this.dao = idao.getInstance();
+		this.uservice = us;
 	}
 	
 	
@@ -98,7 +101,7 @@ public class ItemResource {
 		}
 		
 		// NEED TO PASS IN BUYER ID 
-		item.setBuyerId(         );
+		item.setBuyerId(uservice.getID(username));
 		dao.update(item);
 		boolean bool = dao.update_sell(item, username);
 		

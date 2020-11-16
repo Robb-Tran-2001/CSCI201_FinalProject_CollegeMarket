@@ -9,6 +9,7 @@ public interface UserDAO {
 	public void returnAll();
 	public User get(int id);
 	public User get(String email, String password); //for login
+	public int getID(String username);
 	public boolean delete(int id);
 	public int update(User user);
 	public int add(User user);

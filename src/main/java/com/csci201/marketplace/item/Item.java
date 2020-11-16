@@ -17,12 +17,11 @@ public class Item {
 	
 	public Item() {}
 	
-	public Item(int sellerId, String name, double price, int itemid) {
+	public Item(int sellerId, String name, double price) {
 		this.sellerId = sellerId;
 		this.buyerId = -1;
 		this.name = name;
 		this.price = (float)price;
-		this.itemId = itemid;
 	}
 
 	public Item(int sellerId, String name, String description, double price, String images) {
@@ -32,6 +31,14 @@ public class Item {
 		this.description = description;
 		this.price = (float)price;
 		this.pictures = images;
+	}
+
+	public Item(int itemId, int sellerId, String name, double price) {
+		this.itemId = itemId;
+		this.sellerId = sellerId;
+		this.buyerId = -1;
+		this.name = name;
+		this.price = (float)price;
 	}
 
 	public Item(int itemId, int sellerId, int buyerId, String name, String description, double price, String images) {
