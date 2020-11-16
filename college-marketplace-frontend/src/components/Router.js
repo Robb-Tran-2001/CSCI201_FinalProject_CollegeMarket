@@ -1,14 +1,14 @@
-import { Route } from 'react-router-dom'
+import { Route, useLocation } from 'react-router-dom'
 import React from 'react'
 import Switch from 'react-bootstrap/esm/Switch'
 import { Catalog } from './Catalog'
 import { User } from './User'
-import { useRecoilValue } from 'recoil'
-import { isAuthorizedState } from '../recoil/atoms'
 import { Sell } from './Sell'
 
 export const Router = () => {
-  const IsAuthorized = useRecoilValue(isAuthorizedState)
+  const IsAuthorized = sessionStorage.getItem('username')
+  const location = useLocation()
+  console.log(location.state)
   return (
     <Switch className="p-0">
       {IsAuthorized && (
@@ -21,9 +21,13 @@ export const Router = () => {
           </Route>
         </Switch>
       )}
-      <Route path="/" exact>
-        <Catalog />
-      </Route>
+      {location.state ? (
+        <Catalog searchitems={location.state} />
+      ) : (
+        <Route path="/" exact>
+          <Catalog />
+        </Route>
+      )}
     </Switch>
   )
 }

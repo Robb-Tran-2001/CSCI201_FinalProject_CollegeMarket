@@ -1,28 +1,81 @@
+import { SHA256 } from 'crypto-js'
 import React, { useState, useEffect } from 'react'
-import { Nav, Row, Col, ListGroup, Form, Button, Table } from 'react-bootstrap'
-import { USER_INFO_SERVICE_ADDRESS } from '../Paths'
-import { ItemModal } from './ItemModal'
+import { Nav, Row, Col, Form, Button, Table } from 'react-bootstrap'
+import { useHistory } from 'react-router'
+import {
+  USER_INFO_SERVICE_ADDRESS,
+  USER_PASSWORD_SERVICE_ADDRESS,
+  USER_APPROVE_PURCHASE_SERVICE_ADDRESS,
+} from '../Paths'
 
 export const User = () => {
-  const [tab, setTab] = useState('password')
-  const [orders, setOrders] = useState({ buy: [], sell: [] })
-  const [modalItemID, setModalItemID] = useState(-1)
-  const handleClose = () => setModalItemID(-1)
+  const [tab, setTab] = useState('orders')
+  const [orders, setOrders] = useState([])
+  const history = useHistory()
   useEffect(() => {
     fetch(USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('username'))
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
         setOrders(res)
       })
   }, [])
+  const handlePasswordChange = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const form = new FormData(e.target)
+    if (form.get('password').trim() === '') {
+      alert('Please enter a valid password')
+      return
+    }
+    fetch(USER_PASSWORD_SERVICE_ADDRESS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: sessionStorage.getItem('username'),
+        hash: SHA256(
+          sessionStorage.getItem('username') + ':' + form.get('password')
+        ).toString(),
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        alert('Password changed successfully!')
+      } else {
+        alert('An error has occured! Please try again.')
+      }
+    })
+  }
+  const handleApprovePurchase = (itemid) => {
+    fetch(USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: sessionStorage.getItem('username'),
+        itemid: itemid,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        alert('Successful')
+        history.go(0)
+      }
+    })
+  }
+
   const orderTable = (list) =>
+    list &&
     list.map((order) => (
       <tr key={order.itemid}>
         <td>{order.name}</td>
         <td>${order.price}</td>
-        <td>{order.seller}</td>
-        <td>{order.status ? 'Complete' : 'Pending'}</td>
+        <td>{order.buyer}</td>
+        <td>
+          <Button onClick={() => handleApprovePurchase(order.itemid)}>
+            Approve
+          </Button>
+        </td>
       </tr>
     ))
   return (
@@ -31,15 +84,15 @@ export const User = () => {
         <Col md={{ span: 2, offset: 1 }}>
           <Nav
             variant="pills"
-            defaultActiveKey="password"
+            defaultActiveKey="orders"
             className="flex-column"
             onSelect={(key) => setTab(key)}
           >
             <Nav.Item>
-              <Nav.Link eventKey="password">Change password</Nav.Link>
+              <Nav.Link eventKey="orders">Requests</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="orders">My Orders</Nav.Link>
+              <Nav.Link eventKey="password">Change password</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>
@@ -47,11 +100,11 @@ export const User = () => {
           {tab === 'password' ? (
             <>
               <h3>Change password</h3>
-              <Form>
+              <Form onSubmit={handlePasswordChange}>
                 <Form.Group controlId="name">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
-                    type="email"
+                    type="text"
                     placeholder="Enter your name"
                     defaultValue={sessionStorage.getItem('username')}
                     disabled
@@ -59,7 +112,11 @@ export const User = () => {
                 </Form.Group>
                 <Form.Group controlId="password">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                  />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                   Save changes
@@ -68,26 +125,15 @@ export const User = () => {
             </>
           ) : (
             <>
-              <h3>Your Orders</h3>
-              <h4>Purchases</h4>
+              <h3>Incoming Requests</h3>
               <Table>
                 <thead>
                   <th>Name</th>
                   <th>Price</th>
-                  <th>Seller</th>
+                  <th>Buyer</th>
                   <th>Status</th>
                 </thead>
-                <tbody>{orderTable(orders.buy)}</tbody>
-              </Table>
-              <h3>Listings</h3>
-              <Table>
-                <thead>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Seller</th>
-                  <th>Status</th>
-                </thead>
-                <tbody>{orderTable(orders.sell)}</tbody>
+                <tbody>{orderTable(orders)}</tbody>
               </Table>
             </>
           )}
