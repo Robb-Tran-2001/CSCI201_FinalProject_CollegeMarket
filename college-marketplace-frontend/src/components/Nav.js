@@ -11,7 +11,7 @@ const Nav = ({ username, updateUser }) => {
   const handleClickUser = () => {
     username ? history.push('/user') : setShow(true)
   }
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     e.preventDefault()
     e.stopPropagation()
     if (searchInput.trim() === '') return
@@ -24,8 +24,8 @@ const Nav = ({ username, updateUser }) => {
     fetch(
       SEARCH_SERVICE_ADDRESS + '?q=' + searchInput.trim().replace(' ', '%20')
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         if (res.length === 0) {
           alert('No results found!')
           return
@@ -37,26 +37,26 @@ const Nav = ({ username, updateUser }) => {
 
   return (
     <>
-      <Navbar bg="primary" position="static" variant="dark" expand>
+      <Navbar bg='primary' position='static' variant='dark' expand>
         <Col md={3}>
-          <Navbar.Brand as={Link} to="/" className="mr-auto">
+          <Navbar.Brand as={Link} to='/' className='mr-auto'>
             USC Marketplace
           </Navbar.Brand>
         </Col>
         <Col md={6}>
-          <Form inline className="" onSubmit={handleSearch}>
+          <Form inline className='' onSubmit={handleSearch}>
             <FormControl
-              type="text"
+              type='text'
               style={{ width: '90%', marginRight: '-5px' }}
-              placeholder="Search"
-              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder='Search'
+              onChange={e => setSearchInput(e.target.value)}
             />
             <Button
-              variant="primary"
-              type="submit"
+              variant='primary'
+              type='submit'
               style={{ width: '10%', marginLeft: '-5px', borderRadius: '0px' }}
             >
-              <ion-icon name="search-outline"></ion-icon>
+              <ion-icon name='search-outline'></ion-icon>
             </Button>
           </Form>
         </Col>

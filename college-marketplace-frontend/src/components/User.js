@@ -13,12 +13,12 @@ export const User = ({ username }) => {
   useEffect(() => {
     console.info('GET', USER_INFO_SERVICE_ADDRESS + username)
     fetch(USER_INFO_SERVICE_ADDRESS + username)
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setOrders(res)
       })
   }, [username])
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = e => {
     e.preventDefault()
     e.stopPropagation()
     const form = new FormData(e.target)
@@ -39,7 +39,7 @@ export const User = ({ username }) => {
         username: username,
         hash: SHA256(username + ':' + form.get('password')).toString(),
       }),
-    }).then((res) => {
+    }).then(res => {
       if (res.status === 200) {
         alert('Password changed successfully!')
       } else {
@@ -47,7 +47,7 @@ export const User = ({ username }) => {
       }
     })
   }
-  const handleApprovePurchase = (itemid) => {
+  const handleApprovePurchase = itemid => {
     console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       username: username,
       itemid: itemid,
@@ -61,10 +61,10 @@ export const User = ({ username }) => {
         username: username,
         itemid: itemid,
       }),
-    }).then((res) => {
+    }).then(res => {
       if (res.status === 200) {
         alert('Successful')
-        const index = orders.findIndex((e) => e.itemid === itemid)
+        const index = orders.findIndex(e => e.itemid === itemid)
         setOrders([...orders.slice(0, index), ...orders.slice(index + 1)])
       } else {
         alert('An error has occured.')
@@ -72,9 +72,9 @@ export const User = ({ username }) => {
     })
   }
 
-  const orderTable = (list) =>
+  const orderTable = list =>
     list &&
-    list.map((order) => (
+    list.map(order => (
       <tr key={order.itemid}>
         <td>{order.name}</td>
         <td>${order.price}</td>
@@ -88,45 +88,45 @@ export const User = ({ username }) => {
     ))
   return (
     <>
-      <Row className="mt-5">
+      <Row className='mt-5'>
         <Col md={{ span: 2, offset: 1 }}>
           <Nav
-            variant="pills"
-            defaultActiveKey="orders"
-            className="flex-column"
-            onSelect={(key) => setTab(key)}
+            variant='pills'
+            defaultActiveKey='orders'
+            className='flex-column'
+            onSelect={key => setTab(key)}
           >
             <Nav.Item>
-              <Nav.Link eventKey="orders">Requests</Nav.Link>
+              <Nav.Link eventKey='orders'>Requests</Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="password">Change password</Nav.Link>
+              <Nav.Link eventKey='password'>Change password</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>
-        <Col md={{ span: 6 }} className="ml-5">
+        <Col md={{ span: 6 }} className='ml-5'>
           {tab === 'password' ? (
             <>
               <h3>Change password</h3>
               <Form onSubmit={handlePasswordChange}>
-                <Form.Group controlId="name">
+                <Form.Group controlId='name'>
                   <Form.Label>Username</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Enter your name"
+                    type='text'
+                    placeholder='Enter your name'
                     defaultValue={username}
                     disabled
                   />
                 </Form.Group>
-                <Form.Group controlId="password">
+                <Form.Group controlId='password'>
                   <Form.Label>Password</Form.Label>
                   <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    name="password"
+                    type='password'
+                    placeholder='Password'
+                    name='password'
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant='primary' type='submit'>
                   Save changes
                 </Button>
               </Form>

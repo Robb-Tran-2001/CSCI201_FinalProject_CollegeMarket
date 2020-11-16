@@ -6,7 +6,7 @@ import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
 const ItemCard = ({ username, item, handleClick }) => {
   const [hover, setHover] = useState(false)
   const [buyAttempted, setBuyAttempted] = useState(false)
-  const handleBuy = (e) => {
+  const handleBuy = e => {
     e.stopPropagation()
     setBuyAttempted(true)
     console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
@@ -22,7 +22,7 @@ const ItemCard = ({ username, item, handleClick }) => {
         itemid: item.itemid,
         username: username,
       }),
-    }).then((res) => {
+    }).then(res => {
       if (res.status === 200) {
         alert('Successful. Waiting for seller approval now.')
       } else {
@@ -44,9 +44,9 @@ const ItemCard = ({ username, item, handleClick }) => {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <div className="square" style={{ backgroundImage: `url(${item.pic})` }}>
+      <div className='square' style={{ backgroundImage: `url(${item.pic})` }}>
         {username ? (
-          <div className="cardImageOverlay">
+          <div className='cardImageOverlay'>
             {hover ? (
               <Button
                 style={{

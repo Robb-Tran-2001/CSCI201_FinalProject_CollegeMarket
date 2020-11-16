@@ -9,7 +9,7 @@ export const Catalog = ({ username, searchitems }) => {
   const [modalItemID, setModalItemID] = useState(-1)
   const [items, setItems] = useState(searchitems || [])
   const [page, setPage] = useState(1)
-  const handleClick = (itemid) => {
+  const handleClick = itemid => {
     setModalItemID(itemid)
   }
 
@@ -17,29 +17,29 @@ export const Catalog = ({ username, searchitems }) => {
     if (searchitems) return
     console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS)
     fetch(ALL_ITEMS_SERVICE_ADDRESS)
-      .then((res) => res.json())
-      .then((res) => setItems(res))
+      .then(res => res.json())
+      .then(res => setItems(res))
   }, [])
 
   const closeModal = useCallback(() => {
     setModalItemID(-1)
   }, [])
 
-  const handlePageChange = (newPage) => {
+  const handlePageChange = newPage => {
     setPage(newPage)
     window.scrollTo(0, 0)
   }
 
   const itemCards =
     items &&
-    items.slice((page - 1) * 20, page * 20).map((item) => (
+    items.slice((page - 1) * 20, page * 20).map(item => (
       <Col key={page + '.' + item.itemid}>
         <ItemCard username={username} item={item} handleClick={handleClick} />
       </Col>
     ))
   return (
     <>
-      <Container fluid="lg" className="my-4">
+      <Container fluid='lg' className='my-4'>
         {username ? (
           <Button as={Link} to={'/create'}>
             Create new listing
@@ -55,7 +55,7 @@ export const Catalog = ({ username, searchitems }) => {
             {page !== 1 ? (
               <Button
                 onClick={() => handlePageChange(page - 1)}
-                className="mr-3"
+                className='mr-3'
               >
                 Previous
               </Button>
@@ -70,9 +70,9 @@ export const Catalog = ({ username, searchitems }) => {
           </>
         ) : (
           <Spinner
-            animation="border"
-            variant="primary"
-            className="loading-spinner"
+            animation='border'
+            variant='primary'
+            className='loading-spinner'
           />
         )}
       </Container>

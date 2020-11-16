@@ -8,10 +8,10 @@ export const Login = ({ show, handleClose, updateUser }) => {
   const [form, setForm] = useState({})
   const [formLoading, setFormLoading] = useState(false)
   const toggleLogin = () => setLogin(!login)
-  const handleInput = (event) => {
+  const handleInput = event => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault()
     event.stopPropagation()
     if (event.currentTarget.checkValidity() === true) {
@@ -30,7 +30,7 @@ export const Login = ({ show, handleClose, updateUser }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
-      }).then((res) => {
+      }).then(res => {
         if (res.status === 200) {
           updateUser(form.username)
           sessionStorage.setItem('username', form.username)
@@ -48,35 +48,35 @@ export const Login = ({ show, handleClose, updateUser }) => {
       <Modal.Header>{login ? 'Log in' : 'Sign up'}</Modal.Header>
       <Modal.Body>
         <Form onChange={handleInput} onSubmit={handleSubmit}>
-          <Form.Group controlId="email">
+          <Form.Group controlId='email'>
             <Form.Label>Username</Form.Label>
             <Form.Control
               required
-              name="username"
-              type="text"
-              placeholder="Username"
+              name='username'
+              type='text'
+              placeholder='Username'
             />
           </Form.Group>
-          <Form.Group controlId="password">
+          <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
             <Form.Control
               required
-              name="password"
-              type="password"
-              placeholder="Password"
+              name='password'
+              type='password'
+              placeholder='Password'
             />
           </Form.Group>
           <Form.Row style={{ alignItems: 'center' }}>
             <Button
-              className="mr-auto ml-1"
-              variant="primary"
-              type="submit"
+              className='mr-auto ml-1'
+              variant='primary'
+              type='submit'
               disabled={formLoading}
             >
               {formLoading ? 'Processing...' : 'Submit'}
             </Button>
             <i
-              className="mr-1"
+              className='mr-1'
               style={{ cursor: 'pointer' }}
               onClick={toggleLogin}
             >

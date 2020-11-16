@@ -7,7 +7,7 @@ export const Sell = ({ username }) => {
   const [formLoading, setFormLoading] = useState(false)
   const history = useHistory()
   //   const handlePictures = ()
-  const handleInput = (event) => {
+  const handleInput = event => {
     if (event.target.name === 'picture') {
       setForm({ ...form, pictures: event.target.files })
     } else {
@@ -25,7 +25,7 @@ export const Sell = ({ username }) => {
     }
     return true
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault()
     event.stopPropagation()
     if (event.currentTarget.checkValidity() && validateFile()) {
@@ -41,7 +41,7 @@ export const Sell = ({ username }) => {
           'Content-Type': 'multipart/formdata',
         },
         body: data,
-      }).then((res) => {
+      }).then(res => {
         if (res.status === 200) {
           history.push('/')
         } else {
@@ -53,26 +53,26 @@ export const Sell = ({ username }) => {
   }
 
   return (
-    <Container fluid="md" className="mt-4">
+    <Container fluid='md' className='mt-4'>
       <h2>Create new listing</h2>
       <Form onChange={handleInput} onSubmit={handleSubmit}>
-        <Form.Group controlId="title">
+        <Form.Group controlId='title'>
           <Form.Label>Title</Form.Label>
-          <Form.Control type="text" name="title" required />
+          <Form.Control type='text' name='title' required />
         </Form.Group>
-        <Form.Group controlId="price">
+        <Form.Group controlId='price'>
           <Form.Label>Price</Form.Label>
-          <Form.Control type="number" name="price" required />
+          <Form.Control type='number' name='price' required />
         </Form.Group>
-        <Form.Group controlId="picture">
-          <Form.File name="picture" multiple required label="Pictures" />
+        <Form.Group controlId='picture'>
+          <Form.File name='picture' multiple required label='Pictures' />
         </Form.Group>
-        <Form.Group controlId="description">
+        <Form.Group controlId='description'>
           <Form.Label>Description</Form.Label>
-          <Form.Control as="textarea" rows={5} name="description" required />
+          <Form.Control as='textarea' rows={5} name='description' required />
         </Form.Group>
-        <input type="hidden" name="username" value={username} />
-        <Button type="submit" disabled={formLoading}>
+        <input type='hidden' name='username' value={username} />
+        <Button type='submit' disabled={formLoading}>
           Submit
         </Button>
       </Form>

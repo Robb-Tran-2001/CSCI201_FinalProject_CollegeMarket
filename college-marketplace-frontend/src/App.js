@@ -13,7 +13,7 @@ function App() {
     if (u === username) return
     setUsername(u)
   }, [])
-  const updateUsername = (n) => setUsername(n)
+  const updateUsername = n => setUsername(n)
 
   useEffect(() => {
     if (!username) {
@@ -22,7 +22,7 @@ function App() {
     console.info('Connecting to push')
     console.info(WEBSOCKET_ADDRESS)
     const ws = new WebSocket(WEBSOCKET_ADDRESS + username)
-    ws.onmessage = (event) => {
+    ws.onmessage = event => {
       const data = JSON.parse(event.data)
       const msg = data.buyer + 'just bought' + data.item + '!'
       addToast(msg, { appearance: 'info' })

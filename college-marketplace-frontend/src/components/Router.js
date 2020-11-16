@@ -8,13 +8,13 @@ import { Sell } from './Sell'
 export const Router = ({ username }) => {
   const location = useLocation()
   return (
-    <Switch className="p-0">
+    <Switch className='p-0'>
       {username && (
         <Switch>
-          <Route path="/user">
+          <Route path='/user'>
             <User username={username} />
           </Route>
-          <Route path="/create">
+          <Route path='/create'>
             <Sell username={username} />
           </Route>
         </Switch>
@@ -22,7 +22,7 @@ export const Router = ({ username }) => {
       {location.state ? (
         <Catalog username={username} searchitems={location.state} />
       ) : (
-        <Route path="/" exact>
+        <Route path='/' exact>
           <Catalog username={username} />
         </Route>
       )}
