@@ -31,6 +31,10 @@ export const Sell = () => {
     if (event.currentTarget.checkValidity() && validateFile()) {
       setFormLoading(true)
       const data = new FormData(event.target)
+      console.info('POST', CREATE_ITEM_SERVICE_ADDRESS)
+      for (var pair of data.entries()) {
+        console.log(pair[0] + ' - ' + pair[1])
+      }
       fetch(CREATE_ITEM_SERVICE_ADDRESS, {
         method: 'POST',
         headers: {

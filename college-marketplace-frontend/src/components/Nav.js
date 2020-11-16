@@ -19,6 +19,12 @@ const Nav = () => {
     e.preventDefault()
     e.stopPropagation()
     if (searchInput.trim() === '') return
+    console.info(
+      'GET ' +
+        SEARCH_SERVICE_ADDRESS +
+        '?q=' +
+        searchInput.trim().replace(' ', '%20')
+    )
     fetch(
       SEARCH_SERVICE_ADDRESS + '?q=' + searchInput.trim().replace(' ', '%20')
     )

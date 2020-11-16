@@ -12,6 +12,10 @@ export const User = () => {
   const [tab, setTab] = useState('orders')
   const [orders, setOrders] = useState([])
   const history = useHistory()
+  console.info(
+    'GET',
+    USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('username')
+  )
   useEffect(() => {
     fetch(USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('username'))
       .then((res) => res.json())
@@ -27,6 +31,12 @@ export const User = () => {
       alert('Please enter a valid password')
       return
     }
+    console.info('POST', USER_PASSWORD_SERVICE_ADDRESS, {
+      username: sessionStorage.getItem('username'),
+      hash: SHA256(
+        sessionStorage.getItem('username') + ':' + form.get('password')
+      ).toString(),
+    })
     fetch(USER_PASSWORD_SERVICE_ADDRESS, {
       method: 'POST',
       headers: {
@@ -47,6 +57,10 @@ export const User = () => {
     })
   }
   const handleApprovePurchase = (itemid) => {
+    console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
+      username: sessionStorage.getItem('username'),
+      itemid: itemid,
+    })
     fetch(USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       method: 'POST',
       headers: {

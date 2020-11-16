@@ -8,7 +8,6 @@ import { Sell } from './Sell'
 export const Router = () => {
   const IsAuthorized = sessionStorage.getItem('username')
   const location = useLocation()
-  console.log(location.state)
   return (
     <Switch className="p-0">
       {IsAuthorized && (
