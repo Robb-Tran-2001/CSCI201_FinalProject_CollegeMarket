@@ -8,22 +8,19 @@ import {
   Container,
   Button,
 } from 'react-bootstrap'
-import { useHistory } from 'react-router'
 import { ITEM_DETAIL_SERVICE_ADDRESS } from '../Paths'
 import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
 
-export const ItemModal = ({ itemid, close }) => {
+export const ItemModal = ({ username, itemid, close }) => {
   const [loaded, setLoaded] = useState(false)
   const [item, setItem] = useState(null)
-  const IsAuthorized = sessionStorage.getItem('username') !== null
   const [buyAttempted, setBuyAttempted] = useState(false)
-  const history = useHistory()
   const handleBuy = (e) => {
     e.stopPropagation()
     setBuyAttempted(true)
     console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
       itemid: item.itemid,
-      username: sessionStorage.getItem('username'),
+      username: username,
     })
     fetch(BUY_ITEM_SERVICE_ADDRESS, {
       method: 'POST',
@@ -32,7 +29,7 @@ export const ItemModal = ({ itemid, close }) => {
       },
       body: JSON.stringify({
         itemid: item.itemid,
-        username: sessionStorage.getItem('username'),
+        username: username,
       }),
     }).then((res) => {
       if (res.status === 200) {
@@ -40,7 +37,6 @@ export const ItemModal = ({ itemid, close }) => {
       } else {
         alert('Item is not available.')
       }
-      history.go(0)
     })
   }
   const carouselItems =
@@ -58,7 +54,7 @@ export const ItemModal = ({ itemid, close }) => {
 
   useEffect(() => {
     if (itemid === -1) return
-    console.info('GET ' + ITEM_DETAIL_SERVICE_ADDRESS)
+    console.info('GET ' + ITEM_DETAIL_SERVICE_ADDRESS + itemid)
     fetch(ITEM_DETAIL_SERVICE_ADDRESS + itemid)
       .then((res) => res.json())
       .then(
@@ -72,7 +68,7 @@ export const ItemModal = ({ itemid, close }) => {
           close()
         }
       )
-  }, [itemid])
+  }, [itemid, close])
   return (
     <Modal show={itemid !== -1} onHide={close} animation={false} dialogAs="div">
       <CloseButton />
@@ -106,7 +102,7 @@ export const ItemModal = ({ itemid, close }) => {
                 <p>
                   <b>{item.seller}</b>
                 </p>
-                {IsAuthorized ? (
+                {username ? (
                   <Button
                     className="buy-button"
                     disabled={buyAttempted}

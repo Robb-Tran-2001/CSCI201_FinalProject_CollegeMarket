@@ -4,16 +4,12 @@ import { Link, useHistory } from 'react-router-dom'
 import { Login } from './Login'
 import { SEARCH_SERVICE_ADDRESS } from '../Paths'
 
-const Nav = () => {
+const Nav = ({ username, updateUser }) => {
   const [show, setShow] = useState(false)
   const [searchInput, setSearchInput] = useState('')
   const history = useHistory()
   const handleClickUser = () => {
-    if (!IsAuthorized) {
-      setShow(true)
-    } else {
-      history.push('/user')
-    }
+    username ? history.push('/user') : setShow(true)
   }
   const handleSearch = (e) => {
     e.preventDefault()
@@ -38,7 +34,6 @@ const Nav = () => {
       })
   }
   const handleClose = () => setShow(false)
-  const IsAuthorized = sessionStorage.getItem('username')
 
   return (
     <>
@@ -67,11 +62,11 @@ const Nav = () => {
         </Col>
         <Col md={3} style={{ textAlign: 'right' }}>
           <Navbar.Text onClick={handleClickUser} style={{ cursor: 'pointer' }}>
-            {!IsAuthorized ? 'Log in' : sessionStorage.getItem('username')}
+            {username || 'Log in'}
           </Navbar.Text>
         </Col>
       </Navbar>
-      <Login show={show} handleClose={handleClose} />
+      <Login show={show} handleClose={handleClose} updateUser={updateUser} />
     </>
   )
 }

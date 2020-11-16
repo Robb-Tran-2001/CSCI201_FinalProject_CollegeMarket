@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router'
 import { CREATE_ITEM_SERVICE_ADDRESS } from '../Paths'
-export const Sell = () => {
+export const Sell = ({ username }) => {
   const [form, setForm] = useState({})
   const [formLoading, setFormLoading] = useState(false)
   const history = useHistory()
@@ -71,11 +71,7 @@ export const Sell = () => {
           <Form.Label>Description</Form.Label>
           <Form.Control as="textarea" rows={5} name="description" required />
         </Form.Group>
-        <input
-          type="hidden"
-          name="username"
-          value={sessionStorage.getItem('username')}
-        />
+        <input type="hidden" name="username" value={username} />
         <Button type="submit" disabled={formLoading}>
           Submit
         </Button>

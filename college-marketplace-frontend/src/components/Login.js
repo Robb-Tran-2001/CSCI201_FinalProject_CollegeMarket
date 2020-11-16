@@ -3,7 +3,7 @@ import { Form, Button, Modal } from 'react-bootstrap'
 import { SHA256 } from 'crypto-js'
 import { LOGIN_SERVICE_ADDRESS, SIGNUP_SERVICE_ADDRESS } from '../Paths'
 
-export const Login = ({ show, handleClose }) => {
+export const Login = ({ show, handleClose, updateUser }) => {
   const [login, setLogin] = useState(true)
   const [form, setForm] = useState({})
   const [formLoading, setFormLoading] = useState(false)
@@ -32,6 +32,7 @@ export const Login = ({ show, handleClose }) => {
         body: JSON.stringify(body),
       }).then((res) => {
         if (res.status === 200) {
+          updateUser(form.username)
           sessionStorage.setItem('username', form.username)
           setFormLoading(false)
           handleClose()

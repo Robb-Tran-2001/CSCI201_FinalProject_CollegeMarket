@@ -1,28 +1,23 @@
 import { SHA256 } from 'crypto-js'
 import React, { useState, useEffect } from 'react'
 import { Nav, Row, Col, Form, Button, Table } from 'react-bootstrap'
-import { useHistory } from 'react-router'
 import {
   USER_INFO_SERVICE_ADDRESS,
   USER_PASSWORD_SERVICE_ADDRESS,
   USER_APPROVE_PURCHASE_SERVICE_ADDRESS,
 } from '../Paths'
 
-export const User = () => {
+export const User = ({ username }) => {
   const [tab, setTab] = useState('orders')
   const [orders, setOrders] = useState([])
-  const history = useHistory()
-  console.info(
-    'GET',
-    USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('username')
-  )
   useEffect(() => {
-    fetch(USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('username'))
+    console.info('GET', USER_INFO_SERVICE_ADDRESS + username)
+    fetch(USER_INFO_SERVICE_ADDRESS + username)
       .then((res) => res.json())
       .then((res) => {
         setOrders(res)
       })
-  }, [])
+  }, [username])
   const handlePasswordChange = (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -32,10 +27,8 @@ export const User = () => {
       return
     }
     console.info('POST', USER_PASSWORD_SERVICE_ADDRESS, {
-      username: sessionStorage.getItem('username'),
-      hash: SHA256(
-        sessionStorage.getItem('username') + ':' + form.get('password')
-      ).toString(),
+      username: username,
+      hash: SHA256(username + ':' + form.get('password')).toString(),
     })
     fetch(USER_PASSWORD_SERVICE_ADDRESS, {
       method: 'POST',
@@ -43,10 +36,8 @@ export const User = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: sessionStorage.getItem('username'),
-        hash: SHA256(
-          sessionStorage.getItem('username') + ':' + form.get('password')
-        ).toString(),
+        username: username,
+        hash: SHA256(username + ':' + form.get('password')).toString(),
       }),
     }).then((res) => {
       if (res.status === 200) {
@@ -58,7 +49,7 @@ export const User = () => {
   }
   const handleApprovePurchase = (itemid) => {
     console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
-      username: sessionStorage.getItem('username'),
+      username: username,
       itemid: itemid,
     })
     fetch(USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
@@ -67,13 +58,16 @@ export const User = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: sessionStorage.getItem('username'),
+        username: username,
         itemid: itemid,
       }),
     }).then((res) => {
       if (res.status === 200) {
         alert('Successful')
-        history.go(0)
+        const index = orders.findIndex((e) => e.itemid === itemid)
+        setOrders([...orders.slice(0, index), ...orders.slice(index + 1)])
+      } else {
+        alert('An error has occured.')
       }
     })
   }
@@ -120,7 +114,7 @@ export const User = () => {
                   <Form.Control
                     type="text"
                     placeholder="Enter your name"
-                    defaultValue={sessionStorage.getItem('username')}
+                    defaultValue={username}
                     disabled
                   />
                 </Form.Group>

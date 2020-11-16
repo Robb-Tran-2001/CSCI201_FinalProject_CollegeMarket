@@ -2,19 +2,16 @@ import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
-import { useHistory } from 'react-router'
 
-const ItemCard = ({ item, handleClick }) => {
+const ItemCard = ({ username, item, handleClick }) => {
   const [hover, setHover] = useState(false)
-  const history = useHistory()
-  const IsAuthorized = sessionStorage.getItem('username') !== null
   const [buyAttempted, setBuyAttempted] = useState(false)
   const handleBuy = (e) => {
     e.stopPropagation()
     setBuyAttempted(true)
     console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
       itemid: item.itemid,
-      username: sessionStorage.getItem('username'),
+      username: username,
     })
     fetch(BUY_ITEM_SERVICE_ADDRESS, {
       method: 'POST',
@@ -23,7 +20,7 @@ const ItemCard = ({ item, handleClick }) => {
       },
       body: JSON.stringify({
         itemid: item.itemid,
-        username: sessionStorage.getItem('username'),
+        username: username,
       }),
     }).then((res) => {
       if (res.status === 200) {
@@ -31,7 +28,6 @@ const ItemCard = ({ item, handleClick }) => {
       } else {
         alert('Item is not available.')
       }
-      history.go(0)
     })
   }
   return (
@@ -49,7 +45,7 @@ const ItemCard = ({ item, handleClick }) => {
       onMouseLeave={() => setHover(false)}
     >
       <div className="square" style={{ backgroundImage: `url(${item.pic})` }}>
-        {IsAuthorized ? (
+        {username ? (
           <div className="cardImageOverlay">
             {hover ? (
               <Button
