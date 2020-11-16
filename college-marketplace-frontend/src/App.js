@@ -30,7 +30,7 @@ function App() {
     return () => {
       ws.close()
     }
-  }, [username])
+  }, [username, addToast])
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Nav username={username} updateUser={updateUsername} />

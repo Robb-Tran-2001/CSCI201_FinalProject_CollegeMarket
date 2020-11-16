@@ -17,7 +17,7 @@ export const User = ({ username }) => {
       .then((res) => {
         setOrders(res)
       })
-  }, [])
+  }, [username])
   const handlePasswordChange = (e) => {
     e.preventDefault()
     e.stopPropagation()
