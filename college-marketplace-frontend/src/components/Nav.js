@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
 import { Navbar, Form, FormControl, Button, Col } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import {
-  currentItemState,
-  isAuthorizedState,
-  usernameState,
-} from '../recoil/atoms'
 import { Login } from './Login'
 import { SEARCH_SERVICE_ADDRESS } from '../Paths'
 
@@ -14,7 +8,6 @@ const Nav = () => {
   const [show, setShow] = useState(false)
   const [searchInput, setSearchInput] = useState('')
   const history = useHistory()
-  const setCurrItem = useSetRecoilState(currentItemState)
   const handleClickUser = () => {
     if (!IsAuthorized) {
       setShow(true)
@@ -26,6 +19,12 @@ const Nav = () => {
     e.preventDefault()
     e.stopPropagation()
     if (searchInput.trim() === '') return
+    console.info(
+      'GET ' +
+        SEARCH_SERVICE_ADDRESS +
+        '?q=' +
+        searchInput.trim().replace(' ', '%20')
+    )
     fetch(
       SEARCH_SERVICE_ADDRESS + '?q=' + searchInput.trim().replace(' ', '%20')
     )
@@ -35,12 +34,11 @@ const Nav = () => {
           alert('No results found!')
           return
         }
-        setCurrItem(res)
+        history.push('/', res)
       })
   }
   const handleClose = () => setShow(false)
-  const IsAuthorized = useRecoilValue(isAuthorizedState)
-  const Username = useRecoilValue(usernameState)
+  const IsAuthorized = sessionStorage.getItem('username')
 
   return (
     <>
@@ -69,7 +67,7 @@ const Nav = () => {
         </Col>
         <Col md={3} style={{ textAlign: 'right' }}>
           <Navbar.Text onClick={handleClickUser} style={{ cursor: 'pointer' }}>
-            {!IsAuthorized ? 'Log in' : Username}
+            {!IsAuthorized ? 'Log in' : sessionStorage.getItem('username')}
           </Navbar.Text>
         </Col>
       </Navbar>

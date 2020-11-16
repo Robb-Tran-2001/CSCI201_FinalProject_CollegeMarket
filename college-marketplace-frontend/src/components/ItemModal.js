@@ -6,19 +6,42 @@ import {
   Spinner,
   Carousel,
   Container,
-  Image,
   Button,
 } from 'react-bootstrap'
-import { useRecoilValue } from 'recoil'
-import { isAuthorizedState } from '../recoil/atoms'
+import { useHistory } from 'react-router'
 import { ITEM_DETAIL_SERVICE_ADDRESS } from '../Paths'
+import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
+
 export const ItemModal = ({ itemid, close }) => {
   const [loaded, setLoaded] = useState(false)
   const [item, setItem] = useState(null)
-  const IsAuthorized = useRecoilValue(isAuthorizedState)
+  const IsAuthorized = sessionStorage.getItem('username') !== null
   const [buyAttempted, setBuyAttempted] = useState(false)
-  const handleBuy = () => {
+  const history = useHistory()
+  const handleBuy = (e) => {
+    e.stopPropagation()
     setBuyAttempted(true)
+    console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
+      itemid: item.itemid,
+      username: sessionStorage.getItem('username'),
+    })
+    fetch(BUY_ITEM_SERVICE_ADDRESS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        itemid: item.itemid,
+        username: sessionStorage.getItem('username'),
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        alert('Successful. Waiting for seller approval now.')
+      } else {
+        alert('Item is not available.')
+      }
+      history.go(0)
+    })
   }
   const carouselItems =
     item &&
@@ -35,19 +58,21 @@ export const ItemModal = ({ itemid, close }) => {
 
   useEffect(() => {
     if (itemid === -1) return
+    console.info('GET ' + ITEM_DETAIL_SERVICE_ADDRESS)
     fetch(ITEM_DETAIL_SERVICE_ADDRESS + itemid)
       .then((res) => res.json())
       .then(
         (res) => {
           setItem(res)
           setLoaded(true)
+          setBuyAttempted(res.buyerid !== '')
         },
         (err) => {
           alert('Loading failed', err)
           close()
         }
       )
-  }, [itemid, close])
+  }, [itemid])
   return (
     <Modal show={itemid !== -1} onHide={close} animation={false} dialogAs="div">
       <CloseButton />
@@ -82,7 +107,11 @@ export const ItemModal = ({ itemid, close }) => {
                   <b>{item.seller}</b>
                 </p>
                 {IsAuthorized ? (
-                  <Button className="buy-button" disabled={buyAttempted}>
+                  <Button
+                    className="buy-button"
+                    disabled={buyAttempted}
+                    onClick={handleBuy}
+                  >
                     {buyAttempted ? 'Pending' : 'Buy now'}
                   </Button>
                 ) : (

@@ -16,7 +16,7 @@ server.use(function (req, res, next) {
 server.use(middlewares)
 
 server.post('/login', (req, res) => {
-  if (req.body.email === 'a@a') {
+  if (req.body.username === 'a') {
     //res.send({ token: '1234' })
     res.send({ token: '1234', name: 'tommy trojan' })
   } else {
@@ -24,9 +24,59 @@ server.post('/login', (req, res) => {
   }
 })
 
+server.post('/buy', (req, res) => {
+  res.sendStatus(200)
+})
+
+server.post('/user/password', (req, res) => {
+  console.log(req.body)
+  res.sendStatus(200)
+})
+server.post('/user/approve', (req, res) => {
+  console.log(req.body)
+  res.sendStatus(200)
+})
+
 server.post('/create', upload.array('picture', 5), (req, res) => {
   console.log(req.body)
   res.sendStatus(200)
+})
+
+server.get('/user/a', (req, res) => {
+  const user = [
+    {
+      itemid: 22,
+      name: 'test',
+      price: 500,
+      buyer: 'Felix Liao',
+    },
+    {
+      itemid: 22,
+      name: 'test',
+      price: 500,
+      buyer: 'Felix Liao',
+    },
+    {
+      itemid: 22,
+      name: 'test',
+      price: 500,
+      buyer: 'Felix Liao',
+    },
+    {
+      itemid: 22,
+      name: 'test',
+      price: 500,
+      buyer: 'Felix Liao',
+    },
+    {
+      itemid: 22,
+      name: 'test',
+      price: 500,
+      buyer: 'Felix Liao',
+    },
+  ]
+
+  res.send(JSON.stringify(user))
 })
 
 server.use(function (err, req, res, next) {
@@ -34,7 +84,40 @@ server.use(function (err, req, res, next) {
   next(err)
 })
 server.get('/search', (req, res) => {
-  res.send([])
+  res.send([
+    {
+      itemid: 21,
+      name: 'test',
+      price: 500,
+      pic:
+        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80',
+      buyerid: '',
+    },
+    {
+      itemid: 22,
+      name: 'test',
+      price: 500,
+      pic:
+        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80',
+      buyerid: '',
+    },
+    {
+      itemid: 23,
+      name: 'test',
+      price: 500,
+      pic:
+        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80',
+      buyerid: '',
+    },
+    {
+      itemid: 24,
+      name: 'test',
+      price: 500,
+      pic:
+        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80',
+      buyerid: '',
+    },
+  ])
 })
 server.use(router)
 

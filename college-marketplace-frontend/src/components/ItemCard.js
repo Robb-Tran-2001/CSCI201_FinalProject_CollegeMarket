@@ -1,17 +1,38 @@
 import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import { useRecoilValue } from 'recoil'
-import { isAuthorizedState } from '../recoil/atoms'
-import { buyItem } from './UserActions'
+import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
+import { useHistory } from 'react-router'
 
 const ItemCard = ({ item, handleClick }) => {
   const [hover, setHover] = useState(false)
-  const IsAuthorized = useRecoilValue(isAuthorizedState)
+  const history = useHistory()
+  const IsAuthorized = sessionStorage.getItem('username') !== null
   const [buyAttempted, setBuyAttempted] = useState(false)
   const handleBuy = (e) => {
     e.stopPropagation()
     setBuyAttempted(true)
+    console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
+      itemid: item.itemid,
+      username: sessionStorage.getItem('username'),
+    })
+    fetch(BUY_ITEM_SERVICE_ADDRESS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        itemid: item.itemid,
+        username: sessionStorage.getItem('username'),
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        alert('Successful. Waiting for seller approval now.')
+      } else {
+        alert('Item is not available.')
+      }
+      history.go(0)
+    })
   }
   return (
     <Card
@@ -43,7 +64,7 @@ const ItemCard = ({ item, handleClick }) => {
                 onClick={handleBuy}
                 disabled={buyAttempted}
               >
-                {buyAttempted ? 'Pending' : 'Buy'}
+                {buyAttempted ? 'Requested' : 'Buy'}
               </Button>
             ) : (
               ''

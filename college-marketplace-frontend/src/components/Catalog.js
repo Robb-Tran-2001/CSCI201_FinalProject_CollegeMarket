@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useRecoilState, useRecoilValue } from 'recoil'
 import { ALL_ITEMS_SERVICE_ADDRESS } from '../Paths'
-import {
-  currentItemState,
-  isAuthorizedState,
-  usernameState,
-} from '../recoil/atoms'
 import ItemCard from './ItemCard'
 import { ItemModal } from './ItemModal'
 
-export const Catalog = () => {
+export const Catalog = ({ searchitems }) => {
   const [modalItemID, setModalItemID] = useState(-1)
-  const [Items, setItems] = useRecoilState(currentItemState)
+  const [items, setItems] = useState(searchitems || [])
   const [page, setPage] = useState(1)
-  const IsAuthorized = useRecoilValue(isAuthorizedState)
+  const IsAuthorized = sessionStorage.getItem('username') !== null
   const handleClick = (itemid) => {
     setModalItemID(itemid)
   }
+
   useEffect(() => {
+    if (searchitems) return
+    console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS)
     fetch(ALL_ITEMS_SERVICE_ADDRESS)
       .then((res) => res.json())
       .then((res) => setItems(res))
@@ -35,8 +32,8 @@ export const Catalog = () => {
   }
 
   const itemCards =
-    Items &&
-    Items.slice((page - 1) * 20, page * 20).map((item) => (
+    items &&
+    items.slice((page - 1) * 20, page * 20).map((item) => (
       <Col key={page + '.' + item.itemid}>
         <ItemCard item={item} handleClick={handleClick} />
       </Col>
@@ -51,7 +48,7 @@ export const Catalog = () => {
         ) : (
           ''
         )}
-        {Items.length !== 0 ? (
+        {items.length !== 0 ? (
           <>
             <Row xs={2} md={4}>
               {itemCards}
@@ -66,7 +63,7 @@ export const Catalog = () => {
             ) : (
               ''
             )}
-            {page !== Math.ceil(Items.length / 20) ? (
+            {page !== Math.ceil(items.length / 20) ? (
               <Button onClick={() => handlePageChange(page + 1)}>Next</Button>
             ) : (
               ''
