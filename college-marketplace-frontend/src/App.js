@@ -5,34 +5,23 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './components/Router'
 import { useToasts } from 'react-toast-notifications'
-import { isAuthorizedState, usernameState } from './recoil/atoms'
+import { isAuthorizedState } from './recoil/atoms'
 function App() {
   const setAuthorized = useSetRecoilState(isAuthorizedState)
-  const [Username, setUsername] = useRecoilState(usernameState)
   const { addToast } = useToasts()
-
-  if (sessionStorage.getItem('token')) {
-    setAuthorized(true)
-    setUsername(sessionStorage.getItem('username'))
-  }
   useEffect(() => {
-    console.log(process.env.NODE_ENV)
-    if (Username === '') {
+    if (sessionStorage.getItem('username') !== null) {
+      setAuthorized(true)
+    }
+  }, [])
+  useEffect(() => {
+    if (sessionStorage.getItem('username') === null) {
       return
     }
-    console.log(
-      'ws://' +
-        window.location.host +
-        process.env.PUBLIC_URL +
-        '/push/' +
-        sessionStorage.getItem('token')
-    )
+    console.log('Connecting to push')
     const ws = new WebSocket(
-      'ws://' +
-        window.location.host +
-        process.env.PUBLIC_URL +
-        '/push/' +
-        sessionStorage.getItem('token')
+      'ws://localhost:8080/push_notification_v1/push/' +
+        sessionStorage.getItem('username')
     )
     ws.onmessage = (event) => {
       addToast(JSON.parse(event.data.msg), { appearance: 'info' })
@@ -40,7 +29,7 @@ function App() {
     return () => {
       ws.close()
     }
-  }, [Username])
+  }, [sessionStorage.getItem('username')])
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Nav />

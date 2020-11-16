@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { Nav, Row, Col, ListGroup, Form, Button, Table } from 'react-bootstrap'
-import { useRecoilValue } from 'recoil'
 import { USER_INFO_SERVICE_ADDRESS } from '../Paths'
-import { usernameState } from '../recoil/atoms'
 import { ItemModal } from './ItemModal'
 
 export const User = () => {
-  const [tab, setTab] = useState('profile')
-  const username = useRecoilValue(usernameState)
-  const [email, setEmail] = useState('')
-  const [orders, setOrders] = useState([])
+  const [tab, setTab] = useState('password')
+  const [orders, setOrders] = useState({ buy: [], sell: [] })
   const [modalItemID, setModalItemID] = useState(-1)
   const handleClose = () => setModalItemID(-1)
-  const handleClick = (itemid) => setModalItemID(itemid)
   useEffect(() => {
-    fetch(USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('token'))
+    fetch(USER_INFO_SERVICE_ADDRESS + sessionStorage.getItem('username'))
       .then((res) => res.json())
       .then((res) => {
         console.log(res)
-        setEmail(res.profile.email)
-        setOrders(res.orders)
+        setOrders(res)
       })
   }, [])
   const orderTable = (list) =>
     list.map((order) => (
-      <tr
-        key={order.itemid}
-        onClick={() => handleClick(order.itemid)}
-        style={{ cursor: 'pointer' }}
-      >
+      <tr key={order.itemid}>
         <td>{order.name}</td>
         <td>${order.price}</td>
         <td>{order.seller}</td>
@@ -41,12 +31,12 @@ export const User = () => {
         <Col md={{ span: 2, offset: 1 }}>
           <Nav
             variant="pills"
-            defaultActiveKey="profile"
+            defaultActiveKey="password"
             className="flex-column"
             onSelect={(key) => setTab(key)}
           >
             <Nav.Item>
-              <Nav.Link eventKey="profile">Profile</Nav.Link>
+              <Nav.Link eventKey="password">Change password</Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="orders">My Orders</Nav.Link>
@@ -54,35 +44,32 @@ export const User = () => {
           </Nav>
         </Col>
         <Col md={{ span: 6 }} className="ml-5">
-          {tab === 'profile' ? (
-            <Form>
-              <Form.Group controlId="email">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter email"
-                  defaultValue={email}
-                />
-              </Form.Group>
-              <Form.Group controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter your name"
-                  defaultValue={username}
-                />
-              </Form.Group>
-              <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Save changes
-              </Button>
-            </Form>
+          {tab === 'password' ? (
+            <>
+              <h3>Change password</h3>
+              <Form>
+                <Form.Group controlId="name">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter your name"
+                    defaultValue={sessionStorage.getItem('username')}
+                    disabled
+                  />
+                </Form.Group>
+                <Form.Group controlId="password">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Save changes
+                </Button>
+              </Form>
+            </>
           ) : (
             <>
-              <h3>Your purchases: </h3>
+              <h3>Your Orders</h3>
+              <h4>Purchases</h4>
               <Table>
                 <thead>
                   <th>Name</th>
@@ -92,7 +79,7 @@ export const User = () => {
                 </thead>
                 <tbody>{orderTable(orders.buy)}</tbody>
               </Table>
-              <h3>Your listings: </h3>
+              <h3>Listings</h3>
               <Table>
                 <thead>
                   <th>Name</th>
@@ -106,7 +93,6 @@ export const User = () => {
           )}
         </Col>
       </Row>
-      <ItemModal itemid={modalItemID} close={handleClose} />
     </>
   )
 }

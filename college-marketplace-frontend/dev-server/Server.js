@@ -16,7 +16,7 @@ server.use(function (req, res, next) {
 server.use(middlewares)
 
 server.post('/login', (req, res) => {
-  if (req.body.email === 'a@a') {
+  if (req.body.username === 'a') {
     //res.send({ token: '1234' })
     res.send({ token: '1234', name: 'tommy trojan' })
   } else {
@@ -27,6 +27,86 @@ server.post('/login', (req, res) => {
 server.post('/create', upload.array('picture', 5), (req, res) => {
   console.log(req.body)
   res.sendStatus(200)
+})
+
+server.get('/user/a', (req, res) => {
+  const user = {
+    buy: [
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: false,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+    ],
+    sell: [
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: false,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+      {
+        itemid: 22,
+        name: 'test',
+        price: 500,
+        seller: 'Felix Liao',
+        status: true,
+      },
+    ],
+  }
+  res.send(JSON.stringify(user))
 })
 
 server.use(function (err, req, res, next) {

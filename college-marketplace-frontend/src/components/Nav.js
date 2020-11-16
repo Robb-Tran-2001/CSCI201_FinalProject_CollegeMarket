@@ -40,7 +40,6 @@ const Nav = () => {
   }
   const handleClose = () => setShow(false)
   const IsAuthorized = useRecoilValue(isAuthorizedState)
-  const Username = useRecoilValue(usernameState)
 
   return (
     <>
@@ -69,7 +68,7 @@ const Nav = () => {
         </Col>
         <Col md={3} style={{ textAlign: 'right' }}>
           <Navbar.Text onClick={handleClickUser} style={{ cursor: 'pointer' }}>
-            {!IsAuthorized ? 'Log in' : Username}
+            {!IsAuthorized ? 'Log in' : sessionStorage.getItem('username')}
           </Navbar.Text>
         </Col>
       </Navbar>
