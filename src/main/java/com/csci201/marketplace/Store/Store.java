@@ -6,9 +6,10 @@ import java.util.concurrent.Executors;
 
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.model.UserThread;
+import com.csci201.marketplace.item.*;
 
 public class Store {
-    private static Map<User, Set<Item>> sellers = new HashMap();
+    private static Map<User, Set<Item>> sellers = new HashMap<User, Set<Item>>();
     private static Map<Item, Queue<User>> buyers = new HashMap();
     private static Set<Item> items = new HashSet();
     private static Queue<String> actions = new Queue<String>();

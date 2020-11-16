@@ -4,6 +4,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 import com.csci201.marketplace.Store.Store;
+import com.csci201.marketplace.item.*;
 
 public class UserThread extends Thread {
 	private Lock lock;
