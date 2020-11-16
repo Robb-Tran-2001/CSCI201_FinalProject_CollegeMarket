@@ -5,26 +5,25 @@ import { Catalog } from './Catalog'
 import { User } from './User'
 import { Sell } from './Sell'
 
-export const Router = () => {
-  const IsAuthorized = sessionStorage.getItem('username')
+export const Router = ({ username }) => {
   const location = useLocation()
   return (
     <Switch className="p-0">
-      {IsAuthorized && (
+      {username && (
         <Switch>
           <Route path="/user">
-            <User />
+            <User username={username} />
           </Route>
           <Route path="/create">
-            <Sell />
+            <Sell username={username} />
           </Route>
         </Switch>
       )}
       {location.state ? (
-        <Catalog searchitems={location.state} />
+        <Catalog username={username} searchitems={location.state} />
       ) : (
         <Route path="/" exact>
-          <Catalog />
+          <Catalog username={username} />
         </Route>
       )}
     </Switch>

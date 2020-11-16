@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Nav from './components/Nav'
 import './App.scss'
 import { BrowserRouter } from 'react-router-dom'
@@ -7,14 +7,21 @@ import { useToasts } from 'react-toast-notifications'
 import { WEBSOCKET_ADDRESS } from './Paths'
 function App() {
   const { addToast } = useToasts()
-  const username = sessionStorage.getItem('username')
+  const [username, setUsername] = useState(null)
   useEffect(() => {
-    if (username === null) {
+    const u = sessionStorage.getItem('username')
+    if (u === username) return
+    setUsername(u)
+  }, [])
+  const updateUsername = (n) => setUsername(n)
+
+  useEffect(() => {
+    if (!username) {
       return
     }
     console.info('Connecting to push')
     console.info(WEBSOCKET_ADDRESS)
-    const ws = new WebSocket(WEBSOCKET_ADDRESS)
+    const ws = new WebSocket(WEBSOCKET_ADDRESS + username)
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data)
       const msg = data.buyer + 'just bought' + data.item + '!'
@@ -26,8 +33,8 @@ function App() {
   }, [username])
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Nav />
-      <Router />
+      <Nav username={username} updateUser={updateUsername} />
+      <Router username={username} />
     </BrowserRouter>
   )
 }

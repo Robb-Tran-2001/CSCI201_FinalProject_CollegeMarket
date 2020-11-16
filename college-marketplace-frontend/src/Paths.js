@@ -22,8 +22,4 @@ export const BUY_ITEM_SERVICE_ADDRESS = prefix + '/buy'
 export const USER_APPROVE_PURCHASE_SERVICE_ADDRESS = prefix + '/user/approve'
 
 export const WEBSOCKET_ADDRESS =
-  'ws://' +
-  window.location.host +
-  process.env.PUBLIC_URL +
-  '/api/push/' +
-  sessionStorage.getItem('username')
+  'ws://' + window.location.host + process.env.PUBLIC_URL + '/api/push/'
