@@ -35,11 +35,11 @@ public class UserDemoDAO implements UserDAO {
     }
 
      //get by ID
-    public User get(int id)
+    public User get(String name)
     {
         for(User user : users)
-            if(user.getUserID() == id) return user;
-        String SQL = "SELECT * FROM Users WHERE User.user_id = " + id;
+            if(user.getName().matches(name)) return user;
+        String SQL = "SELECT * FROM Users WHERE User.name = " + name;
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }

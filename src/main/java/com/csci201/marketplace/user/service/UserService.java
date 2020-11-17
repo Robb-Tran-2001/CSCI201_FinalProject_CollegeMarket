@@ -10,8 +10,6 @@ import java.util.List;
 @Service
 public class UserService { //implements DAO, interacts with USER
 
-
-
     private final UserDAO userDAO;
 
     @Autowired
@@ -29,9 +27,9 @@ public class UserService { //implements DAO, interacts with USER
     }
 
     //get by ID
-    public User get(int id)
+    public User get(String name)
     {
-        return userDAO.get(id);
+        return userDAO.get(name);
     }
 
     //get by email and password, login functionality

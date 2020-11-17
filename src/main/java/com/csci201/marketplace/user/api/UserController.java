@@ -32,11 +32,11 @@ public class UserController { //interacts with user service
 		return service.listAll();
 	}
 
-	@GetMapping(path = "{user_id}")
+	@GetMapping(path = "{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathVariable("user_id") int id) //get another user's profile
+	public Response get(@PathVariable("name") String name) //get another user's profile
 	{
-		User user = service.get(id);
+		User user = service.get(name);
 		if (user == null)
 			return Response.status(Response.Status.NOT_FOUND).build();
 		else 
