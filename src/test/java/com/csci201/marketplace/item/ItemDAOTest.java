@@ -1,4 +1,4 @@
-package com.csci201.marketplace.pushnotif.test;
+package com.csci201.marketplace.item;
 
 import static org.junit.Assert.*;
 
@@ -19,10 +19,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.*;
+//import org.springframework.test.context.junit.jupiter.*;
 
-import com.csci201.marketplace.item.Item;
-import com.csci201.marketplace.item.ItemDAO;
+//import com.csci201.marketplace.item.Item;
+//import com.csci201.marketplace.item.ItemDAO;
 
 @RunWith(SpringRunner.class)
 //@ExtendWith(SpringExtension.class)

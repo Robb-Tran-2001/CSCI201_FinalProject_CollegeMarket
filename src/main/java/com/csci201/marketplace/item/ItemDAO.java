@@ -14,29 +14,37 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 
-@Repository("ItemDAO")
+@Repository
 public class ItemDAO {
 	
 	private static ItemMapper itemMapper;
 	private static ItemDAO instance;
 	private static List<Item> items = new ArrayList<Item>();
-	private static DataSource dataSource = null;
-	private static JdbcTemplate jdbcTemplate = null;
-	
-	static {
-		items.add(new Item(100, "PS5", "This is a PS5.", 2., "www.amazon.com/pic1 www.sony.com/pic2"));
-		items.add(new Item(100, "pencil", "Cool pencil.", 534.25, "www.pencils.com/pic1 www.writing.com/pic2"));
-	}
-	
+//	private DataSource dataSource;
 	@Autowired
-	public static void setDataSource(DataSource ds) {
-		dataSource = ds;
-		jdbcTemplate = new JdbcTemplate(ds);
-	}
+	private final JdbcTemplate jdbcTemplate;
 	
+//	static {
+//		items.add(new Item(100, "PS5", "This is a PS5.", 2., "www.amazon.com/pic1 www.sony.com/pic2"));
+//		items.add(new Item(100, "pencil", "Cool pencil.", 534.25, "www.pencils.com/pic1 www.writing.com/pic2"));
+//	}
+	
+//	@Autowired
+//	public void setDataSource(DataSource ds) {
+//		dataSource = ds;
+//		jdbcTemplate = new JdbcTemplate(ds);
+//		this.getAll();
+//	}
+	
+//	@Autowired
+//	public ItemDAO() {
+//		setDataSource(DataSource ds);
+//	}
+//	
 	public static ItemDAO getInstance() {
 		if (instance == null) {
 			return new ItemDAO();
