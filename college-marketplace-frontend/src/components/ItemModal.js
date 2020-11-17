@@ -6,19 +6,38 @@ import {
   Spinner,
   Carousel,
   Container,
-  Image,
   Button,
 } from 'react-bootstrap'
-import { useRecoilValue } from 'recoil'
-import { isAuthorizedState } from '../recoil/atoms'
 import { ITEM_DETAIL_SERVICE_ADDRESS } from '../Paths'
-export const ItemModal = ({ itemid, close }) => {
+import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
+
+export const ItemModal = ({ username, itemid, close }) => {
   const [loaded, setLoaded] = useState(false)
   const [item, setItem] = useState(null)
-  const IsAuthorized = useRecoilValue(isAuthorizedState)
   const [buyAttempted, setBuyAttempted] = useState(false)
-  const handleBuy = () => {
+  const handleBuy = (e) => {
+    e.stopPropagation()
     setBuyAttempted(true)
+    console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
+      itemid: item.itemid,
+      username: username,
+    })
+    fetch(BUY_ITEM_SERVICE_ADDRESS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        itemid: item.itemid,
+        username: username,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        alert('Successful. Waiting for seller approval now.')
+      } else {
+        alert('Item is not available.')
+      }
+    })
   }
   const carouselItems =
     item &&
@@ -35,12 +54,14 @@ export const ItemModal = ({ itemid, close }) => {
 
   useEffect(() => {
     if (itemid === -1) return
+    console.info('GET ' + ITEM_DETAIL_SERVICE_ADDRESS + itemid)
     fetch(ITEM_DETAIL_SERVICE_ADDRESS + itemid)
       .then((res) => res.json())
       .then(
         (res) => {
           setItem(res)
           setLoaded(true)
+          setBuyAttempted(res.buyerid !== '')
         },
         (err) => {
           alert('Loading failed', err)
@@ -81,8 +102,12 @@ export const ItemModal = ({ itemid, close }) => {
                 <p>
                   <b>{item.seller}</b>
                 </p>
-                {IsAuthorized ? (
-                  <Button className="buy-button" disabled={buyAttempted}>
+                {username ? (
+                  <Button
+                    className="buy-button"
+                    disabled={buyAttempted}
+                    onClick={handleBuy}
+                  >
                     {buyAttempted ? 'Pending' : 'Buy now'}
                   </Button>
                 ) : (

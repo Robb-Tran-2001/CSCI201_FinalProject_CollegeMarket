@@ -1,17 +1,34 @@
 import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
-import { useRecoilValue } from 'recoil'
-import { isAuthorizedState } from '../recoil/atoms'
-import { buyItem } from './UserActions'
+import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
 
-const ItemCard = ({ item, handleClick }) => {
+const ItemCard = ({ username, item, handleClick }) => {
   const [hover, setHover] = useState(false)
-  const IsAuthorized = useRecoilValue(isAuthorizedState)
   const [buyAttempted, setBuyAttempted] = useState(false)
   const handleBuy = (e) => {
     e.stopPropagation()
     setBuyAttempted(true)
+    console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
+      itemid: item.itemid,
+      username: username,
+    })
+    fetch(BUY_ITEM_SERVICE_ADDRESS, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        itemid: item.itemid,
+        username: username,
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+        alert('Successful. Waiting for seller approval now.')
+      } else {
+        alert('Item is not available.')
+      }
+    })
   }
   return (
     <Card
@@ -28,7 +45,7 @@ const ItemCard = ({ item, handleClick }) => {
       onMouseLeave={() => setHover(false)}
     >
       <div className="square" style={{ backgroundImage: `url(${item.pic})` }}>
-        {IsAuthorized ? (
+        {username ? (
           <div className="cardImageOverlay">
             {hover ? (
               <Button
@@ -43,7 +60,7 @@ const ItemCard = ({ item, handleClick }) => {
                 onClick={handleBuy}
                 disabled={buyAttempted}
               >
-                {buyAttempted ? 'Pending' : 'Buy'}
+                {buyAttempted ? 'Requested' : 'Buy'}
               </Button>
             ) : (
               ''

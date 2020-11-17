@@ -1,15 +1,9 @@
 import React, { useState } from 'react'
-import { Form, Button, Row, Modal } from 'react-bootstrap'
+import { Form, Button, Modal } from 'react-bootstrap'
 import { SHA256 } from 'crypto-js'
-import { useSetRecoilState } from 'recoil'
-import { isAuthorizedState, jwtState, usernameState } from '../recoil/atoms'
 import { LOGIN_SERVICE_ADDRESS, SIGNUP_SERVICE_ADDRESS } from '../Paths'
 
-export const Login = ({ show, handleClose }) => {
-  const setUsername = useSetRecoilState(usernameState)
-  const setAuthorized = useSetRecoilState(isAuthorizedState)
-  //   const setToken = useSetRecoilState(jwtState)
-
+export const Login = ({ show, handleClose, updateUser }) => {
   const [login, setLogin] = useState(true)
   const [form, setForm] = useState({})
   const [formLoading, setFormLoading] = useState(false)
@@ -22,33 +16,31 @@ export const Login = ({ show, handleClose }) => {
     event.stopPropagation()
     if (event.currentTarget.checkValidity() === true) {
       setFormLoading(true)
-      const body = { email: form.email }
-      const hashed = SHA256(form.email + ':' + form.password).toString()
+      const body = { username: form.username }
+      const hashed = SHA256(form.username + ':' + form.password).toString()
       body.hash = hashed
-      if (!login) {
-        body.name = form.name
-      }
+      console.info(
+        'POST',
+        login ? LOGIN_SERVICE_ADDRESS : SIGNUP_SERVICE_ADDRESS,
+        body
+      )
       fetch(login ? LOGIN_SERVICE_ADDRESS : SIGNUP_SERVICE_ADDRESS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          sessionStorage.setItem('username', res.name)
-          setUsername(res.name)
-          sessionStorage.setItem('token', res.token)
-          //   setToken(res.token)
-          setAuthorized(true)
+      }).then((res) => {
+        if (res.status === 200) {
+          updateUser(form.username)
+          sessionStorage.setItem('username', form.username)
           setFormLoading(false)
           handleClose()
-        })
-        .catch((err) => {
+        } else {
           alert('Invalid email/password!')
           setFormLoading(false)
-        })
+        }
+      })
     }
   }
   return (
@@ -57,26 +49,14 @@ export const Login = ({ show, handleClose }) => {
       <Modal.Body>
         <Form onChange={handleInput} onSubmit={handleSubmit}>
           <Form.Group controlId="email">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Username</Form.Label>
             <Form.Control
               required
-              name="email"
-              type="email"
-              placeholder="Enter email"
+              name="username"
+              type="text"
+              placeholder="Username"
             />
-            <Form.Control.Feedback type="invalid">
-              Please enter a valid email
-            </Form.Control.Feedback>
           </Form.Group>
-          {login ? (
-            ''
-          ) : (
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control name="name" type="text" placeholder="Name" />
-            </Form.Group>
-          )}
-
           <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control

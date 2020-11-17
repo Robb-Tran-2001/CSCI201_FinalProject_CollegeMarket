@@ -2,8 +2,9 @@ package com.csci201.marketplace.user.model;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
-import com.csci201.marketplace.Store.Store;
+import com.csci201.marketplace.Store.*;
 import com.csci201.marketplace.item.*;
 
 public class UserThread extends Thread {
@@ -34,7 +35,7 @@ public class UserThread extends Thread {
 	//wanting to buy something
 	public void buyRequest() {
 		//update item sql entry
-		Store.getBuyers().get(item).add(user);
+		Store.getBuyers().get(item).add(buyer);
 	}
 
 	//when successfully sold something

@@ -2,15 +2,13 @@ import React, { useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
 import { useHistory } from 'react-router'
 import { CREATE_ITEM_SERVICE_ADDRESS } from '../Paths'
-export const Sell = () => {
+export const Sell = ({ username }) => {
   const [form, setForm] = useState({})
   const [formLoading, setFormLoading] = useState(false)
   const history = useHistory()
   //   const handlePictures = ()
   const handleInput = (event) => {
-    console.log(event.target.name)
     if (event.target.name === 'picture') {
-      console.log(event.target.files)
       setForm({ ...form, pictures: event.target.files })
     } else {
       setForm({ ...form, [event.target.name]: event.target.value })
@@ -20,7 +18,6 @@ export const Sell = () => {
     const allowedExtensions = /[a-zA-Z0-9]+\.(jpg|png|jpeg)$/i
     console.log(form.pictures)
     for (let i = 0; i < form.pictures.length; i++) {
-      console.log(form.pictures[i].name)
       if (!allowedExtensions.test(form.pictures[i].name)) {
         alert('Please upload valid pictures!')
         return false
@@ -34,8 +31,15 @@ export const Sell = () => {
     if (event.currentTarget.checkValidity() && validateFile()) {
       setFormLoading(true)
       const data = new FormData(event.target)
+      console.info('POST', CREATE_ITEM_SERVICE_ADDRESS)
+      for (var pair of data.entries()) {
+        console.log(pair[0] + ' - ' + pair[1])
+      }
       fetch(CREATE_ITEM_SERVICE_ADDRESS, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/formdata',
+        },
         body: data,
       }).then((res) => {
         if (res.status === 200) {
@@ -43,6 +47,7 @@ export const Sell = () => {
         } else {
           alert('An error has occured.')
         }
+        setFormLoading(false)
       })
     }
   }
@@ -66,12 +71,10 @@ export const Sell = () => {
           <Form.Label>Description</Form.Label>
           <Form.Control as="textarea" rows={5} name="description" required />
         </Form.Group>
-        <input
-          type="hidden"
-          name="token"
-          value={sessionStorage.getItem('token')}
-        />
-        <Button type="submit">Submit</Button>
+        <input type="hidden" name="username" value={username} />
+        <Button type="submit" disabled={formLoading}>
+          Submit
+        </Button>
       </Form>
     </Container>
   )

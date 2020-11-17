@@ -1,39 +1,40 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Nav from './components/Nav'
 import './App.scss'
-import { useRecoilState, useSetRecoilState } from 'recoil'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './components/Router'
 import { useToasts } from 'react-toast-notifications'
-import { isAuthorizedState, usernameState } from './recoil/atoms'
+import { WEBSOCKET_ADDRESS } from './Paths'
 function App() {
-  const setAuthorized = useSetRecoilState(isAuthorizedState)
-  const [Username, setUsername] = useRecoilState(usernameState)
   const { addToast } = useToasts()
-
-  if (sessionStorage.getItem('token')) {
-    setAuthorized(true)
-    setUsername(sessionStorage.getItem('username'))
-  }
+  const [username, setUsername] = useState(null)
   useEffect(() => {
-    console.log(process.env.NODE_ENV)
-    if (Username === '') {
+    const u = sessionStorage.getItem('username')
+    if (u === username) return
+    setUsername(u)
+  }, [])
+  const updateUsername = (n) => setUsername(n)
+
+  useEffect(() => {
+    if (!username) {
       return
     }
-    const ws = new WebSocket(
-      'ws://localhost:8080/push_notification_v1/push/' + Username
-    )
+    console.info('Connecting to push')
+    console.info(WEBSOCKET_ADDRESS)
+    const ws = new WebSocket(WEBSOCKET_ADDRESS + username)
     ws.onmessage = (event) => {
-      addToast(JSON.parse(event.data.msg), { appearance: 'info' })
+      const data = JSON.parse(event.data)
+      const msg = data.buyer + 'just bought' + data.item + '!'
+      addToast(msg, { appearance: 'info' })
     }
     return () => {
       ws.close()
     }
-  }, [Username])
+  }, [username, addToast])
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Nav />
-      <Router />
+      <Nav username={username} updateUser={updateUsername} />
+      <Router username={username} />
     </BrowserRouter>
   )
 }

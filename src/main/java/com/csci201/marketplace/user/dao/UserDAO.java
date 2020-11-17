@@ -7,7 +7,7 @@ import java.util.List;
 public interface UserDAO {
 	public List<User> selectAll();
 	public void returnAll();
-	public User get(int id);
+	public User get(String name);
 	public User get(String email, String password); //for login
 	public int getID(String username);
 	public boolean delete(int id);
