@@ -1,8 +1,11 @@
 package com.csci201.marketplace.Store;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.websocket.EncodeException;
 
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.model.UserThread;
@@ -13,17 +16,14 @@ public class Store {
     private static Map<Item, Queue<User>> buyers = new HashMap<Item, Queue<User>>();
     private static Set<Item> items = new HashSet<Item>();
     private static Queue<String> actions = new LinkedList<String>();
+    private static HashSet<User> users = new HashSet<User>();
     
-    private static List<User> allUser = new ArrayList<User>();
-    
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, EncodeException {
     	/*
-    	check if a user is created -> add buyer or seller
     	check if user wants to sell item -> add to items, add to seller's items
     	check if user (buyer) wants to buy item
     	check if user (seller) wants to approve sale
     	*/
-		ItemDAO dao = ItemDAO.getInstance();
 		
     	ExecutorService executor = Executors.newCachedThreadPool();
     	while(true) {
@@ -52,9 +52,6 @@ public class Store {
     			else if (currentAction.contains("approve")) {
     				executor.execute(new UserThread("approve", getItemFromName(itemName), getUserFromId(getItemFromName(itemName).getBuyerId()), getUserFromId(getItemFromName(itemName).getSellerId())));
     			}
-    			else if (currentAction.contains("adduser")){
-    				allUser.add(getUserFromId(Integer.parseInt(itemName)));
-    			}
     		}
     	}
     	/*
@@ -73,6 +70,14 @@ public class Store {
         return buyers;
     }
     
+    public static Set<Item> getItems() {
+        return items;
+    }
+    
+    public static Set<User> getUsers() {
+        return users;
+    }
+    
     public static Item getItemFromName(String name) {
         for(Item i: items) {
         	if (i.getName().equals(name)) {
@@ -88,7 +93,7 @@ public class Store {
     }
     
     public static User getUserFromId(int id) {
-        for (User u: allUser) {
+        for (User u: users) {
         	if (u.getUserID() == id) {
         		return u;
         	}
