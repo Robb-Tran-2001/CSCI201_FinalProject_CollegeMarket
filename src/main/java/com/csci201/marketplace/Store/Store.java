@@ -10,11 +10,11 @@ import com.csci201.marketplace.item.*;
 
 public class Store {
     private static Map<User, Set<Item>> sellers = new HashMap<User, Set<Item>>();
-    private static Map<Item, Queue<User>> buyers = new HashMap();
-    private static Set<Item> items = new HashSet();
-    private static Queue<String> actions = new Queue<String>();
+    private static Map<Item, Queue<User>> buyers = new HashMap<Item, Queue<User>>();
+    private static Set<Item> items = new HashSet<Item>();
+    private static Queue<String> actions = new LinkedList<String>();
     
-    private List<User> allUser = new ArrayList<>();
+    private static List<User> allUser = new ArrayList<User>();
     
     public static void main(String[] args) {
     	/*
@@ -57,11 +57,12 @@ public class Store {
     			}
     		}
     	}
-    	
+    	/*
     	executor.shutdown();
     	while(!executor.isTerminated()) {
 			Thread.yield();
 		}
+		*/
     }
 
     public static Map<User, Set<Item>> getSellers() {
@@ -92,6 +93,7 @@ public class Store {
         		return u;
         	}
         }
+        return null;
     }
     
 }
