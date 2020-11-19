@@ -1,8 +1,11 @@
 package com.csci201.marketplace.Store;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.websocket.EncodeException;
 
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.model.UserThread;
@@ -12,20 +15,21 @@ import com.csci201.marketplace.item.model.Item;
 
 public class Store {
     private static Map<User, Set<Item>> sellers = new HashMap<User, Set<Item>>();
-    private static Map<Item, Queue<User>> buyers = new HashMap();
-    private static Set<Item> items = new HashSet();
-    private static Queue<String> actions = new Queue<String>();
+    private static Map<Item, Queue<User>> buyers = new HashMap<Item, Queue<User>>();
+    private static Set<Item> items = new HashSet<Item>();
+    private static Queue<String> actions = new LinkedList<String>();
+    private static HashSet<User> users = new HashSet<User>();
     
-    private List<User> allUser = new ArrayList<>();
-    
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, EncodeException {
     	/*
-    	check if a user is created -> add buyer or seller
     	check if user wants to sell item -> add to items, add to seller's items
     	check if user (buyer) wants to buy item
     	check if user (seller) wants to approve sale
     	*/
+<<<<<<< HEAD
 		ItemDAOImpl dao = ItemDAOImpl.getInstance();
+=======
+>>>>>>> main
 		
     	ExecutorService executor = Executors.newCachedThreadPool();
     	while(true) {
@@ -54,16 +58,14 @@ public class Store {
     			else if (currentAction.contains("approve")) {
     				executor.execute(new UserThread("approve", getItemFromName(itemName), getUserFromId(getItemFromName(itemName).getBuyerId()), getUserFromId(getItemFromName(itemName).getSellerId())));
     			}
-    			else if (currentAction.contains("adduser")){
-    				allUser.add(getUserFromId(Integer.parseInt(itemName)));
-    			}
     		}
     	}
-    	
+    	/*
     	executor.shutdown();
     	while(!executor.isTerminated()) {
 			Thread.yield();
 		}
+		*/
     }
 
     public static Map<User, Set<Item>> getSellers() {
@@ -72,6 +74,14 @@ public class Store {
 
     public static Map<Item, Queue<User>> getBuyers() {
         return buyers;
+    }
+    
+    public static Set<Item> getItems() {
+        return items;
+    }
+    
+    public static Set<User> getUsers() {
+        return users;
     }
     
     public static Item getItemFromName(String name) {
@@ -89,11 +99,12 @@ public class Store {
     }
     
     public static User getUserFromId(int id) {
-        for (User u: allUser) {
+        for (User u: users) {
         	if (u.getUserID() == id) {
         		return u;
         	}
         }
+        return null;
     }
     
 }

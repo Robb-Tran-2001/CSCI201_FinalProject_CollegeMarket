@@ -54,6 +54,7 @@ public class UserThread extends Thread {
 
 
 	public void run() {
+		ItemDAO dao = ItemDAO.getInstance();
 		
 		try {
 			if (action.equals("sell")) {
@@ -76,7 +77,14 @@ public class UserThread extends Thread {
 			else if (action.equals("approve")) {
 				acceptBid();
 				System.out.println("Seller has approved the sale of" + this.item.getName() + " to " + this.buyer.getName() + ".");
-				acceptSale.signal();
+				synchronized(this) {
+					acceptSale.signal();
+					//alert losers
+					for (User u: Store.getBuyers().get(item)) {
+						dao.send_sold_msg(item, u.getName());
+					}
+				}
+				
 			}
 			else
 				throw new Exception();
