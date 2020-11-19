@@ -43,9 +43,9 @@ public class UserController { //interacts with user service
 			return Response.ok(user, MediaType.APPLICATION_JSON).build();
 	}
 
-	@GetMapping(path = "login/{user_id}")
+	@GetMapping(path = "{name}/login/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@PathVariable("login") String email, String password) //log in to your profile
+	public Response login(@PathVariable("name") String email, String password) //log in to your profile
 	{
 		User user = service.get(email, password);
 		if (user == null)
@@ -58,14 +58,13 @@ public class UserController { //interacts with user service
 	
 	@PostMapping(path = "signup")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response signup(@RequestBody @PathVariable("signup") User user) throws URISyntaxException {
+	public Response signup(@RequestBody User user) throws URISyntaxException {
 		int userID = service.add(user);
 		if(userID == 0) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 		URI uri = new URI("/users/" + userID);
 		return Response.created(uri).build();
 	}
-	
-	@PutMapping
+
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response put(User user) throws URISyntaxException {
 		int row = service.update(user);
@@ -74,8 +73,8 @@ public class UserController { //interacts with user service
 		return Response.notModified().build();
 	}
 	
-	@DeleteMapping(path = "{user_id}/deleted")
-	public Response delete(@PathVariable("user_id") int id) {
+	@DeleteMapping(path = "deleted")
+	public Response delete(int id) {
 		boolean bool = service.delete(id);
 		if (bool) {
 			return Response.ok().build();
