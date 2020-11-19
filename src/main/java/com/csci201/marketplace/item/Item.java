@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.csci201.marketplace.Store.Store;
+
 public class Item {
 
 	private int itemId;
@@ -23,6 +25,7 @@ public class Item {
 		this.name = name;
 		this.price = (float)price;
 		this.itemId = itemid;
+		Store.getItems().add(this);
 	}
 
 	public Item(int sellerId, String name, String description, double price, String images) {
@@ -32,6 +35,7 @@ public class Item {
 		this.description = description;
 		this.price = (float)price;
 		this.pictures = images;
+		Store.getItems().add(this);
 	}
 
 	public Item(int itemId, int sellerId, int buyerId, String name, String description, double price, String images) {
@@ -42,6 +46,7 @@ public class Item {
 		this.description = description;
 		this.price = (float)price;
 		this.pictures = images;
+		Store.getItems().add(this);
 	}
 
 	public int getItemId() {

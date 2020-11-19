@@ -1,5 +1,6 @@
 package com.csci201.marketplace.user.model;
 
+import com.csci201.marketplace.Store.Store;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Set;
@@ -26,6 +27,7 @@ public class User { //User interacts with mapper
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		Store.getUsers().add(this);
 	}
 
 	public int getUserID() {
