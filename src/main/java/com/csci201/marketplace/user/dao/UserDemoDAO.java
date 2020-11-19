@@ -8,7 +8,6 @@ import javax.sql.DataSource;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import static com.csci201.marketplace.user.model.User.encoder;
 
 @Repository("demoDAO")
 public class UserDemoDAO implements UserDAO {
@@ -47,8 +46,8 @@ public class UserDemoDAO implements UserDAO {
     @Override //get by email and password, login functionality
     public User get(String email, String password) {
         for(User user : users)
-            if(email.matches(user.getEmail()) && encoder.matches(password, user.getPassword())) return user;
-        String SQL = "SELECT * FROM Users WHERE email = " + email + "User.password=" + encoder.encode(password);
+            if(email.matches(user.getEmail()) && password.matches(user.getPassword())) return user;
+        String SQL = "SELECT * FROM Users WHERE email = " + email + "User.password=" + password;
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }
