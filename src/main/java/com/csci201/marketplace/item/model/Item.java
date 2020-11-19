@@ -1,4 +1,4 @@
-package com.csci201.marketplace.item;
+package com.csci201.marketplace.item.model;
 
 
 import java.util.HashMap;
@@ -19,14 +19,14 @@ public class Item {
 	
 	public Item(int sellerId, String name, double price) {
 		this.sellerId = sellerId;
-		this.buyerId = -1;
+		this.buyerId = 0;
 		this.name = name;
 		this.price = (float)price;
 	}
 
 	public Item(int sellerId, String name, String description, double price, String images) {
 		this.sellerId = sellerId;
-		this.buyerId = -1;
+		this.buyerId = 0;
 		this.name = name;
 		this.description = description;
 		this.price = (float)price;
@@ -36,7 +36,7 @@ public class Item {
 	public Item(int itemId, int sellerId, String name, double price) {
 		this.itemId = itemId;
 		this.sellerId = sellerId;
-		this.buyerId = -1;
+		this.buyerId = 0;
 		this.name = name;
 		this.price = (float)price;
 	}
@@ -129,7 +129,7 @@ public class Item {
 //	}
 
 	public boolean isSold() {
-		return buyerId != -1;
+		return buyerId != 0;
 	}
 	
 //	public Map<String, Object> getAdditionalProperties() {

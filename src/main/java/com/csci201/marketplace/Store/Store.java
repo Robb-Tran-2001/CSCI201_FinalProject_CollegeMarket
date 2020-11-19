@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.model.UserThread;
 import com.csci201.marketplace.item.*;
+import com.csci201.marketplace.item.dao.ItemDAOImpl;
+import com.csci201.marketplace.item.model.Item;
 
 public class Store {
     private static Map<User, Set<Item>> sellers = new HashMap<User, Set<Item>>();
@@ -23,7 +25,7 @@ public class Store {
     	check if user (buyer) wants to buy item
     	check if user (seller) wants to approve sale
     	*/
-		ItemDAO dao = ItemDAO.getInstance();
+		ItemDAOImpl dao = ItemDAOImpl.getInstance();
 		
     	ExecutorService executor = Executors.newCachedThreadPool();
     	while(true) {

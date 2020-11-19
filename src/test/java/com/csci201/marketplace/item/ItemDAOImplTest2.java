@@ -7,30 +7,75 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.sql.DataSource;
 import javax.websocket.EncodeException;
 
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.csci201.marketplace.item.dao.ItemDAOImpl;
+import com.csci201.marketplace.item.model.Item;
+
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import javax.sql.DataSource;
 //import org.springframework.test.context.junit.jupiter.*;
 
 //import com.csci201.marketplace.item.Item;
 //import com.csci201.marketplace.item.ItemDAO;
 
+//com.csci201.marketplace.user.service.UserService.class,
+//com.csci201.marketplace.user.dao.UserDAO.class,
+//com.csci201.marketplace.user.dao.UserDemoDAO.class,
+
+
 @RunWith(SpringRunner.class)
+//@ContextConfiguration("classpath:application.properties")
+//@TestPropertySource("classpath:application.properties")
 //@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(classes={com.csci201.marketplace.item.dao.ItemDAOImpl.class,
+					     com.csci201.marketplace.item.service.ItemService.class,
+					     })
+//@PropertySource(value = "classpath:application.properties") 
+//@ContextConfiguration(classes={com.csci201.marketplace.item.ItemService.class,
+//							   com.csci201.marketplace.item.ItemDAO.class,
+//							   com.csci201.marketplace.item.ItemDAOImpl.class,
+//							   com.csci201.marketplace.user.service.UserService.class,
+//		 					   com.csci201.marketplace.user.dao.UserDAO.class,
+//		 					   com.csci201.marketplace.user.dao.UserDemoDAO.class},
+//					  properties={"spring.config.name=myapp"})
 //@JdbcTest
 //@Sql({"../resources/data-mysql.sql", "../resources/schema-mysql.sql"})
-public class ItemDAOTest {
-	ItemDAO dao = ItemDAO.getInstance();
+public class ItemDAOImplTest2 {
+	@Autowired 
+	private ItemDAOImpl itemDao;
+	
+//	@Autowired
+//    private Environment env;
+//	
+//	@ConfigurationProperties(prefix = "spring.datasource")
+//	@Bean
+//	@Primary
+//	public DataSource dataSource() {
+//	    return DataSourceBuilder
+//	        .create()
+//	        .build();
+//	}
+	
 	private Item xbox = new Item(0, "XBOX", "This is a XBOX", 7., "www.ebay.com/pic1 www.microsoft.com/pic2");
 	private int xboxId;
 	private Item ps5 = new Item(0, "PS5", "This is a PS5", 12., "www.ebay.com/pic2 www.microsoft.com/pic3");
@@ -39,35 +84,48 @@ public class ItemDAOTest {
 
 
 //	private static DataSource ds = 
-	private DataSource dataSource = null;
-	private JdbcTemplate jdbcTemplate = null;
+//	private DataSource dataSource = null;
+//	@Autowired
+//	private static JdbcTemplate jdbcTemplate;
 
-	@Autowired
-	public void setDataSource(DataSource ds) {
-		dataSource = ds;
-		jdbcTemplate = new JdbcTemplate(ds);
-	}
+//	@Autowired
+//	public void setDataSource(DataSource ds) {
+//		dataSource = ds;
+//		jdbcTemplate = new JdbcTemplate(ds);
+//	}
+	
+//	private DataSource dataSource;
+//	private JdbcTemplate jdbcTemplate;
+//
+//	@Autowired
+//	public void setDataSource(DataSource ds) {
+//		dataSource = ds;
+//		jdbcTemplate = new JdbcTemplate(ds);
+//	}
 
 	
 	@Test
 	public void test_get_null() {
 		//System.out.println(dao.get("500"));
-		assertEquals("No items exist with id 500, so get() should return null", null, dao.get(500));
+		assertEquals("No items exist with id 500, so get() should return null", null, itemDao.get(500));
 	}
 	
 	@Test
 	public void test_add() {
-		String sql = "SELECT COUNT(*) FROM Items";
-		int rc0 = jdbcTemplate.queryForObject(sql, Integer.class);
+//		String sql = "SELECT COUNT(*) FROM Items";
+//		int rc0 = jdbcTemplate.queryForObject(sql, Integer.class);
+		int rc0 = itemDao.listAll().size();
 		
 		// Test XBOX add 
-		xboxId = dao.add(xbox);
-		int rc1 = jdbcTemplate.queryForObject(sql, Integer.class);
+		xboxId = itemDao.add(xbox);
+//		int rc1 = jdbcTemplate.queryForObject(sql, Integer.class);
+		int rc1 = itemDao.listAll().size();
 		assertEquals("After adding an item, rowCount of Item table should increase by 1", rc0 + 1, rc1);
 		
 		// Test PS5 add
-		ps5Id = dao.add(ps5);
-		int rc2 = jdbcTemplate.queryForObject(sql, Integer.class);
+		ps5Id = itemDao.add(ps5);
+//		int rc2 = jdbcTemplate.queryForObject(sql, Integer.class);
+		int rc2 = itemDao.listAll().size();
 		assertEquals("After adding another item, rowCount of Item table should increase by 2", rc0 + 2, rc2);
 		
 		// Update member Item ID's
@@ -79,8 +137,8 @@ public class ItemDAOTest {
 	@Test 
 	public void test_get_valid() {
 		assertEquals("Item [xbox] with id " + xboxId + " exists, so get(" + xboxId + ") must return the item with id " + xboxId, 
-						xbox.getItemId(), dao.get(xboxId).getItemId()); 
-		assertEquals("Item [xbox] returns the correct item: T/F", true, item_isEqual(xbox, dao.get(xboxId)));
+						xbox.getItemId(), itemDao.get(xboxId).getItemId()); 
+		assertEquals("Item [xbox] returns the correct item: T/F", true, item_isEqual(xbox, itemDao.get(xboxId)));
 	}
 	
 	@Test
@@ -93,11 +151,14 @@ public class ItemDAOTest {
 //					+ "Either get() or add() is wrong", add1Id, dao.get(add1Id).getItemId());
 		
 		String sql = "SELECT COUNT(*) FROM Items";
-		int rc0 = jdbcTemplate.queryForObject(sql, Integer.class);
+//		int rc0 = jdbcTemplate.queryForObject(sql, Integer.class);
+		int rc0 = itemDao.listAll().size();
+
 		
-		dao.delete(xboxId);
-		int rc1 = jdbcTemplate.queryForObject(sql, Integer.class);
-		assertEquals("After deletion of item [XBOX], get() should return null", null, dao.get(xboxId));
+		itemDao.delete(xboxId);
+//		int rc1 = jdbcTemplate.queryForObject(sql, Integer.class);
+		int rc1 = itemDao.listAll().size();
+		assertEquals("After deletion of item [XBOX], get() should return null", null, itemDao.get(xboxId));
 		assertEquals("After deletion of item [XBOX], DB rowCount should decrease by 1", rc0, rc1 - 1);
 	}
 	
@@ -105,10 +166,10 @@ public class ItemDAOTest {
 	public void test_update() throws IOException, EncodeException {
 		
 		assertEquals("Since item with ID 3002 doesn't exist, should return false", 
-						false, dao.update(new Item(3002, 14, "Non-existent item", 1.99)));
+						false, itemDao.update(new Item(3002, 14, "Non-existent item", 1.99)));
 		
-		assertEquals("Since item [xboxUpdated] does exist, should return true", true, dao.update(xboxUpdated));
-		assertEquals("Item [xboxUpdated] update should change DB xbox to match xboxUpdated", true, item_isEqual(xboxUpdated, dao.get(xboxId)));
+		assertEquals("Since item [xboxUpdated] does exist, should return true", true, itemDao.update(xboxUpdated));
+		assertEquals("Item [xboxUpdated] update should change DB xbox to match xboxUpdated", true, item_isEqual(xboxUpdated, itemDao.get(xboxId)));
 
 //		Item item = dao.get("302");
 //		assertEquals("Since item with 302 exists, should return true", true, dao.update(item));
@@ -122,7 +183,7 @@ public class ItemDAOTest {
 		compare_list.add(xboxUpdated);
 		compare_list.add(ps5);
 		
-		List<Item> list = dao.listAll();
+		List<Item> list = itemDao.listAll();
 		
 		for (int i = 0; i < list.size(); i++) {
 			assertEquals("Items returned by listAll() match", true, item_isEqual(compare_list.get(i), list.get(i)));

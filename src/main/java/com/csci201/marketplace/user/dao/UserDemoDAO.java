@@ -3,6 +3,7 @@ package com.csci201.marketplace.user.dao;
 import com.csci201.marketplace.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Types;
@@ -11,18 +12,27 @@ import java.util.List;
 import static com.csci201.marketplace.user.model.User.encoder;
 
 @Repository("demoDAO")
-public class UserDemoDAO implements UserDAO {
-    private static List<User> users = new ArrayList<User>();
-    private static JdbcTemplate jdbcTemplateObject = null;
+public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
+    private List<User> users = new ArrayList<User>();
+    @Autowired
+    private JdbcTemplate jdbcTemplateObject;
+//    private static JdbcTemplate jdbcTemplateObject = null;
 
-    private static DataSource dataSource = null;
+//    private static DataSource dataSource = null;
+//
+//    @Autowired
+//    public void setDataSource(DataSource ds) {
+//        dataSource = ds;
+//        jdbcTemplateObject = new JdbcTemplate(ds);
+//    }
 
     @Autowired
-    public void setDataSource(DataSource ds) {
-        dataSource = ds;
-        jdbcTemplateObject = new JdbcTemplate(ds);
-    }
-
+	public UserDemoDAO(DataSource ds) {
+		setDataSource(ds);
+		this.jdbcTemplateObject = getJdbcTemplate();
+		this.returnAll();
+	}
+    
     @Override
     public List<User> selectAll() {
         return new ArrayList<User>(users);

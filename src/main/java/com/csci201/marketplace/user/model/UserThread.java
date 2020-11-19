@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.csci201.marketplace.Store.*;
 import com.csci201.marketplace.item.*;
+import com.csci201.marketplace.item.model.Item;
 
 public class UserThread extends Thread {
 	private Lock lock;
