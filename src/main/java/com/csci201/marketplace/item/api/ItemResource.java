@@ -1,4 +1,4 @@
-package com.csci201.marketplace.item;
+package com.csci201.marketplace.item.api;
 
 
 import java.io.IOException;
@@ -21,34 +21,45 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
+import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.service.ItemService;
 import com.csci201.marketplace.pushnotif.model.Message;
 import com.csci201.marketplace.pushnotif.websocket.PushEndpoint;
+import com.csci201.marketplace.user.api.*;
+import com.csci201.marketplace.user.dao.*;
+import com.csci201.marketplace.user.model.*;
+import com.csci201.marketplace.user.service.UserService;
+import com.csci201.marketplace.user.util.*;
 
+@Repository
 @Path("/items")
 public class ItemResource {
 	
 //	private ItemDAO dao = ItemDAO.getInstance();
 	
-	private ItemDAO dao;
+	private ItemService iservice;
+	private UserService uservice;
 	
 	@Autowired
-	public ItemResource(@Qualifier("ItemDAO")ItemDAO idao) {
-		this.dao = idao.getInstance();
+	public ItemResource(ItemService is, UserService us) {
+		this.iservice = is;
+		this.uservice = us;
 	}
 	
 	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Item> list() {
-        return dao.listAll();
+        return iservice.listAll();
     }
 	
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("id") String id) {
-		Item item = dao.get(Integer.parseInt(id));
+		Item item = iservice.get(Integer.parseInt(id));
 		
 		if (item == null) {
 			return Response.status(Response.Status.NOT_FOUND).build();
@@ -61,7 +72,7 @@ public class ItemResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(Item item) throws URISyntaxException {
-		String itemID = Integer.toString(dao.add(item));
+		String itemID = Integer.toString(iservice.add(item));
 		URI uri = new URI("/items/" + itemID);
 		return Response.created(uri).build();
 	}
@@ -70,7 +81,7 @@ public class ItemResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response put(Item item) throws URISyntaxException, IOException, EncodeException {
-		boolean bool = dao.update(item);
+		boolean bool = iservice.update(item);
 		
 		if (bool) {
 			return Response.ok().build();
@@ -87,7 +98,7 @@ public class ItemResource {
 		
 		//String id = "100";
 		
-		Item item = dao.get(Integer.parseInt(id));
+		Item item = iservice.get(Integer.parseInt(id));
 		
 		if (item.isSold()) {
 			// broadcast and return here
@@ -98,9 +109,9 @@ public class ItemResource {
 		}
 		
 		// NEED TO PASS IN BUYER ID 
-		item.setBuyerId(         );
-		dao.update(item);
-		boolean bool = dao.update_sell(item, username);
+		item.setBuyerId(uservice.getID(username));
+		iservice.update(item);
+		boolean bool = iservice.update_sell(item, username);
 		
 		//dao.send_sold_msg(item);
 		
@@ -114,7 +125,7 @@ public class ItemResource {
 	@DELETE
 	@Path("{id}")
 	public Response delete(@PathParam("id") int id) {
-		boolean bool = dao.delete(id);
+		boolean bool = iservice.delete(id);
 		
 		if (bool) {
 			return Response.ok().build();

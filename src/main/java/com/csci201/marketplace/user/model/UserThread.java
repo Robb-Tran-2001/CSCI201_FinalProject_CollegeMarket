@@ -4,8 +4,15 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.sql.DataSource;
+
+import org.springframework.boot.jdbc.DataSourceBuilder;
+
 import com.csci201.marketplace.Store.*;
 import com.csci201.marketplace.item.*;
+import com.csci201.marketplace.item.dao.ItemDAOImpl;
+import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.service.ItemService;
 
 public class UserThread extends Thread {
 	private Lock lock;
@@ -53,8 +60,21 @@ public class UserThread extends Thread {
 
 
 	public void run() {
-		ItemDAO dao = ItemDAO.getInstance();
+		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+		dataSourceBuilder.url("jdbc:mysql://localhost:3306/marketplace?createDatabaseIfNotExist=true");
+		dataSourceBuilder.username("root");
+		dataSourceBuilder.password("root");
+		DataSource ds = dataSourceBuilder.build();
+		ItemService itemservice = new ItemService(new ItemDAOImpl(ds));
+		/*
+		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+		dataSourceBuilder.url("jdbc:mysql://localhost:3306/marketplace?createDatabaseIfNotExist=true");
+		dataSourceBuilder.username("marketplace");
+		dataSourceBuilder.password("marketplace");
+		DataSource ds = dataSourceBuilder.build();
 		
+		create user:marketplace pw:marketplace profile in MySQL with DBA permissions 
+		*/
 		try {
 			if (action.equals("sell")) {
 				sell();
@@ -80,7 +100,7 @@ public class UserThread extends Thread {
 					acceptSale.signal();
 					//alert losers
 					for (User u: Store.getBuyers().get(item)) {
-						dao.send_sold_msg(item, u.getName());
+						itemservice.send_sold_msg(item, u.getName());
 					}
 				}
 				

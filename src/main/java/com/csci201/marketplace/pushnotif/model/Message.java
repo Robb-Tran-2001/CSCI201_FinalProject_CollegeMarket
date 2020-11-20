@@ -1,6 +1,7 @@
 package com.csci201.marketplace.pushnotif.model;
 
 import com.csci201.marketplace.item.*;
+import com.csci201.marketplace.item.model.Item;
 
 public class Message {
     private String from;

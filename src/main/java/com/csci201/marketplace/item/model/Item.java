@@ -1,4 +1,4 @@
-package com.csci201.marketplace.item;
+package com.csci201.marketplace.item.model;
 
 
 import java.util.HashMap;
@@ -19,23 +19,28 @@ public class Item {
 	
 	public Item() {}
 	
-	public Item(int sellerId, String name, double price, int itemid) {
+	public Item(int sellerId, String name, double price) {
 		this.sellerId = sellerId;
-		this.buyerId = -1;
+		this.buyerId = 0;
 		this.name = name;
 		this.price = (float)price;
-		this.itemId = itemid;
-		Store.getItems().add(this);
 	}
 
 	public Item(int sellerId, String name, String description, double price, String images) {
 		this.sellerId = sellerId;
-		this.buyerId = -1;
+		this.buyerId = 0;
 		this.name = name;
 		this.description = description;
 		this.price = (float)price;
 		this.pictures = images;
-		Store.getItems().add(this);
+	}
+
+	public Item(int itemId, int sellerId, String name, double price) {
+		this.itemId = itemId;
+		this.sellerId = sellerId;
+		this.buyerId = 0;
+		this.name = name;
+		this.price = (float)price;
 	}
 
 	public Item(int itemId, int sellerId, int buyerId, String name, String description, double price, String images) {
@@ -46,7 +51,6 @@ public class Item {
 		this.description = description;
 		this.price = (float)price;
 		this.pictures = images;
-		Store.getItems().add(this);
 	}
 
 	public int getItemId() {
@@ -55,7 +59,6 @@ public class Item {
 
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
-//		Test.it.update(this);
 	}
 
 	public int getSellerId() {
@@ -64,7 +67,6 @@ public class Item {
 
 	public void setSellerId(int sellerId) {
 		this.sellerId = sellerId;
-//		Test.it.update(this);
 	}
 	
 	public int getBuyerId() {
@@ -73,7 +75,6 @@ public class Item {
 
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
-//		Test.it.update(this);
 	}	
 	
 	public String getName() {
@@ -82,7 +83,6 @@ public class Item {
 
 	public void setName(String name) {
 		this.name = name;
-//		Test.it.update(this);
 	}
 
 	public String getDescription() {
@@ -91,7 +91,6 @@ public class Item {
 
 	public void setDescription(String description) {
 		this.description = description;
-//		Test.it.update(this);
 	}
 
 	public float getPrice() {
@@ -100,42 +99,18 @@ public class Item {
 
 	public void setPrice(double price) {
 		this.price = (float)price;
-//		Test.it.update(this);
 	}
 
 	public String getPictures() {
 		return pictures;
 	}
 	
-//	public List<String> getPictures() {
-//		return pictures;
-//	}
-	
-//	public String getPicturesString() {
-//		StringBuilder s = new StringBuilder("");
-//		for(String i : pictures) s.append(i + " ");
-//		return s.toString();
-//	}
-
 	public void setPictures(String s) {
 		this.pictures = s;
-//		Test.it.update(this);
 	}
 	
-//	public void setPictures(List<String> pictures) {
-//		this.pictures = pictures;
-//	}
-
 	public boolean isSold() {
-		return buyerId != -1;
+		return buyerId != 0;
 	}
-	
-//	public Map<String, Object> getAdditionalProperties() {
-//		return this.additionalProperties;
-//	}
-//
-//	public void setAdditionalProperty(String name, Object value) {
-//		this.additionalProperties.put(name, value);
-//	}
 
 }

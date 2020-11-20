@@ -7,9 +7,14 @@ import java.util.concurrent.Executors;
 
 import javax.websocket.EncodeException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.model.UserThread;
 import com.csci201.marketplace.item.*;
+import com.csci201.marketplace.item.dao.ItemDAOImpl;
+import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.service.ItemService;
 
 public class Store {
     private static Map<User, Set<Item>> sellers = new HashMap<User, Set<Item>>();
@@ -24,7 +29,7 @@ public class Store {
     	check if user (buyer) wants to buy item
     	check if user (seller) wants to approve sale
     	*/
-		
+
     	ExecutorService executor = Executors.newCachedThreadPool();
     	while(true) {
     		/* receive the item in question, the buyer (optional), 
