@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.csci201.marketplace.user.model.User.encoder;
 
-@Repository("demoDAO")
+@Repository("UserDemoDAO")
 public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     private List<User> users = new ArrayList<User>();
     @Autowired

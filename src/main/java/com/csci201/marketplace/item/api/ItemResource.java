@@ -44,8 +44,6 @@ import com.csci201.marketplace.user.service.UserService;
 @RequestMapping("/api")
 public class ItemResource {
 	
-//	private ItemDAO dao = ItemDAO.getInstance();
-	
 	private ItemService iservice;
 	private UserService uservice;
 	
@@ -162,7 +160,6 @@ public class ItemResource {
 		iservice.update(item);
 		boolean bool = iservice.update_sell(item, username);
 		
-		//dao.send_sold_msg(item);
 		
 		if (bool) {
 			return Response.ok().build();
