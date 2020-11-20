@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7dc306020f56a38ae6406cc961e5b9d1",
+    "revision": "9e88e09317ab0bb9a322851b56b2e2a7",
     "url": "/marketplace-service/index.html"
   },
   {
-    "revision": "838b67d90dbcabd9a5fc",
+    "revision": "4b904e19304948eb0852",
     "url": "/marketplace-service/static/css/main.7bc92854.chunk.css"
   },
   {
-    "revision": "af1a564ec90c7500ccdd",
-    "url": "/marketplace-service/static/js/2.931723ea.chunk.js"
+    "revision": "1cc72bf767ef494c6ac3",
+    "url": "/marketplace-service/static/js/2.5954227c.chunk.js"
   },
   {
     "revision": "ac526814f8155c22535477e10ee28757",
-    "url": "/marketplace-service/static/js/2.931723ea.chunk.js.LICENSE.txt"
+    "url": "/marketplace-service/static/js/2.5954227c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "838b67d90dbcabd9a5fc",
-    "url": "/marketplace-service/static/js/main.60002240.chunk.js"
+    "revision": "4b904e19304948eb0852",
+    "url": "/marketplace-service/static/js/main.d4365b33.chunk.js"
   },
   {
     "revision": "90ff0e4e802203bd4c16",
