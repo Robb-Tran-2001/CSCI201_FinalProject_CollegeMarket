@@ -3,21 +3,21 @@ const prefix =
 
 export const ALL_ITEMS_SERVICE_ADDRESS = prefix + '/items'
 
-export const ITEM_DETAIL_SERVICE_ADDRESS = prefix + '/item/' // itemid
+export const ITEM_DETAIL_SERVICE_ADDRESS = prefix + '/items/' // itemid
+
+export const SEARCH_SERVICE_ADDRESS = prefix + '/search' // ?q={search terms}
+
+export const BUY_ITEM_SERVICE_ADDRESS = prefix + '/buy'
+
+export const CREATE_ITEM_SERVICE_ADDRESS = prefix + '/sell'
 
 export const LOGIN_SERVICE_ADDRESS = prefix + '/login'
 
 export const SIGNUP_SERVICE_ADDRESS = prefix + '/signup'
 
-export const SEARCH_SERVICE_ADDRESS = prefix + '/search' // ?q={search terms}
-
 export const USER_INFO_SERVICE_ADDRESS = prefix + '/user/' // username
 
 export const USER_PASSWORD_SERVICE_ADDRESS = prefix + '/user/password'
-
-export const CREATE_ITEM_SERVICE_ADDRESS = prefix + '/create'
-
-export const BUY_ITEM_SERVICE_ADDRESS = prefix + '/buy'
 
 export const USER_APPROVE_PURCHASE_SERVICE_ADDRESS = prefix + '/user/approve'
 
