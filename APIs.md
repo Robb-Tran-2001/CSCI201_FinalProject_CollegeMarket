@@ -145,7 +145,6 @@ Return 200 and token if correct, 401 if input is incorrect
 
 ```json
 {
-  "email": "email",
   "hash": "hash",
   "name": "user's actual name"
 }
@@ -163,7 +162,6 @@ Return 200 and token if correct, 401 if input is incorrect
 
 ```json
 {
-  "email": "email",
   "name": "user's name"
 }
 ```
@@ -237,8 +235,8 @@ Return 200 and token if correct, 401 if input is incorrect
 
 ```json
 {
-  "token": "token",
-  "name/email/hash": "."
+  "name": "name",
+  "hash": "."
 }
 ```
 
