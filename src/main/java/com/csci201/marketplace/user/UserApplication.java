@@ -15,8 +15,8 @@ import com.csci201.marketplace.user.service.UserService;
 @SpringBootApplication
 public class UserApplication {
 	
-//	@Autowired
-//	private UserService userService;
+	@Autowired
+	private UserService userService;
 	
 	
 	public static void main(String[] args) {
