@@ -40,6 +40,10 @@ public class ItemService {
 		return itemDAOImpl.listAll();
     }
 	
+	public List<Item> listAllSimple() {
+		return itemDAOImpl.listAllSimple();
+	}
+	
 	public Item get(int id) {
 		return itemDAOImpl.get(id);
 	}

@@ -49,6 +49,12 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
     }
 	
 	@Override
+	public List<Item> listAllSimple() {
+		String SQL = "SELECT name, price, item_id FROM Items WHERE buyer_id IS NOT NULL;";
+		return jdbcTemplate.query(SQL, new ItemMapperSimple());
+	}
+	
+	@Override
 	public Item get(int id) {
 		this.getAll();
 		//int counter = 0;

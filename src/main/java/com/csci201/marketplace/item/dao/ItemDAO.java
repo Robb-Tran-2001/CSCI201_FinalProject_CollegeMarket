@@ -10,6 +10,7 @@ import com.csci201.marketplace.item.model.Item;
 public interface ItemDAO {
 	public void getAll();
 	public List<Item> listAll();
+	public List<Item> listAllSimple();
 	public Item get(int id);
 	public int add(Item item);
 	public boolean delete(int id);

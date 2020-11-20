@@ -58,7 +58,7 @@ public class ItemResource {
 	@GetMapping(path = "/items")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Item> list() {
-        return iservice.listAll();
+        return iservice.listAllSimple();
     }
 	
 	@GET
