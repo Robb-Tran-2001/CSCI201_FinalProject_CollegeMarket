@@ -13,7 +13,7 @@ public class UserService { //implements DAO, interacts with USER
     private final UserDAO userDAO;
 
     @Autowired
-    public UserService(@Qualifier("UserDemoDAO") UserDAO udao)
+    public UserService(@Qualifier("demoDAO") UserDAO udao)
     {
         userDAO = udao;
     }

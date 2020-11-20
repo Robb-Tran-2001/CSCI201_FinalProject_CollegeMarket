@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import com.csci201.marketplace.Store.*;
+import com.csci201.marketplace.item.*;
 import com.csci201.marketplace.item.dao.ItemDAOImpl;
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.item.service.ItemService;

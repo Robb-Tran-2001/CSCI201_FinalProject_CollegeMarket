@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.model.UserThread;
+import com.csci201.marketplace.item.*;
 import com.csci201.marketplace.item.dao.ItemDAOImpl;
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.item.service.ItemService;

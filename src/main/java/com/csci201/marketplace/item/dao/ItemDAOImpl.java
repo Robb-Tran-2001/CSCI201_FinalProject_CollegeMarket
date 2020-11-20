@@ -90,6 +90,10 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 			String update = "UPDATE Items i SET i.description = ? WHERE i.item_id = ?";
 			jdbcTemplate.update(update, item.getDescription(), item.getItemId());
 		}
+		if(item.getPictures() != null) {
+			String update = "UPDATE Items i SET i.images_json = ? WHERE i.item_id = ?";
+			jdbcTemplate.update(update, item.getPictures(), item.getItemId());
+		}
 		
 		return item.getItemId();
 	}
@@ -138,6 +142,11 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 				if(item.getDescription() != null) {
 					jdbcTemplate.update("UPDATE Items i SET i.description = ? WHERE i.item_id = ?",
 							item.getDescription(),
+							item.getItemId());
+				}
+				if(item.getDescription() != null) {
+					jdbcTemplate.update("UPDATE Items i SET i.images_json = ? WHERE i.item_id = ?",
+							item.getPictures(),
 							item.getItemId());
 				}
 				
