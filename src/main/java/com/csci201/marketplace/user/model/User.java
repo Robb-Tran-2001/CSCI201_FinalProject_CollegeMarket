@@ -33,7 +33,11 @@ public class User { //User interacts with mapper
 		Store.getUsers().add(this);
 	}
 
-	public int getUserID() {
+    public User() {
+
+    }
+
+    public int getUserID() {
 		return userID;
 	}
 
