@@ -50,7 +50,7 @@ export const User = ({ username }) => {
   const handleApprovePurchase = order => {
     console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       username: username,
-      itemid: itemid,
+      itemid: order.itemid,
     })
     fetch(USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       method: 'POST',
@@ -65,7 +65,7 @@ export const User = ({ username }) => {
     }).then(res => {
       if (res.status === 200) {
         alert('Successful')
-        const index = orders.findIndex(e => e.itemid === itemid)
+        const index = orders.findIndex(e => e.itemid === order.itemid)
         setOrders([...orders.slice(0, index), ...orders.slice(index + 1)])
       } else {
         alert('An error has occured.')
