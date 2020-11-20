@@ -47,7 +47,7 @@ export const User = ({ username }) => {
       }
     })
   }
-  const handleApprovePurchase = itemid => {
+  const handleApprovePurchase = order => {
     console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       username: username,
       itemid: itemid,
@@ -58,8 +58,9 @@ export const User = ({ username }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username,
-        itemid: itemid,
+        seller: username,
+        buyer: order.buyer,
+        itemid: order.itemid,
       }),
     }).then(res => {
       if (res.status === 200) {
@@ -80,9 +81,7 @@ export const User = ({ username }) => {
         <td>${order.price}</td>
         <td>{order.buyer}</td>
         <td>
-          <Button onClick={() => handleApprovePurchase(order.itemid)}>
-            Approve
-          </Button>
+          <Button onClick={() => handleApprovePurchase(order)}>Approve</Button>
         </td>
       </tr>
     ))

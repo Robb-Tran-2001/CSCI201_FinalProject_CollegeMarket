@@ -1,38 +1,38 @@
 import React, { useState } from 'react'
-import { Navbar, Form, FormControl, Button, Col } from 'react-bootstrap'
+import { Navbar, Col } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import { Login } from './Login'
-import { SEARCH_SERVICE_ADDRESS } from '../Paths'
+// import { SEARCH_SERVICE_ADDRESS } from '../Paths'
 
 const Nav = ({ username, updateUser }) => {
   const [show, setShow] = useState(false)
-  const [searchInput, setSearchInput] = useState('')
+  // const [searchInput, setSearchInput] = useState('')
   const history = useHistory()
   const handleClickUser = () => {
     username ? history.push('/user') : setShow(true)
   }
-  const handleSearch = e => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (searchInput.trim() === '') return
-    console.info(
-      'GET ' +
-        SEARCH_SERVICE_ADDRESS +
-        '?q=' +
-        searchInput.trim().replace(' ', '%20')
-    )
-    fetch(
-      SEARCH_SERVICE_ADDRESS + '?q=' + searchInput.trim().replace(' ', '%20')
-    )
-      .then(res => res.json())
-      .then(res => {
-        if (res.length === 0) {
-          alert('No results found!')
-          return
-        }
-        history.push('/', res)
-      })
-  }
+  // const handleSearch = (e) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   if (searchInput.trim() === '') return
+  //   console.info(
+  //     'GET ' +
+  //       SEARCH_SERVICE_ADDRESS +
+  //       '?q=' +
+  //       searchInput.trim().replace(' ', '%20')
+  //   )
+  //   fetch(
+  //     SEARCH_SERVICE_ADDRESS + '?q=' + searchInput.trim().replace(' ', '%20')
+  //   )
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       if (res.length === 0) {
+  //         alert('No results found!')
+  //         return
+  //       }
+  //       history.push('/', res)
+  //     })
+  // }
   const handleClose = () => setShow(false)
 
   return (
@@ -44,7 +44,7 @@ const Nav = ({ username, updateUser }) => {
           </Navbar.Brand>
         </Col>
         <Col md={6}>
-          <Form inline className='' onSubmit={handleSearch}>
+          {/* <Form inline className="" onSubmit={handleSearch}>
             <FormControl
               type='text'
               style={{ width: '90%', marginRight: '-5px' }}
@@ -58,7 +58,7 @@ const Nav = ({ username, updateUser }) => {
             >
               <ion-icon name='search-outline'></ion-icon>
             </Button>
-          </Form>
+          </Form> */}
         </Col>
         <Col md={3} style={{ textAlign: 'right' }}>
           <Navbar.Text onClick={handleClickUser} style={{ cursor: 'pointer' }}>
