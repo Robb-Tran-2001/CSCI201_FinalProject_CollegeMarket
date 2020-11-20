@@ -33,11 +33,11 @@ public class ItemDAOTest {
 	@Autowired 
 	ItemDAOImpl dao;
 	
-	private Item xbox = new Item(0, "XBOX", "This is a XBOX", 7., "www.ebay.com/pic1 www.microsoft.com/pic2");
+	private Item xbox = new Item(0, "XBOX", "This is a XBOX", 7.);
 	private int xboxId;
-	private Item ps5 = new Item(0, "PS5", "This is a PS5", 12., "www.ebay.com/pic2 www.microsoft.com/pic3");
+	private Item ps5 = new Item(0, "PS5", "This is a PS5", 12.);
 	private int ps5Id;
-	private Item xboxUpdated = new Item(0, "XBOX", "This is an expensive XBOX", 107., "www.bestbuy.com/pic1 www.microsoft.com/pic5");
+	private Item xboxUpdated = new Item(0, "XBOX", "This is an expensive XBOX", 107.);
 
 
 //	private static DataSource ds = 
@@ -156,8 +156,7 @@ public class ItemDAOTest {
 			&& (a.getBuyerId() == b.getBuyerId())
 			&& (a.getName().equals(b.getName()))
 			&& (a.getDescription().equals(b.getDescription()))
-			&& (a.getPrice() == b.getPrice()) 
-			&& (a.getPictures().equals(b.getPictures()));
+			&& (a.getPrice() == b.getPrice()); 
 	}
 
 }

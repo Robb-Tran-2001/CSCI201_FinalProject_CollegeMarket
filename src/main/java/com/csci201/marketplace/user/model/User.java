@@ -12,7 +12,6 @@ public class User { //User interacts with mapper
 	private transient int userID;
 	private String name;
 	private String password;
-	private String email;
 	public transient static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	//itemID = key, bid to buy = value
@@ -21,11 +20,10 @@ public class User { //User interacts with mapper
 	
 	
 	public User(@JsonProperty("user_id") int id, @JsonProperty("name")String name,
-				@JsonProperty("email") String email, @JsonProperty("password") String password)
+				@JsonProperty("password") String password)
 	{
 		this.userID = userID;
 		this.name = name;
-		this.email = email;
 		this.password = password;
 		Store.getUsers().add(this);
 	}
@@ -52,14 +50,6 @@ public class User { //User interacts with mapper
 
 	public void setPassword(String password) {
 		this.password = encoder.encode(password);
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getEmail() {
-		return email;
 	}
 
 	public Set<Integer> getForSale() {

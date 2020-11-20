@@ -54,11 +54,11 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
         return li.get(0);
     }
 
-    @Override //get by email and password, login functionality
-    public User get(String email, String password) {
+    @Override //get by username and password, login functionality
+    public User get(String name, String password) {
         for(User user : users)
-            if(email.matches(user.getEmail()) && encoder.matches(password, user.getPassword())) return user;
-        String SQL = "SELECT * FROM Users WHERE email = " + email + "User.password=" + encoder.encode(password);
+            if(name.matches(user.getName()) && encoder.matches(password, user.getPassword())) return user;
+        String SQL = "SELECT * FROM Users WHERE name = " + name + "User.password=" + encoder.encode(password);
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }
@@ -66,7 +66,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     @Override // get userID by username
     public int getID(String username) {
     	for(User user : users) {
-    		if(username.matches(user.getEmail())) return user.getUserID();
+    		if(username.matches(user.getName())) return user.getUserID();
     	}
     	return -1;
     }
@@ -119,13 +119,11 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
         String sql =
                 "INSERT INTO Users (user_id, " +
                         "    name, " +
-                        "    email, " +
                         "    password) " +
                         "VALUES (?, ?, ?, ?)";
-        Object[] params = {user.getUserID(), user.getName(), user.getEmail(), user.getPassword()};
+        Object[] params = {user.getUserID(), user.getName(), user.getPassword()};
         int[] types = new int[] {
                 Types.INTEGER,
-                Types.VARCHAR,
                 Types.VARCHAR,
                 Types.VARCHAR
         };
