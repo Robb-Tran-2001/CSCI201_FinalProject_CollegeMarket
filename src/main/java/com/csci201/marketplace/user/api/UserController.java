@@ -1,6 +1,6 @@
 package com.csci201.marketplace.user.api;
 
-import com.csci201.marketplace.item.Item;
+import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserController { //interacts with user service
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProfile(@PathVariable("name") String name) //get another user's profile
 	{
-		User user = service.get(name);
+		User user = service.getProf(name);
 		if (user == null)
 			return Response.status(Response.Status.NOT_FOUND).build(); //404 not found user
 		else 
@@ -39,9 +39,9 @@ public class UserController { //interacts with user service
 	//POST http://placeholder/api/user/login send JSON of username and password
 	@PostMapping(path = "login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(String email, String hash) //log in to your profile
+	public Response login(String username, String hash) //log in to your profile
 	{
-		User user = service.get(email, hash);
+		User user = service.getMProf(username, hash);
 		if (user == null)
 			return Response.status(Response.Status.UNAUTHORIZED).build(); //401 unauthorized access
 		else
@@ -51,8 +51,8 @@ public class UserController { //interacts with user service
 	//POST http://placeholder.com/api/user/signup send JSON of username and password
 	@PostMapping(path = "signup")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response signup(@RequestBody String name, String hash) throws URISyntaxException {
-		int userID = service.add(name, hash);
+	public Response signup(@RequestBody String username, String hash) throws URISyntaxException {
+		int userID = service.add(username, hash);
 		if(userID == 0) return Response.status(Response.Status.CONFLICT).build(); //409, taken
 		URI uri = new URI("{name}");
 		return Response.created(uri).build(); //create URI for the user code 201
@@ -61,8 +61,8 @@ public class UserController { //interacts with user service
 	//GET http://placeholder.com/api/user/profile/userid
 	@GetMapping(path = "profile")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response changePassword(String name, String password) {
-		int row = service.update(name, password);
+	public Response changePassword(String username, String hash) {
+		int row = service.update(username, hash);
 		if (row != 0)
 			return Response.ok().build(); //code 200 ok
 		return Response.notModified().build(); //code 304 unmodified
@@ -80,8 +80,8 @@ public class UserController { //interacts with user service
 	//POST http://placeholder.com/api/user/approve
 	@PostMapping(path = "approve")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response approve(@RequestBody String name, int itemID) {
-		int success = service.approve(name, itemID);
+	public Response approve(@RequestBody String seller, String buyer, int itemID) {
+		int success = service.approve(seller, buyer, itemID);
 		if(success == 0) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 		return Response.ok().build(); //accepted code 200/202
 	}

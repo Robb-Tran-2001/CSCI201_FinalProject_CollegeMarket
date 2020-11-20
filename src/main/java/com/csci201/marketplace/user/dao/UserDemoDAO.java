@@ -10,9 +10,10 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository("demoDAO")
+@Repository("UserDemoDAO")
 public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
-    private List<User> users = new ArrayList<User>();
+    private static List<User> users = new ArrayList<User>();
+
     @Autowired
     private JdbcTemplate jdbcTemplateObject;
 //    private static JdbcTemplate jdbcTemplateObject = null;
@@ -44,31 +45,33 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     }
 
      //get by ID
-    public User get(String name)
+    public User getProfile(String name)
     {
         for(User user : users)
             if(user.getName().matches(name)) return user;
         String SQL = "SELECT * FROM Users WHERE User.name = " + name;
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
+        if(li.size() != 0) users.addAll(li);
         return li.get(0);
     }
 
-    @Override //get by email and password, login functionality
-    public User get(String name, String password) {
+    @Override //get by name and password, login functionality
+    public User getMyProfile(String name, String password) {
         for(User user : users)
             if(name.matches(user.getName()) && password.matches(user.getPassword())) return user;
         String SQL = "SELECT * FROM Users WHERE name = " + name + "User.password=" + password;
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
+        if(li.size() != 0) users.addAll(li);
         return li.get(0);
     }
     
-    @Override // get userID by username
-    public int getID(String username) {
-    	for(User user : users) {
-    		if(username.matches(user.getEmail())) return user.getUserID();
-    	}
-    	return -1;
-    }
+//    @Override // get userID by username
+//    public User getID(String username) {
+//    	for(User user : users) {
+//    		if(username.matches(user.getName())) return user.getUserID();
+//    	}
+//    	return -1;
+//    }
 
     @Override //delete by ID
     public boolean delete(int id)

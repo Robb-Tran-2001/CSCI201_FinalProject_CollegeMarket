@@ -1,7 +1,6 @@
 package com.csci201.marketplace.user.service;
 
-import com.csci201.marketplace.Store.Store;
-import com.csci201.marketplace.item.Item;
+import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.user.dao.UserDAO;
 import com.csci201.marketplace.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +29,17 @@ public class UserService { //implements DAO, interacts with USER
         userDAO.returnAll();
     }
 
+    public int getID(String username) {
+        User temp = userDAO.getProfile(username);
+        return temp.getUserID();
+    }
+
     //get by name for profile
-    public User get(String name) { return userDAO.get(name); }
+    public User getProf(String name) { return userDAO.getProfile(name); }
 
     //get by email and password, login functionality
-    public User get(String name, String password) {
-        return userDAO.get(name, password);
+    public User getMProf(String name, String password) {
+        return userDAO.getMyProfile(name, password);
     }
 
     //update user's password
@@ -49,7 +53,7 @@ public class UserService { //implements DAO, interacts with USER
     }
 
     //approve the buyer's request
-    public int approve(String name, int itemID) {
+    public int approve(String seller, String name, int itemID) {
         //store method to accept purchase of item with itemID and buyer with name
         return itemID;
     }
