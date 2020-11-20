@@ -44,10 +44,10 @@ public class UserDemoDAO implements UserDAO {
     }
 
     @Override //get by email and password, login functionality
-    public User get(String email, String password) {
+    public User get(String name, String password) {
         for(User user : users)
-            if(email.matches(user.getEmail()) && password.matches(user.getPassword())) return user;
-        String SQL = "SELECT * FROM Users WHERE email = " + email + "User.password=" + password;
+            if(name.matches(user.getName()) && password.matches(user.getPassword())) return user;
+        String SQL = "SELECT * FROM Users WHERE name = " + name + "User.password=" + password;
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }
@@ -68,13 +68,12 @@ public class UserDemoDAO implements UserDAO {
     }
 
     @Override //update by User
-    public int update(User user) {
-        int id = user.getUserID();
+    public int update(String name, String password) {
         int counter = 0;
         for (User us : users) {
-            if (us.getUserID() == id) {
-                users.set(counter, user);
-                int row = create(user);
+            if (us.getName().matches(name)) {
+                us.setPassword(password);
+                int row = update(us);
                 return row;
             }
             counter++;
@@ -82,31 +81,37 @@ public class UserDemoDAO implements UserDAO {
         return 0;
     }
 
+    //for updating password
+    private int update(User us) {
+        String SQL = "update User set password = ? where name = ?";
+        int row = jdbcTemplateObject.update(SQL, us.getPassword(), us.getName());
+        return row;
+    }
+
     //sign up functionality
     @Override //add by User
-    public int add(User user) {
+    public int add(String name, String password) {
         for(User us : users)
-            if(user.getUserID() == us.getUserID()) return 0;
-        users.add(user);
-        int row = create(user);
+            if(us.getName().matches(name)) return 0;
+
+        int row = create(new User(name, password));
+        String SQL = "SELECT * FROM Users WHERE name = " + name + "User.password=" + password;
+        List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
+        users.add(li.get(0));
         return row;
     }
 
     /*
-     * Helper function for update and insert
+     * Helper function for insertion
      */
     private int create(User user) //create user
     {
         String sql =
-                "INSERT INTO Users (user_id, " +
-                        "    name, " +
-                        "    email, " +
+                "INSERT INTO Users (name, " +
                         "    password) " +
-                        "VALUES (?, ?, ?, ?)";
-        Object[] params = {user.getUserID(), user.getName(), user.getEmail(), user.getPassword()};
+                        "VALUES (?, ?)";
+        Object[] params = {user.getName(), user.getPassword()};
         int[] types = new int[] {
-                Types.INTEGER,
-                Types.VARCHAR,
                 Types.VARCHAR,
                 Types.VARCHAR
         };

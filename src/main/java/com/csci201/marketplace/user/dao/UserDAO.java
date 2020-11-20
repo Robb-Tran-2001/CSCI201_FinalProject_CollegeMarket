@@ -8,8 +8,8 @@ public interface UserDAO {
 	public List<User> selectAll();
 	public void returnAll();
 	public User get(String name);
-	public User get(String email, String password); //for login
+	public User get(String name, String password); //for login
 	public boolean delete(int id);
-	public int update(User user);
-	public int add(User user);
+	public int update(String name, String password);
+	public int add(String name, String password);
 }

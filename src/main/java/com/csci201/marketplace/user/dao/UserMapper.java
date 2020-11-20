@@ -10,8 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 //to get every item im selling
 public class UserMapper implements RowMapper { //mapper deals with database
 	public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-		User user = new User(rs.getInt("user_id"), rs.getString("name"),
-				rs.getString("email"), rs.getString("password"));
+		User user = new User(rs.getInt("user_id"), rs.getString("name"), rs.getString("password"));
 		return user;
 	}
 }

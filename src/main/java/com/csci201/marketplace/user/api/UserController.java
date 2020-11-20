@@ -1,11 +1,11 @@
 package com.csci201.marketplace.user.api;
 
+import com.csci201.marketplace.item.Item;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -25,60 +25,72 @@ public class UserController { //interacts with user service
 		this.service = service;
 	}
 
-	@GetMapping(path = "all")
+	@GetMapping(path = "profile/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> list()
-	{
-		return service.listAll();
-	}
-
-	@GetMapping(path = "{name}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathVariable("name") String name) //get another user's profile
+	public Response getProfile(@PathVariable("name") String name) //get another user's profile
 	{
 		User user = service.get(name);
 		if (user == null)
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND).build(); //404 not found user
 		else 
-			return Response.ok(user, MediaType.APPLICATION_JSON).build();
+			return Response.ok(user, MediaType.APPLICATION_JSON).build(); //200 and user json returned
 	}
 
-	@GetMapping(path = "{name}/login/")
+	//POST http://placeholder/api/user/login send JSON of username and password
+	@PostMapping(path = "login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@PathVariable("name") String email, String password) //log in to your profile
+	public Response login(String email, String hash) //log in to your profile
 	{
-		User user = service.get(email, password);
+		User user = service.get(email, hash);
 		if (user == null)
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.UNAUTHORIZED).build(); //401 unauthorized access
 		else
-			return Response.ok(user, MediaType.APPLICATION_JSON).build();
+			return Response.ok(user, MediaType.APPLICATION_JSON).build(); //200 ok
 	}
 
-
-	
+	//POST http://placeholder.com/api/user/signup send JSON of username and password
 	@PostMapping(path = "signup")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response signup(@RequestBody User user) throws URISyntaxException {
-		int userID = service.add(user);
-		if(userID == 0) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-		URI uri = new URI("/users/" + userID);
-		return Response.created(uri).build();
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response signup(@RequestBody String name, String hash) throws URISyntaxException {
+		int userID = service.add(name, hash);
+		if(userID == 0) return Response.status(Response.Status.CONFLICT).build(); //409, taken
+		URI uri = new URI("{name}");
+		return Response.created(uri).build(); //create URI for the user code 201
 	}
 
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response put(User user) throws URISyntaxException {
-		int row = service.update(user);
+	//GET http://placeholder.com/api/user/profile/userid
+	@GetMapping(path = "profile")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response changePassword(String name, String password) {
+		int row = service.update(name, password);
 		if (row != 0)
-			return Response.ok().build();
-		return Response.notModified().build();
+			return Response.ok().build(); //code 200 ok
+		return Response.notModified().build(); //code 304 unmodified
 	}
 	
-	@DeleteMapping(path = "deleted")
-	public Response delete(int id) {
-		boolean bool = service.delete(id);
-		if (bool) {
-			return Response.ok().build();
-		}
-		return Response.notModified().build();
+//	@DeleteMapping(path = "deleted")
+//	public Response delete(int id) {
+//		boolean bool = service.delete(id);
+//		if (bool) {
+//			return Response.ok().build();
+//		}
+//		return Response.notModified().build();
+//	}
+
+	//POST http://placeholder.com/api/user/approve
+	@PostMapping(path = "approve")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response approve(@RequestBody String name, int itemID) {
+		int success = service.approve(name, itemID);
+		if(success == 0) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+		return Response.ok().build(); //accepted code 200/202
+	}
+
+	//GET http://placeholder.com/api/user/name
+	@PostMapping(path = "{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRequests(@RequestBody String name) {
+		List<Item> success = service.getReqs(name);
+		return Response.ok(success, MediaType.APPLICATION_JSON).build();
 	}
 }
