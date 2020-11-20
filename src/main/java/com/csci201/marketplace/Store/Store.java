@@ -15,6 +15,8 @@ import com.csci201.marketplace.item.*;
 import com.csci201.marketplace.item.dao.ItemDAOImpl;
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.item.service.ItemService;
+import com.csci201.marketplace.item.model.ItemTemplete;
+
 
 public class Store {
     private static Map<User, Set<Item>> sellers = new HashMap<User, Set<Item>>();
@@ -105,5 +107,24 @@ public class Store {
         }
         return null;
     }
+    
+    public static ArrayList<ItemTemplete> getItemTempletes(int userID) {
+    	Set<Item> sellerItems = sellers.get(getUserFromId(userID));
+    	ArrayList<ItemTemplete> itemTempletes = new ArrayList<ItemTemplete>();
+    	for (Item item: sellerItems) {
+    		
+    		Queue<User> itemBuyers = buyers.get(item);
+    		
+    		for (User buyer: itemBuyers) {
+    			itemTempletes.add(new ItemTemplete(item, buyer.getName(), buyer));
+    		}
+    	}
+    	return itemTempletes;
+    }
+    
+    public static Set<Item> getSellerItems(User seller){
+    	return sellers.get(seller);
+    }
+   
     
 }

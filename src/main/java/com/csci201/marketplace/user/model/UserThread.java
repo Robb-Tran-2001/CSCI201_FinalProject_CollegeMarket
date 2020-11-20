@@ -99,9 +99,9 @@ public class UserThread extends Thread {
 				synchronized(this) {
 					acceptSale.signal();
 					//alert losers
-					for (User u: Store.getBuyers().get(item)) {
-						itemservice.send_sold_msg(item, u.getName());
-					}
+					//for (User u: Store.getBuyers().get(item)) {
+					//	itemservice.send_sold_msg(item, u.getName());
+					//}
 				}
 				
 			}
