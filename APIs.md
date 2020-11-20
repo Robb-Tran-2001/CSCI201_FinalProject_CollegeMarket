@@ -6,6 +6,8 @@
 
 > GET http://placeholder.com/api/items
 
+_Should only return available items_
+
 **Format**
 
 ```json
@@ -48,9 +50,7 @@
   "pictures": ["url1", "url2", "url3"],
   "description": "str",
   "itemid": "itemid",
-  "seller": "seller name",
-  "buyer": "buyerid",
-  "sold": true
+  "seller": "seller name"
 }
 ```
 
@@ -70,29 +70,13 @@ _Same as item list_
 
 ### Buy item
 
-> POST http://placeholder.com/api/items/itemid
-
-or
-
 > POST http://placeholder.com/api/buy
-
-**_We can either use a separate endpoint such as /buy/ and put itemid & token in the request body, or use POST on the specific item with token as body_**
 
 #### Format
 
 ```json
 {
-  "userid": "userid",
-  "user_token": "token"
-}
-```
-
-or
-
-```json
-{
-  "userid": "userid",
-  "user_token": "token",
+  "username": "username",
   "itemid": "itemid"
 }
 ```
@@ -101,7 +85,7 @@ or
 
 ### Sell item
 
-> POST http://placeholder.com/api/items/sell
+> POST http://placeholder.com/api/sell
 
 The body will be _multipart/formdata_
 
@@ -123,15 +107,8 @@ Return 200 and token if correct, 401 if input is incorrect
 
 ```json
 {
-  "email": "email",
+  "username": "username",
   "hash": "hash"
-}
-```
-
-```json
-{
-  "token": "token",
-  "name": "user's name"
 }
 ```
 
@@ -145,102 +122,78 @@ Return 200 and token if correct, 401 if input is incorrect
 
 ```json
 {
-  "email": "email",
-  "hash": "hash",
-  "name": "user's actual name"
+  "username": "username",
+  "hash": "hash"
 }
 ```
 
 ---
 
-### Get user profile
+### Get user incoming requests
 
-> GET http://placeholder.com/api/user/profile/userid
-
-**_I think this needs to be authenticated too but who cares_**
+> GET http://placeholder.com/api/user/userid
 
 **Format**
 
 ```json
+[
+  {
+    "name": "placeholder",
+    "price": 300,
+    "buyer": "buyer",
+    "itemid": 1
+  },
+  {
+    "name": "placeholder",
+    "price": 300,
+    "buyer": "buyer",
+    "itemid": 1
+  },
+  {
+    "name": "placeholder",
+    "price": 300,
+    "buyer": "buyer",
+    "itemid": 1
+  },
+  {
+    "name": "placeholder",
+    "price": 300,
+    "buyer": "buyer",
+    "itemid": 1
+  }
+]
+```
+
+---
+
+### Change password
+
+> POST http://p.com/api/user/password
+
+```json
 {
-  "email": "email",
-  "name": "user's name"
+  "username": "username",
+  "/hash": "hash"
 }
 ```
 
 ---
 
-### Get user orders
+### Approve purchase
 
-> GET http://placeholder.com/api/user/orders/userid
+> POST http://placeholder.com/api/user/approve
 
-**Format**
+#### Format
 
 ```json
 {
-  "selling": [
-    {
-      "name": "placeholder",
-      "price": 300,
-      "buyer": "buyer",
-      "itemid": 1,
-      "sold": false
-    },
-    {
-      "name": "placeholder",
-      "price": 300,
-      "buyer": "buyer",
-      "itemid": 1,
-      "sold": false
-    },
-    {
-      "name": "placeholder",
-      "price": 300,
-      "buyer": "buyer",
-      "itemid": 1,
-      "sold": false
-    }
-  ],
-  "buying": [
-    {
-      "name": "placeholder",
-      "price": 300,
-      "seller": "seller",
-      "itemid": 1,
-      "sold": false
-    },
-    {
-      "name": "placeholder",
-      "price": 300,
-      "seller": "seller",
-      "itemid": 1,
-      "sold": false
-    },
-    {
-      "name": "placeholder",
-      "price": 300,
-      "seller": "seller",
-      "itemid": 1,
-      "sold": false
-    }
-  ]
+  "seller": "sellername",
+  "buyer": "buyername"
+  "itemid": "itemid"
 }
 ```
 
 ---
-
-### Update user profile
-
-> POST http://p.com/api/user/profile
-
-**_Can contain 1-3 updates_**
-
-```json
-{
-  "token": "token",
-  "name/email/hash": "."
-}
-```
 
 ### Push notifications
 

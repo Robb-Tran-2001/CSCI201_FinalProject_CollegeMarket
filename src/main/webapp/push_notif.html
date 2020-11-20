@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Push_Notification</title>
+    </head>
+    <body>
+
+        <table>
+            <tr>
+                <td colspan="2">
+                    <input type="text" id="username" placeholder="Username"/>
+                    <button id="connect" type="button" onclick="connect();" >Login</button>
+                </td>
+            </tr>
+           <!--  <tr>
+                <td>
+                    <textarea readonly="true" rows="10" cols="80" id="log"></textarea>
+                </td>
+            </tr> -->
+            <tr>
+                <td>
+                    <input type="text" id="itemID" placeholder="ItemID"/>
+                    <button type="button" onclick="sendBoughtMessage();" >Buy Item</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="disconnect" type="button" onclick="disconnect();" >Logout</button>
+                </td>
+            </tr>
+        </table>
+    </body>
+
+    <script src="websocket.js"></script>
+    <script src="resources/js/sockjs-0.3.4.js"></script>
+    <script src="resources/js/stomp.js"></script>
+
+</html>
