@@ -64,9 +64,9 @@ public class UserController { //interacts with user service
 	@PostMapping(path = "signup")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces()
-	public ResponseEntity signup(@RequestBody User user) throws URISyntaxException {
+	public ResponseEntity signup(@RequestBody User user) {
 		int userID = uservice.add(user);
-		if(userID == 0) return new ResponseEntity(HttpStatus.CONFLICT);; //409
+		if(userID == 0) return new ResponseEntity(HttpStatus.CONFLICT); //409
 		return ResponseEntity.status(HttpStatus.OK).body(user); //200
 	}
 
