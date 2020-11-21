@@ -61,34 +61,39 @@ public class ItemResource {
 	@GetMapping(path = "/items")
 //    @Produces(MediaType.APPLICATION_JSON)
 	@ResponseBody
-    public List<ItemSimple> list() {
+    public ResponseEntity<List<ItemSimple>> list() {
 		List<ItemSimple> list = iservice.listAllSimple();
-        return list;
+        return new ResponseEntity<>(list, HttpStatus.OK);
 //        return Response.ok(list, MediaType.APPLICATION_JSON).build();
     }
 	
 	@GetMapping(path = "/items/{id}")
 	@ResponseBody
-	public Item get(@PathVariable("id") String id) {
+	public ResponseEntity<Item> get(@PathVariable("id") String id) {
 		Item item = iservice.get(Integer.parseInt(id));
-		return item;
-//		if (item == null) {
-//			return Response.status(Response.Status.NOT_FOUND).build();
-//		}
-//		else {
-//			return Response.ok(item, MediaType.APPLICATION_JSON).build();
-//		}
+
+		if (item == null) {
+	        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		else {
+	        return new ResponseEntity<>(item, HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping(path = "/sell")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ResponseBody
-	public Integer add(SellItemForm form) throws URISyntaxException {
+	public ResponseEntity<Integer> add(SellItemForm form) throws URISyntaxException {
 		// Parse new Item from JSON 
-		int sellerId = uservice.getID(form.getUsername());
-		Item item = new Item(sellerId, form.getName(), form.getPrice());
-		item.setDescription(form.getDescription());
-		return Integer.valueOf(iservice.add(item));
+		Item item;
+		try{
+			int sellerId = uservice.getID(form.getUsername());
+			item = new Item(sellerId, form.getName(), form.getPrice());
+			item.setDescription(form.getDescription());
+		} catch(Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(Integer.valueOf(iservice.add(item)), HttpStatus.OK);
 	}
 	
 //	@PUT
@@ -106,33 +111,42 @@ public class ItemResource {
 	
 	
 	@PostMapping(path = "/buy")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 	@ResponseBody
-	public boolean buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
+	public ResponseEntity<Boolean> buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
 		
-		//String id = "100";
-		String username = json.getUsername();
-		int itemId = json.getItemId();
-		System.out.println("Username from form: " + username);
-		System.out.println("Item ID from form: " + itemId);
+		Item item;
+		String username;
+		int itemId;
+		int buyerId;
+		try {
+			username = json.getUsername();
+			itemId = Integer.parseInt(json.getItemId());
+			
+			item = iservice.get(itemId);
+			buyerId = uservice.getID(username);
+		} catch(Exception e) {
+			return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
+		}
 		
-		Item item = iservice.get(itemId);
-//		Item item = iservice.get(Integer.parseInt(itemId));
-		
-		if (item.isSold()) {
+		if (item == null || item.isSold() || item.getSellerId() == buyerId) {
 			// broadcast and return here
 //			Message temp = new Message();
 //			temp.setMsg("This has already been sold!");
 //			PushEndpoint.send_user_msg(username, temp);
-			return false;
+
+			return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
 //			return Response.notModified().build();
 		}
 		
 		// NEED TO PASS IN BUYER ID 
 		item.setBuyerId(uservice.getID(username));
 		iservice.update(item);
-		boolean bool = iservice.update_sell(item, username);
-		return bool;
+		Boolean bool = iservice.update_sell(item, username);
+		if(bool) return new ResponseEntity<> (Boolean.TRUE, HttpStatus.OK);
+		else return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
+
 		
 		
 //		if (bool) {
