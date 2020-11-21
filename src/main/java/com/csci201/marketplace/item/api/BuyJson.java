@@ -6,7 +6,7 @@ public class BuyJson {
 	@JsonProperty("username")
 	private String username;
 	@JsonProperty("itemid")
-	private String itemid;
+	private int itemid;
 	
 	public String getUsername() {
 		return this.username;
@@ -16,11 +16,11 @@ public class BuyJson {
 		this.username = s;
 	}
 	
-	public String getItemId() {
+	public int getItemId() {
 		return this.itemid;
 	}
 	
-	public void setItemId(String s) {
-		this.itemid = s;
+	public void setItemId(int i) {
+		this.itemid = i;
 	}
 }
