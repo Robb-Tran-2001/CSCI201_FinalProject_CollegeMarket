@@ -31,7 +31,6 @@ import com.csci201.marketplace.user.api.*;
 import com.csci201.marketplace.user.dao.*;
 import com.csci201.marketplace.user.model.*;
 import com.csci201.marketplace.user.service.UserService;
-import com.csci201.marketplace.user.util.*;
 
 @Repository
 @Path("/items")

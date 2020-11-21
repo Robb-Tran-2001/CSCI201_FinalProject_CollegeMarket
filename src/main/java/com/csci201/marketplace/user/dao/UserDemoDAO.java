@@ -36,12 +36,12 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
 	}
     
     @Override
-    public List<User> selectAll() {
+    public List<User> returnAll() {
         return new ArrayList<User>(users);
     }
 
     @Override
-    public void returnAll() {
+    public void selectAll() {
         String SQL = "SELECT * FROM Users";
         List<User> users = jdbcTemplateObject.query(SQL, new UserMapper());
     }

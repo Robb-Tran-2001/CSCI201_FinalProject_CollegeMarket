@@ -1,6 +1,7 @@
 package com.csci201.marketplace.user.api;
 
 import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.service.ItemService;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,19 +19,21 @@ import javax.ws.rs.core.Response;
 @RestController
 @RequestMapping("api/user/")
 public class UserController { //interacts with user service
-	private final UserService service;
+	private final UserService uservice;
+	private final ItemService iservice;
 
 	@Autowired
-	public UserController(UserService service)
+	public UserController(UserService uservice, ItemService iservice)
 	{
-		this.service = service;
+		this.uservice = uservice;
+		this.iservice = iservice;
 	}
 
 	@GetMapping(path = "profile/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProfile(@PathVariable("name") String name) //get another user's profile
 	{
-		User user = service.getProf(name);
+		User user = uservice.getProf(name);
 		if (user == null)
 			return Response.status(Response.Status.NOT_FOUND).build(); //404 not found user
 		else 
@@ -41,7 +45,7 @@ public class UserController { //interacts with user service
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(String username, String hash) //log in to your profile
 	{
-		User user = service.getMProf(username, hash);
+		User user = uservice.getMProf(username, hash);
 		if (user == null)
 			return Response.status(Response.Status.UNAUTHORIZED).build(); //401 unauthorized access
 		else
@@ -52,7 +56,7 @@ public class UserController { //interacts with user service
 	@PostMapping(path = "signup")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response signup(@RequestBody String username, String hash) throws URISyntaxException {
-		int userID = service.add(username, hash);
+		int userID = uservice.add(username, hash);
 		if(userID == 0) return Response.status(Response.Status.CONFLICT).build(); //409, taken
 		URI uri = new URI("{name}");
 		return Response.created(uri).build(); //create URI for the user code 201
@@ -62,7 +66,7 @@ public class UserController { //interacts with user service
 	@GetMapping(path = "profile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response changePassword(String username, String hash) {
-		int row = service.update(username, hash);
+		int row = uservice.update(username, hash);
 		if (row != 0)
 			return Response.ok().build(); //code 200 ok
 		return Response.notModified().build(); //code 304 unmodified
@@ -70,7 +74,7 @@ public class UserController { //interacts with user service
 	
 //	@DeleteMapping(path = "deleted")
 //	public Response delete(int id) {
-//		boolean bool = service.delete(id);
+//		boolean bool = uservice.delete(id);
 //		if (bool) {
 //			return Response.ok().build();
 //		}
@@ -81,8 +85,8 @@ public class UserController { //interacts with user service
 	@PostMapping(path = "approve")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response approve(@RequestBody String seller, String buyer, int itemID) {
-		int success = service.approve(seller, buyer, itemID);
-		if(success == 0) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+		boolean success = iservice.delete(itemID);
+		if(!success) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 		return Response.ok().build(); //accepted code 200/202
 	}
 
@@ -90,7 +94,15 @@ public class UserController { //interacts with user service
 	@PostMapping(path = "{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRequests(@RequestBody String name) {
-		List<Item> success = service.getReqs(name);
-		return Response.ok(success, MediaType.APPLICATION_JSON).build();
+		List<User> users = uservice.listAll();
+		User seller = uservice.getProf(name);
+
+		List<Item> items = iservice.listAll();
+		List<Item> requests = new ArrayList<>();
+		for(Item it : items) {
+			if(it.getSellerId() == seller.getUserID())
+				requests.add(it);
+		}
+		return Response.ok(requests, MediaType.APPLICATION_JSON).build();
 	}
 }

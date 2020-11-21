@@ -24,13 +24,9 @@ public class ItemService {
 		itemDAOImpl = idao;
 	}
 	
-//	public static ItemDAO getInstance() {
-//		if (instance == null) {
-//			return new ItemDAO();
-//		}
-//		
-//		return instance;
-//	}
+	public ItemDAOImpl getInstance() {
+		return itemDAOImpl;
+	}
 	
 	public void getAll() {
 		itemDAOImpl.getAll();

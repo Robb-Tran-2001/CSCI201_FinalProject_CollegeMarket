@@ -1,6 +1,8 @@
 package com.csci201.marketplace.user.service;
 
+import com.csci201.marketplace.item.dao.ItemDAO;
 import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.service.ItemService;
 import com.csci201.marketplace.user.dao.UserDAO;
 import com.csci201.marketplace.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,11 @@ public class UserService { //implements DAO, interacts with USER
     }
 
     public List<User> listAll() {
-        return userDAO.selectAll();
+        return userDAO.returnAll();
     }
 
     public void getAll() {
-        userDAO.returnAll();
+        userDAO.selectAll();
     }
 
     public int getID(String username) {
@@ -58,9 +60,22 @@ public class UserService { //implements DAO, interacts with USER
         return itemID;
     }
 
-    public List<Item> getReqs(String name) {
+    public List<Item> getReqs(String name, ItemService iservice) {
         //get all buying requests for the seller of the current name
+        List<User> users = this.listAll();
+        User seller = null;
+        for(User us : users) { //get the appropriate seller
+            if(us.getName().matches(name)) {
+                seller = us;
+            }
+        }
+
+        List<Item> items = iservice.listAll();
         List<Item> requests = new ArrayList<>();
+        for(Item it : items) {
+            if(it.getSellerId() == seller.getUserID())
+                requests.add(it);
+        }
         return requests;
     }
 }
