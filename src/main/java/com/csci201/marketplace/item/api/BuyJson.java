@@ -2,13 +2,13 @@ package com.csci201.marketplace.item.api;
 
 public class BuyJson {
 	private String username;
-	private String itemId;
+	private String itemid;
 	
 	public String getUsername() {
 		return this.username;
 	}
 	
 	public String getItemId() {
-		return this.itemId;
+		return this.itemid;
 	}
 }

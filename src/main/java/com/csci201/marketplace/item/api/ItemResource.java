@@ -81,20 +81,14 @@ public class ItemResource {
 	}
 	
 	@PostMapping(path = "/sell")
-	@Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ResponseBody
-	public int add(@RequestBody SellItemForm form) throws URISyntaxException {
+	public Integer add(SellItemForm form) throws URISyntaxException {
 		// Parse new Item from JSON 
 		int sellerId = uservice.getID(form.getUsername());
 		Item item = new Item(sellerId, form.getName(), form.getPrice());
 		item.setDescription(form.getDescription());
 		return Integer.valueOf(iservice.add(item));
-		
-		// Add item to DB
-//		String itemID = Integer.toString(iservice.add(item));
-//		URI uri = new URI("/items/" + itemID);
-//		return Response.created(uri).build();
 	}
 	
 //	@PUT
@@ -126,9 +120,9 @@ public class ItemResource {
 		
 		if (item.isSold()) {
 			// broadcast and return here
-			Message temp = new Message();
-			temp.setMsg("This has already been sold!");
-			PushEndpoint.send_user_msg(username, temp);
+//			Message temp = new Message();
+//			temp.setMsg("This has already been sold!");
+//			PushEndpoint.send_user_msg(username, temp);
 			return false;
 //			return Response.notModified().build();
 		}
