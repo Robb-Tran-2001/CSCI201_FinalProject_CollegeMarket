@@ -50,8 +50,8 @@ public class UserService { //implements DAO, interacts with USER
     }
 
     //sign up functionality
-    public int add(String name, String hash) {
-        return userDAO.add(name, hash);
+    public int add(User user) {
+        return userDAO.add(user);
     }
 
     //approve the buyer's request

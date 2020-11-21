@@ -17,12 +17,12 @@ public class User { //User interacts with mapper
 	private transient Set<Integer> forSale;
 	
 	
-	public User(@JsonProperty("user_id") int id, @JsonProperty("name")String name, @JsonProperty("password") String password)
+	public User(int id, String name, String password)
 	{
 		this.userID = userID;
 		this.name = name;
 		this.password = password;
-		Store.getUsers().add(this);
+		//Store.getUsers().add(this);
 	}
 
 	public User(@JsonProperty("name")String name, @JsonProperty("password") String password)
@@ -30,7 +30,7 @@ public class User { //User interacts with mapper
 		//this.userID = userID;
 		this.name = name;
 		this.password = password;
-		Store.getUsers().add(this);
+		//Store.getUsers().add(this);
 	}
 
     public User() {

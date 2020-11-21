@@ -11,5 +11,5 @@ public interface UserDAO {
 	public User getMyProfile(String name, String password); //for login
 	public boolean delete(int id);
 	public int update(String name, String password);
-	public int add(String name, String password);
+	public int add(User user);
 }

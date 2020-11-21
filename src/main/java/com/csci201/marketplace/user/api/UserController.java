@@ -29,6 +29,12 @@ public class UserController { //interacts with user service
 		this.iservice = iservice;
 	}
 
+	@GetMapping(path = "profile/all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> list() {
+		return uservice.listAll();
+	}
+
 	@GetMapping(path = "profile/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProfile(@PathVariable("name") String name) //get another user's profile
@@ -43,30 +49,30 @@ public class UserController { //interacts with user service
 	//POST http://placeholder/api/user/login send JSON of username and password
 	@PostMapping(path = "login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(String username, String hash) //log in to your profile
+	public Response login(@RequestBody User user) //log in to your profile
 	{
-		User user = uservice.getMProf(username, hash);
-		if (user == null)
+		User user2 = uservice.getMProf(user.getName(), user.getPassword());
+		if (user2 == null)
 			return Response.status(Response.Status.UNAUTHORIZED).build(); //401 unauthorized access
 		else
-			return Response.ok(user, MediaType.APPLICATION_JSON).build(); //200 ok
+			return Response.ok(user2, MediaType.APPLICATION_JSON).build(); //200 ok
 	}
 
 	//POST http://placeholder.com/api/user/signup send JSON of username and password
 	@PostMapping(path = "signup")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response signup(@RequestBody String username, String hash) throws URISyntaxException {
-		int userID = uservice.add(username, hash);
+	public Response signup(@RequestBody User user) throws URISyntaxException {
+		int userID = uservice.add(user);
 		if(userID == 0) return Response.status(Response.Status.CONFLICT).build(); //409, taken
-		URI uri = new URI("{name}");
+		URI uri = new URI("/profile/" + user.getName());
 		return Response.created(uri).build(); //create URI for the user code 201
 	}
 
-	//GET http://placeholder.com/api/user/profile/userid
-	@GetMapping(path = "profile")
+	//PUT http://placeholder.com/api/user/password
+	@PutMapping(path = "password")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response changePassword(String username, String hash) {
-		int row = uservice.update(username, hash);
+	public Response changePassword(User user) {
+		int row = uservice.update(user.getName(), user.getPassword());
 		if (row != 0)
 			return Response.ok().build(); //code 200 ok
 		return Response.notModified().build(); //code 304 unmodified
@@ -84,16 +90,16 @@ public class UserController { //interacts with user service
 	//POST http://placeholder.com/api/user/approve
 	@PostMapping(path = "approve")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response approve(@RequestBody String seller, String buyer, int itemID) {
+	public Response approve(String seller, String buyer, int itemID) {
 		boolean success = iservice.delete(itemID);
 		if(!success) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 		return Response.ok().build(); //accepted code 200/202
 	}
 
 	//GET http://placeholder.com/api/user/name
-	@PostMapping(path = "{name}")
+	@GetMapping(path = "{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRequests(@RequestBody String name) {
+	public Response getRequests(@PathVariable("name") String name) {
 		List<User> users = uservice.listAll();
 		User seller = uservice.getProf(name);
 

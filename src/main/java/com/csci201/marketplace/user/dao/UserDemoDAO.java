@@ -32,7 +32,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
 	public UserDemoDAO(DataSource ds) {
 		setDataSource(ds);
 		this.jdbcTemplateObject = getJdbcTemplate();
-		this.returnAll();
+		this.selectAll();
 	}
     
     @Override
@@ -43,7 +43,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     @Override
     public void selectAll() {
         String SQL = "SELECT * FROM Users";
-        List<User> users = jdbcTemplateObject.query(SQL, new UserMapper());
+        users = jdbcTemplateObject.query(SQL, new UserMapper());
     }
 
      //get by ID
@@ -139,14 +139,13 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
 
     //sign up functionality
     @Override //add by User
-    public int add(String name, String password) {
+    public int add(User user) {
         for(User us : users)
-            if(us.getName().matches(name)) return 0;
-        User temp = new User(name, password);
-        int row = create(temp);
+            if(us.getName().matches(user.getName())) return 0;
+        int row = create(user);
         if(row != 0) {
-            temp.setUserID(row);
-            users.add(temp);
+            user.setUserID(row);
+            users.add(user);
             System.out.println("Added to dao");
         }
         return row;
