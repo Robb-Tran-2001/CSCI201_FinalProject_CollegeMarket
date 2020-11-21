@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import javax.websocket.EncodeException;
 
 import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.model.ItemSimple;
 import com.csci201.marketplace.pushnotif.model.*;
 import com.csci201.marketplace.pushnotif.websocket.*;
 
@@ -49,9 +50,9 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
     }
 	
 	@Override
-	public List<Item> listAllSimple() {
-		String SQL = "SELECT name, price, item_id FROM Items WHERE buyer_id IS NOT NULL;";
-		return jdbcTemplate.query(SQL, new ItemMapperSimple());
+	public List<ItemSimple> listAllSimple() {
+		String SQL = "SELECT name, price, item_id FROM Items WHERE buyer_id IS NULL;";
+		return jdbcTemplate.query(SQL, new ItemSimpleMapper());
 	}
 	
 	@Override

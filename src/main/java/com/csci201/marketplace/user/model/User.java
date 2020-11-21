@@ -2,7 +2,6 @@ package com.csci201.marketplace.user.model;
 
 import com.csci201.marketplace.Store.Store;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Set;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -12,7 +11,7 @@ public class User { //User interacts with mapper
 	private transient int userID;
 	private String name;
 	private String password;
-	public transient static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//	public transient static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	//itemID = key, bid to buy = value
 	private transient Set<Integer> toBuy;
@@ -48,9 +47,9 @@ public class User { //User interacts with mapper
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = encoder.encode(password);
-	}
+//	public void setPassword(String password) {
+//		this.password = encoder.encode(password);
+//	}
 
 	public Set<Integer> getForSale() {
 		return forSale;

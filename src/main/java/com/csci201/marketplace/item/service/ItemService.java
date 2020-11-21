@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.csci201.marketplace.item.dao.ItemDAOImpl;
 import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.model.ItemSimple;
 import com.csci201.marketplace.pushnotif.model.Message;
 import com.csci201.marketplace.pushnotif.websocket.PushEndpoint;
 
@@ -40,7 +41,7 @@ public class ItemService {
 		return itemDAOImpl.listAll();
     }
 	
-	public List<Item> listAllSimple() {
+	public List<ItemSimple> listAllSimple() {
 		return itemDAOImpl.listAllSimple();
 	}
 	

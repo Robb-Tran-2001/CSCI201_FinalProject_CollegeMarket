@@ -8,11 +8,12 @@ import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.model.ItemSimple;
 
-public class ItemMapperSimple implements RowMapper<Item> {
+public class ItemSimpleMapper implements RowMapper<ItemSimple> {
 	@Override
-	public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Item item = new Item();
+	public ItemSimple mapRow(ResultSet rs, int rowNum) throws SQLException {
+		ItemSimple item = new ItemSimple();
 		item.setItemId(rs.getInt("item_id"));
 		item.setName(rs.getString("name"));
 		item.setPrice(rs.getFloat("price"));

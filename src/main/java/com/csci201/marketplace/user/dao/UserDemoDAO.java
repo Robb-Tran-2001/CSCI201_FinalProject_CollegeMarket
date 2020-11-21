@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import static com.csci201.marketplace.user.model.User.encoder;
+//import static com.csci201.marketplace.user.model.User.encoder;
 
 @Repository("UserDemoDAO")
 public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
@@ -57,8 +57,8 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     @Override //get by username and password, login functionality
     public User get(String name, String password) {
         for(User user : users)
-            if(name.matches(user.getName()) && encoder.matches(password, user.getPassword())) return user;
-        String SQL = "SELECT * FROM Users WHERE name = " + name + "User.password=" + encoder.encode(password);
+            if(name.matches(user.getName()) && password.matches(user.getPassword())) return user;
+        String SQL = "SELECT * FROM Users WHERE name = " + name + "User.password=" + password;
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }
