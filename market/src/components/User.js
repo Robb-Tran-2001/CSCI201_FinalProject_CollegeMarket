@@ -60,12 +60,12 @@ export const User = ({ username }) => {
       body: JSON.stringify({
         seller: username,
         buyer: order.buyer,
-        itemid: order.itemid,
+        itemid: order.itemId,
       }),
     }).then(res => {
       if (res.status === 200) {
         alert('Successful')
-        const index = orders.findIndex(e => e.itemid === order.itemid)
+        const index = orders.findIndex(e => e.itemid === order.itemId)
         setOrders([...orders.slice(0, index), ...orders.slice(index + 1)])
       } else {
         alert('An error has occured.')
@@ -76,7 +76,7 @@ export const User = ({ username }) => {
   const orderTable = list =>
     list &&
     list.map(order => (
-      <tr key={order.itemid}>
+      <tr key={order.itemId}>
         <td>{order.name}</td>
         <td>${order.price}</td>
         <td>{order.buyer}</td>
