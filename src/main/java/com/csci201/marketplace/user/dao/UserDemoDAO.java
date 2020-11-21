@@ -133,11 +133,14 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     public int add(User user) {
         for(User us : users)
             if(us.getName().matches(user.getName())) return 0;
+        System.out.println("User's ID" + user.getUserID());
         int row = create(user);
         if(row != 0) {
-            user.setUserID(row);
+        	String SQL = "SELECT * FROM Users WHERE name = ? AND password = ?";
+        	List<User> ID = jdbcTemplateObject.query(SQL, new Object[]{user.getName(), user.getPassword()}, new UserMapper());
+            user.setUserID(ID.get(0).getUserID());
+            System.out.println("User's ID" + user.getUserID());
             users.add(user);
-            System.out.println("Added to dao");
         }
         return row;
     }
