@@ -50,9 +50,28 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
     }
 	
 	@Override
-	public List<ItemSimple> listAllSimple() {
-		String SQL = "SELECT name, price, item_id FROM Items WHERE buyer_id IS NULL;";
-		return jdbcTemplate.query(SQL, new ItemSimpleMapper());
+	public List<ItemSimple> listAllSimple(String un) {
+		String SQL;
+		Object[] args;
+		if(un != null) {
+			// Registered User
+			args = new Object[1];
+			args[0] = un;
+			SQL = "SELECT Items.name, Items.price, Items.item_id, Items.description, Users.name AS seller_name\n"
+					+ "	FROM Items \n"
+					+ "    INNER JOIN Users ON Items.seller_id = Users.user_id\n"
+					+ "	WHERE buyer_id IS NULL \n"
+					+ "		AND Users.name != ?;";
+			return jdbcTemplate.query(SQL, args, new ItemSimpleMapper());
+		} else {
+			// Guest user
+			SQL = "SELECT Items.name, Items.price, Items.item_id, Items.description, Users.name AS seller_name\n"
+					+ "	FROM Items \n"
+					+ "    INNER JOIN Users ON Items.seller_id = Users.user_id\n"
+					+ "	WHERE buyer_id IS NULL;";
+			return jdbcTemplate.query(SQL, new ItemSimpleMapper());
+		}
+		
 	}
 	
 	@Override

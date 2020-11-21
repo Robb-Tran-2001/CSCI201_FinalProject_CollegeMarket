@@ -37,8 +37,8 @@ public class ItemService {
 		return itemDAOImpl.listAll();
     }
 	
-	public List<ItemSimple> listAllSimple() {
-		return itemDAOImpl.listAllSimple();
+	public List<ItemSimple> listAllSimple(String un) {
+		return itemDAOImpl.listAllSimple(un);
 	}
 	
 	public Item get(int id) {

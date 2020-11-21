@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,10 +59,20 @@ public class ItemResource {
 	}
 
 
+	// List for users
+	@GetMapping(path = "/items", params = {"name"})
+	@ResponseBody
+    public ResponseEntity<List<ItemSimple>> list(@RequestParam String name) {
+		if(name == null) name = "";
+		List<ItemSimple> list = iservice.listAllSimple(name);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+	
+	// List for guests
 	@GetMapping(path = "/items")
 	@ResponseBody
     public ResponseEntity<List<ItemSimple>> list() {
-		List<ItemSimple> list = iservice.listAllSimple();
+		List<ItemSimple> list = iservice.listAllSimple("");
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 

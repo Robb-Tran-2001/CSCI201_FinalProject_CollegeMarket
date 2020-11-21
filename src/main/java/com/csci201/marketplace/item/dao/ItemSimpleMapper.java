@@ -18,6 +18,7 @@ public class ItemSimpleMapper implements RowMapper<ItemSimple> {
 		item.setName(rs.getString("name"));
 		item.setPrice(rs.getFloat("price"));
 		item.setDescription(rs.getString("description"));
+		item.setSellerId(rs.getString("seller_name"));
 		
 		return item;
 	}

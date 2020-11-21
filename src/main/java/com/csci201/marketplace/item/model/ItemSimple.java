@@ -18,6 +18,7 @@ public class ItemSimple {
 	private String name;
 	private float price;
 	private String description;
+	private String sellerName;
 	
 	public ItemSimple() {}
 	
@@ -63,5 +64,14 @@ public class ItemSimple {
 	public void setDescription(String s) {
 		this.description = s;
 	}
+	
+	public String getsellerName() {
+		return sellerName;
+	}
+
+	public void setSellerId(String sellerName) {
+		this.sellerName = sellerName;
+	}
+
 
 }
