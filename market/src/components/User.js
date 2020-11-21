@@ -50,7 +50,7 @@ export const User = ({ username }) => {
   const handleApprovePurchase = order => {
     console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       username: username,
-      itemid: order.itemid,
+      itemid: order.itemId,
     })
     fetch(USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       method: 'POST',
@@ -58,14 +58,13 @@ export const User = ({ username }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        seller: username,
-        buyer: order.buyer,
+        username: username,
         itemid: order.itemId,
       }),
     }).then(res => {
       if (res.status === 200) {
         alert('Successful')
-        const index = orders.findIndex(e => e.itemid === order.itemId)
+        const index = orders.findIndex(e => e.itemId === order.itemId)
         setOrders([...orders.slice(0, index), ...orders.slice(index + 1)])
       } else {
         alert('An error has occured.')

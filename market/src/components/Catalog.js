@@ -92,7 +92,7 @@ export const Catalog = ({ username, searchitems }) => {
           <td style={{ width: '50%' }}>{item.name}</td>
         </OverlayTrigger>
         <td style={{ width: '20%' }}>${item.price}</td>
-        <td style={{ width: '20%' }}>{item.seller}</td>
+        <td style={{ width: '20%' }}>{item.sellerName}</td>
         {/* <td>{item.description}</td> */}
         <td style={{ width: '10%' }}>
           <Button onClick={() => handleBuy(item.itemId)} disabled={!username}>
