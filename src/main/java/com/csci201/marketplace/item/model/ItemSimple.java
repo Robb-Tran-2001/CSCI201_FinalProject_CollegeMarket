@@ -17,6 +17,7 @@ public class ItemSimple {
 	private int itemId;
 	private String name;
 	private float price;
+	private String description;
 	
 	public ItemSimple() {}
 	
@@ -53,6 +54,14 @@ public class ItemSimple {
 
 	public void setPrice(double price) {
 		this.price = (float)price;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String s) {
+		this.description = s;
 	}
 
 }
