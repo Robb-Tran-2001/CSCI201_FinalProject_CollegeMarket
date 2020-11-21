@@ -15,7 +15,6 @@ public class Item {
 	private String name;
 	private String description;
 	private float price;
-	private String pictures;
 	
 	public Item() {}
 	
@@ -26,13 +25,12 @@ public class Item {
 		this.price = (float)price;
 	}
 
-	public Item(int sellerId, String name, String description, double price, String images) {
+	public Item(int sellerId, String name, String description, double price) {
 		this.sellerId = sellerId;
 		this.buyerId = 0;
 		this.name = name;
 		this.description = description;
 		this.price = (float)price;
-		this.pictures = images;
 	}
 
 	public Item(int itemId, int sellerId, String name, double price) {
@@ -43,14 +41,13 @@ public class Item {
 		this.price = (float)price;
 	}
 
-	public Item(int itemId, int sellerId, int buyerId, String name, String description, double price, String images) {
+	public Item(int itemId, int sellerId, int buyerId, String name, String description, double price) {
 		this.itemId = itemId;
 		this.sellerId = sellerId;
 		this.buyerId = buyerId;
 		this.name = name;
 		this.description = description;
 		this.price = (float)price;
-		this.pictures = images;
 	}
 
 	public int getItemId() {
@@ -101,15 +98,9 @@ public class Item {
 		this.price = (float)price;
 	}
 
-	public String getPictures() {
-		return pictures;
-	}
-	
-	public void setPictures(String s) {
-		this.pictures = s;
-	}
-	
 	public boolean isSold() {
+		boolean sold = buyerId != 0;
+		System.out.println("Sold?: " + sold);
 		return buyerId != 0;
 	}
 
