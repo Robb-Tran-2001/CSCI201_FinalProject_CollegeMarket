@@ -59,12 +59,10 @@ public class ItemResource {
 	
 	
 	@GetMapping(path = "/items")
-//    @Produces(MediaType.APPLICATION_JSON)
 	@ResponseBody
     public ResponseEntity<List<ItemSimple>> list() {
 		List<ItemSimple> list = iservice.listAllSimple();
         return new ResponseEntity<>(list, HttpStatus.OK);
-//        return Response.ok(list, MediaType.APPLICATION_JSON).build();
     }
 	
 	@GetMapping(path = "/items/{id}")
@@ -96,19 +94,6 @@ public class ItemResource {
 		return new ResponseEntity<>(Integer.valueOf(iservice.add(item)), HttpStatus.OK);
 	}
 	
-//	@PUT
-//	@Path("{id}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response put(Item item) throws URISyntaxException, IOException, EncodeException {
-//		boolean bool = iservice.update(item);
-//		
-//		if (bool) {
-//			return Response.ok().build();
-//		}
-//		
-//		return Response.notModified().build();
-//	}
-	
 	
 	@PostMapping(path = "/buy")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -131,13 +116,7 @@ public class ItemResource {
 		}
 		
 		if (item == null || item.isSold() || item.getSellerId() == buyerId) {
-			// broadcast and return here
-//			Message temp = new Message();
-//			temp.setMsg("This has already been sold!");
-//			PushEndpoint.send_user_msg(username, temp);
-
 			return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
-//			return Response.notModified().build();
 		}
 		
 		// NEED TO PASS IN BUYER ID 
@@ -147,27 +126,5 @@ public class ItemResource {
 		if(bool) return new ResponseEntity<> (Boolean.TRUE, HttpStatus.OK);
 		else return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
 
-		
-		
-//		if (bool) {
-//			return Response.ok().build();
-//		}
-//		
-//		return Response.notModified().build();
 	}
-	
-//	@DeleteMapping(path = "/delete/{id}")
-//    @Produces(MediaType.APPLICATION_JSON)
-//	@ResponseBody
-//	public Boolean delete(@PathVariable("id") int id) {
-//		Boolean bool = iservice.delete(id);
-//		return bool;
-////		return new ResponseEntity<Boolean>(bool, HttpStatus.OK);
-//		
-////		if (bool) {
-////			return Response.ok().build();
-////		}
-////		
-////		return Response.notModified().build();
-//	}
-}
+}	
