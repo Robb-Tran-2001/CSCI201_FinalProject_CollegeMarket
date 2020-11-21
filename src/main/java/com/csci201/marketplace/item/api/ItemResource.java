@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,7 @@ import com.csci201.marketplace.user.service.UserService;
 
 @Repository
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/marketplace-service/api")
 public class ItemResource {
 	
 	private ItemService iservice;
@@ -54,17 +55,16 @@ public class ItemResource {
 	}
 	
 	
-	@GET
 	@GetMapping(path = "/items")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Item> list() {
-        return iservice.listAllSimple();
+    public Response list() {
+        List<Item> list = iservice.listAllSimple();
+        return Response.ok(list, MediaType.APPLICATION_JSON).build();
     }
 	
-	@GET
 	@GetMapping(path = "/items/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("id") String id) {
+	public Response get(@PathVariable("id") String id) {
 		Item item = iservice.get(Integer.parseInt(id));
 		
 		if (item == null) {
@@ -75,9 +75,9 @@ public class ItemResource {
 		}
 	}
 	
-	@POST
 	@PostMapping(path = "/sell")
 	@Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
 	public Response add(@RequestBody SellItemForm form) throws URISyntaxException {
 		// Parse new Item from JSON 
 		int sellerId = uservice.getID(form.getUsername());
@@ -103,40 +103,9 @@ public class ItemResource {
 //		return Response.notModified().build();
 //	}
 	
-//	@PUT
-//	@Path("/{username}/sell/{id}")
-//	public Response sell_item(@PathParam("id") String id, @PathParam("username") String username) throws URISyntaxException, IOException, EncodeException {	
-//		
-//		System.out.println("enters the ting");
-//		
-//		//String id = "100";
-//		
-//		Item item = iservice.get(Integer.parseInt(id));
-//		
-//		if (item.isSold()) {
-//			// broadcast and return here
-//			Message temp = new Message();
-//			temp.setMsg("This has already been sold!");
-//			PushEndpoint.send_user_msg(username, temp);
-//			return Response.notModified().build();
-//		}
-//		
-//		// NEED TO PASS IN BUYER ID 
-//		item.setBuyerId(uservice.getID(username));
-//		iservice.update(item);
-//		boolean bool = iservice.update_sell(item, username);
-//		
-//		//dao.send_sold_msg(item);
-//		
-//		if (bool) {
-//			return Response.ok().build();
-//		}
-//		
-//		return Response.notModified().build();
-//	}
 	
-	@POST
-	@PostMapping("/buy")
+	@PostMapping(path = "/buy")
+    @Produces(MediaType.APPLICATION_JSON)
 	public Response buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
 		
 		System.out.println("enters buy_item function in ItemResource");
@@ -168,9 +137,9 @@ public class ItemResource {
 		return Response.notModified().build();
 	}
 	
-	@DELETE
 	@DeleteMapping(path = "/delete/{id}")
-	public Response delete(@PathParam("id") int id) {
+    @Produces(MediaType.APPLICATION_JSON)
+	public Response delete(@PathVariable("id") int id) {
 		boolean bool = iservice.delete(id);
 		
 		if (bool) {
