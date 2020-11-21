@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import com.csci201.marketplace.Store.Store;
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.item.service.ItemService;
 import com.csci201.marketplace.pushnotif.model.Message;
@@ -31,7 +32,6 @@ import com.csci201.marketplace.user.api.*;
 import com.csci201.marketplace.user.dao.*;
 import com.csci201.marketplace.user.model.*;
 import com.csci201.marketplace.user.service.UserService;
-import com.csci201.marketplace.user.util.*;
 
 @Repository
 @Path("/items")
@@ -116,6 +116,55 @@ public class ItemResource {
 		//dao.send_sold_msg(item);
 		
 		if (bool) {
+			//UPDATE store.java
+			//add action to be threaded
+			Store.addAction("sell-" + item.getName());
+			//add item to sellers set of items
+			User seller = Store.getUserFromId(item.getSellerId());
+			Store.getSellers().get(seller).add(item);
+			//add item to item-set
+			Store.getItems().add(item);
+			
+			return Response.ok().build();
+		}
+		
+		return Response.notModified().build();
+	}
+	
+
+	@PostMapping(path = "/buy")
+    @Produces(MediaType.APPLICATION_JSON)
+	public Response buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
+		
+		System.out.println("enters buy_item function in ItemResource");
+		
+		//String id = "100";
+		String username = json.getUsername();
+		String itemId = json.getItemId();
+		
+		Item item = iservice.get(Integer.parseInt(itemId));
+		
+		if (item.isSold()) {
+			// broadcast and return here
+			Message temp = new Message();
+			temp.setMsg("This has already been sold!");
+			PushEndpoint.send_user_msg(username, temp);
+			return Response.notModified().build();
+		}
+		
+		// NEED TO PASS IN BUYER ID 
+		item.setBuyerId(uservice.getID(username));
+		iservice.update(item);
+		boolean bool = iservice.update_sell(item, username);
+		
+		
+		if (bool) {
+			//UPDATE store.java
+			//add action to be threaded
+			Store.addAction("buy-" + item.getName());
+			//add item to sellers set of items
+			User buyer = Store.getUserFromId(item.getBuyerId());
+			Store.getBuyers().get(item).add(buyer);
 			return Response.ok().build();
 		}
 		
@@ -134,3 +183,10 @@ public class ItemResource {
 		return Response.notModified().build();
 	}
 }
+
+
+
+
+
+
+

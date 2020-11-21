@@ -1,5 +1,6 @@
 package com.csci201.marketplace.user.api;
 
+import com.csci201.marketplace.Store.Store;
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
@@ -83,6 +84,7 @@ public class UserController { //interacts with user service
 	public Response approve(@RequestBody String seller, String buyer, int itemID) {
 		int success = service.approve(seller, buyer, itemID);
 		if(success == 0) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+		Store.addAction("approve-" + Store.getItemFromId(itemID).getName()); 
 		return Response.ok().build(); //accepted code 200/202
 	}
 

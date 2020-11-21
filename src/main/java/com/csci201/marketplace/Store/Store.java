@@ -85,6 +85,10 @@ public class Store {
         return users;
     }
     
+    public static void addAction(String action) {
+        actions.add(action);
+    }
+    
     public static Item getItemFromName(String name) {
         for(Item i: items) {
         	if (i.getName().equals(name)) {
@@ -103,6 +107,15 @@ public class Store {
         for (User u: users) {
         	if (u.getUserID() == id) {
         		return u;
+        	}
+        }
+        return null;
+    }
+    
+    public static Item getItemFromId(int id) {
+        for (Item i: items) {
+        	if (i.getItemId() == id) {
+        		return i;
         	}
         }
         return null;
