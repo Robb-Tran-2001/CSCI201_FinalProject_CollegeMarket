@@ -99,6 +99,8 @@ public class Item {
 	}
 
 	public boolean isSold() {
+		boolean sold = buyerId != 0;
+		System.out.println("Sold?: " + sold);
 		return buyerId != 0;
 	}
 

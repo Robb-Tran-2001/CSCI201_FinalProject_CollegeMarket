@@ -49,7 +49,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     {
         for(User user : users)
             if(user.getName().matches(name)) return user;
-        String SQL = "SELECT * FROM Users WHERE User.name = " + name;
+        String SQL = "SELECT * FROM Users WHERE name = \"" + name + "\"";
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         return li.get(0);
     }
@@ -65,10 +65,8 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     
     @Override // get userID by username
     public int getID(String username) {
-    	for(User user : users) {
-    		if(username.matches(user.getName())) return user.getUserID();
-    	}
-    	return -1;
+    	int id = this.get(username).getUserID();
+    	return id;
     }
 
     @Override //delete by ID
