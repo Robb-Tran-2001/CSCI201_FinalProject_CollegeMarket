@@ -34,46 +34,36 @@ public class UserThread extends Thread {
 
 	//adding something up for sale
 	public void sell() {
-		//add a new sql entry of the item
 		Store.getSellers().get(this.seller).add(item);
 	}
 
 	//wanting to buy something
 	public void buyRequest() {
-		//update item sql entry
 		Store.getBuyers().get(item).add(buyer);
 	}
 
 	//when successfully sold something
 	public void acceptBid() {
-		//delete item sql entry
 		Store.getSellers().get(this.seller).remove(item);
 	}
 
 	//Successfully process sale after sale is approved
 	public void processSale() {
-		//delete from buyer
 		Store.getBuyers().remove(item);
 	}
 
 
 
 	public void run() {
+		/*
 		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
 		dataSourceBuilder.url("jdbc:mysql://localhost:3306/marketplace?createDatabaseIfNotExist=true");
 		dataSourceBuilder.username("root");
 		dataSourceBuilder.password("root");
 		DataSource ds = dataSourceBuilder.build();
 		ItemService itemservice = new ItemService(new ItemDAOImpl(ds));
-		/*
-		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-		dataSourceBuilder.url("jdbc:mysql://localhost:3306/marketplace?createDatabaseIfNotExist=true");
-		dataSourceBuilder.username("marketplace");
-		dataSourceBuilder.password("marketplace");
-		DataSource ds = dataSourceBuilder.build();
-		
-		create user:marketplace pw:marketplace profile in MySQL with DBA permissions 
 		*/
+
 		try {
 			if (action.equals("sell")) {
 				sell();
@@ -97,10 +87,7 @@ public class UserThread extends Thread {
 				System.out.println("Seller has approved the sale of" + this.item.getName() + " to " + this.buyer.getName() + ".");
 				synchronized(this) {
 					acceptSale.signal();
-					//alert losers
-					for (User u: Store.getBuyers().get(item)) {
-						itemservice.send_sold_msg(item, u.getName());
-					}
+					
 				}
 				
 			}
