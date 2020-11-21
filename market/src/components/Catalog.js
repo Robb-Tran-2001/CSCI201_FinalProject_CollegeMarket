@@ -13,7 +13,7 @@ import { ALL_ITEMS_SERVICE_ADDRESS } from '../Paths'
 // import { ItemModal } from './ItemModal'
 import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
 
-export const Catalog = ({ username, searchitems }) => {
+export const Catalog = ({ username, searchitems, send }) => {
   // const [modalItemID, setModalItemID] = useState(-1)
   const [items, setItems] = useState(searchitems || [])
   const [page, setPage] = useState(1)
@@ -22,9 +22,9 @@ export const Catalog = ({ username, searchitems }) => {
   //   setModalItemID(itemid)
   // }
 
-  const handleBuy = itemid => {
+  const handleBuy = item => {
     console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
-      itemid: itemid,
+      itemid: item.itemId,
       username: username,
     })
     fetch(BUY_ITEM_SERVICE_ADDRESS, {
@@ -33,11 +33,12 @@ export const Catalog = ({ username, searchitems }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        itemid: itemid,
+        itemid: item.itemId,
         username: username,
       }),
     }).then(res => {
       if (res.status === 200) {
+        send(item.name)
         alert('Successful. Waiting for seller approval now.')
       } else {
         alert('Item is not available.')
@@ -95,7 +96,7 @@ export const Catalog = ({ username, searchitems }) => {
         <td style={{ width: '20%' }}>{item.sellerName}</td>
         {/* <td>{item.description}</td> */}
         <td style={{ width: '10%' }}>
-          <Button onClick={() => handleBuy(item.itemId)} disabled={!username}>
+          <Button onClick={() => handleBuy(item)} disabled={!username}>
             Buy now
           </Button>
         </td>
