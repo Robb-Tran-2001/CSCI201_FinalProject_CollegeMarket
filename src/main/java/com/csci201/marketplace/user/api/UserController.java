@@ -92,9 +92,11 @@ public class UserController { //interacts with user service
 
 	//POST http://placeholder.com/api/user/approve
 	@PostMapping(path = "approve")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity<User> approve(String seller, String buyer, int itemID) {
-		boolean success = iservice.delete(itemID);
+	public ResponseEntity<User> approve(String username, Integer itemid) {
+		System.out.println(itemid);
+		boolean success = iservice.delete(itemid);
 		if(!success) return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
 		return ResponseEntity.status(HttpStatus.OK).build();  //accepted code 200/202
 	}
@@ -102,16 +104,16 @@ public class UserController { //interacts with user service
 	//GET http://placeholder.com/api/user/name
 	@GetMapping(path = "{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity<User> getRequests(@PathVariable("name") String name) {
+	public ResponseEntity<List<Item>> getRequests(@PathVariable("name") String name) {
 		User seller = uservice.getProf(name);
-
+		if(seller == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		List<Item> items = iservice.listAll();
 		List<Item> requests = new ArrayList<>();
 		for(Item it : items) {
 			if(it.getSellerId() == seller.getUserID())
 				requests.add(it);
 		}
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.OK).body(requests);
 	}
 }
 
