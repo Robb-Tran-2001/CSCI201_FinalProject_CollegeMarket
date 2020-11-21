@@ -50,7 +50,7 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
     }
 	
 	@Override
-	public List<ItemSimple> listAllSimple(String un) {
+	public List<ItemSimple> listAllSimple(String un) { //show all available items for sale
 		String SQL;
 		Object[] args;
 		if(un != null) {
@@ -60,7 +60,7 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 			SQL = "SELECT Items.name, Items.price, Items.item_id, Items.description, Users.name AS seller_name\n"
 					+ "	FROM Items \n"
 					+ "    INNER JOIN Users ON Items.seller_id = Users.user_id\n"
-					+ "	WHERE buyer_id IS NULL \n"
+					+ "	WHERE buyer_id IS NULL OR buyer_id = 0 \n"
 					+ "		AND Users.name != ?;";
 			return jdbcTemplate.query(SQL, args, new ItemSimpleMapper());
 		} else {
@@ -68,7 +68,7 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 			SQL = "SELECT Items.name, Items.price, Items.item_id, Items.description, Users.name AS seller_name\n"
 					+ "	FROM Items \n"
 					+ "    INNER JOIN Users ON Items.seller_id = Users.user_id\n"
-					+ "	WHERE buyer_id IS NULL;";
+					+ "	WHERE buyer_id IS NULL OR buyer_id = 0;";
 			return jdbcTemplate.query(SQL, new ItemSimpleMapper());
 		}
 		
