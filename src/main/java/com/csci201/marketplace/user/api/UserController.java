@@ -5,6 +5,8 @@ import com.csci201.marketplace.item.service.ItemService;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;
@@ -37,45 +39,45 @@ public class UserController { //interacts with user service
 
 	@GetMapping(path = "profile/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProfile(@PathVariable("name") String name) //get another user's profile
+	public ResponseEntity getProfile(@PathVariable("name") String name) //get another user's profile
 	{
 		User user = uservice.getProf(name);
 		if (user == null)
-			return Response.status(Response.Status.NOT_FOUND).build(); //404 not found user
-		else 
-			return Response.ok(user, MediaType.APPLICATION_JSON).build(); //200 and user json returned
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(user);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 
 	//POST http://placeholder/api/user/login send JSON of username and password
 	@PostMapping(path = "login")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@RequestBody User user) //log in to your profile
+	@Consumes(MediaType.APPLICATION_JSON)
+	public ResponseEntity login(@RequestBody User user) //log in to your profile
 	{
 		User user2 = uservice.getMProf(user.getName(), user.getPassword());
 		if (user2 == null)
-			return Response.status(Response.Status.UNAUTHORIZED).build(); //401 unauthorized access
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(user2);
 		else
-			return Response.ok(user2, MediaType.APPLICATION_JSON).build(); //200 ok
+			return ResponseEntity.status(HttpStatus.OK).body(user2);
 	}
 
 	//POST http://placeholder.com/api/user/signup send JSON of username and password
 	@PostMapping(path = "signup")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response signup(@RequestBody User user) throws URISyntaxException {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces()
+	public ResponseEntity signup(@RequestBody User user) throws URISyntaxException {
 		int userID = uservice.add(user);
-		if(userID == 0) return Response.status(Response.Status.CONFLICT).build(); //409, taken
-		URI uri = new URI("/profile/" + user.getName());
-		return Response.created(uri).build(); //create URI for the user code 201
+		if(userID == 0) return new ResponseEntity(HttpStatus.CONFLICT);; //409
+		return ResponseEntity.status(HttpStatus.OK).body(user); //200
 	}
 
 	//PUT http://placeholder.com/api/user/password
 	@PutMapping(path = "password")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response changePassword(User user) {
+	public ResponseEntity changePassword(User user) {
 		int row = uservice.update(user.getName(), user.getPassword());
 		if (row != 0)
-			return Response.ok().build(); //code 200 ok
-		return Response.notModified().build(); //code 304 unmodified
+			return ResponseEntity.status(HttpStatus.OK).body(user);  //code 200 ok
+		return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(user); //code 304 unmodified
 	}
 	
 //	@DeleteMapping(path = "deleted")
@@ -90,16 +92,16 @@ public class UserController { //interacts with user service
 	//POST http://placeholder.com/api/user/approve
 	@PostMapping(path = "approve")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response approve(String seller, String buyer, int itemID) {
+	public ResponseEntity approve(String seller, String buyer, int itemID) {
 		boolean success = iservice.delete(itemID);
-		if(!success) return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-		return Response.ok().build(); //accepted code 200/202
+		if(!success) return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+		return ResponseEntity.status(HttpStatus.OK).build();  //accepted code 200/202
 	}
 
 	//GET http://placeholder.com/api/user/name
 	@GetMapping(path = "{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRequests(@PathVariable("name") String name) {
+	public ResponseEntity getRequests(@PathVariable("name") String name) {
 		List<User> users = uservice.listAll();
 		User seller = uservice.getProf(name);
 
@@ -109,6 +111,7 @@ public class UserController { //interacts with user service
 			if(it.getSellerId() == seller.getUserID())
 				requests.add(it);
 		}
-		return Response.ok(requests, MediaType.APPLICATION_JSON).build();
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }
+

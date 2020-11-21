@@ -20,6 +20,7 @@ public class JpaConfig {
 	@Autowired Environment env;
 	
 	@Bean
+    @Primary
 	public DataSource setDataSource() {
 		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.url("jdbc:mysql://localhost:3306/marketplace?createDatabaseIfNotExist=true");

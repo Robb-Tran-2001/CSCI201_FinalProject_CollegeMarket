@@ -18,15 +18,6 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplateObject;
-//    private static JdbcTemplate jdbcTemplateObject = null;
-
-//    private static DataSource dataSource = null;
-//
-//    @Autowired
-//    public void setDataSource(DataSource ds) {
-//        dataSource = ds;
-//        jdbcTemplateObject = new JdbcTemplate(ds);
-//    }
 
     @Autowired
 	public UserDemoDAO(DataSource ds) {
