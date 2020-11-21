@@ -49,14 +49,14 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('/chat');
+    var socket = new SockJS('/push_notif');
     stompClient = Stomp.over(socket);  
     stompClient.connect({}, function(frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/messages', function(messageOutput) {
             //showMessageOutput(JSON.parse(messageOutput.body));
-            alert("Item with ID " + messageOutput.itemID + " was bought by " + messageOutput.buyer + ". Better luck next time!");
+            alert("Item with ID " + JSON.parse(messageOutput.body).itemID + " was bought by " + JSON.parse(messageOutput.body).buyer + ". Better luck next time!");
         });
     });
 }
@@ -72,7 +72,7 @@ function disconnect() {
 function sendBoughtMessage() {
     var itemID = document.getElementById("itemID").value;
     var username = document.getElementById("username").value;
-    stompClient.send("/app/chat", {}, 
+    stompClient.send("/app/push_notif", {}, 
       JSON.stringify({'buyer':username, 'itemID':itemID}));
 }
 
