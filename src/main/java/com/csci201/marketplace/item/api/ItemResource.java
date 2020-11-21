@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.csci201.marketplace.Store.Store;
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.item.model.ItemSimple;
 import com.csci201.marketplace.item.service.ItemService;
@@ -133,6 +134,60 @@ public class ItemResource {
 		boolean bool = iservice.update_sell(item, username);
 		return bool;
 		
+		//dao.send_sold_msg(item);
+		
+		if (bool) {
+			//UPDATE store.java
+			//add action to be threaded
+			Store.addAction("sell-" + item.getName());
+			//add item to sellers set of items
+			User seller = Store.getUserFromId(item.getSellerId());
+			Store.getSellers().get(seller).add(item);
+			//add item to item-set
+			Store.getItems().add(item);
+			
+			return Response.ok().build();
+		}
+		
+		return Response.notModified().build();
+	}
+	
+
+	@PostMapping(path = "/buy")
+    @Produces(MediaType.APPLICATION_JSON)
+	public Response buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
+		
+		System.out.println("enters buy_item function in ItemResource");
+		
+		//String id = "100";
+		String username = json.getUsername();
+		String itemId = json.getItemId();
+		
+		Item item = iservice.get(Integer.parseInt(itemId));
+		
+		if (item.isSold()) {
+			// broadcast and return here
+			Message temp = new Message();
+			temp.setMsg("This has already been sold!");
+			PushEndpoint.send_user_msg(username, temp);
+			return Response.notModified().build();
+		}
+		
+		// NEED TO PASS IN BUYER ID 
+		item.setBuyerId(uservice.getID(username));
+		iservice.update(item);
+		boolean bool = iservice.update_sell(item, username);
+		
+		
+		if (bool) {
+			//UPDATE store.java
+			//add action to be threaded
+			Store.addAction("buy-" + item.getName());
+			//add item to sellers set of items
+			User buyer = Store.getUserFromId(item.getBuyerId());
+			Store.getBuyers().get(item).add(buyer);
+			return Response.ok().build();
+		}
 		
 //		if (bool) {
 //			return Response.ok().build();
@@ -156,3 +211,10 @@ public class ItemResource {
 ////		return Response.notModified().build();
 //	}
 }
+
+
+
+
+
+
+
