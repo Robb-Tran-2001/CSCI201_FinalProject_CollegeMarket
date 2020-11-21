@@ -1,12 +1,5 @@
 package com.csci201.marketplace.item.model;
 
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.csci201.marketplace.Store.Store;
-
 public class Item {
 
 	private int itemId;

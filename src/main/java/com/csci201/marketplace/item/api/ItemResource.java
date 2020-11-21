@@ -110,13 +110,14 @@ public class ItemResource {
 	@ResponseBody
 	public boolean buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
 		
-		System.out.println("enters buy_item function in ItemResource");
-		
 		//String id = "100";
 		String username = json.getUsername();
-		String itemId = json.getItemId();
+		int itemId = json.getItemId();
+		System.out.println("Username from form: " + username);
+		System.out.println("Item ID from form: " + itemId);
 		
-		Item item = iservice.get(Integer.parseInt(itemId));
+		Item item = iservice.get(itemId);
+//		Item item = iservice.get(Integer.parseInt(itemId));
 		
 		if (item.isSold()) {
 			// broadcast and return here
