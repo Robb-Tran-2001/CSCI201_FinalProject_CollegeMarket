@@ -1,12 +1,5 @@
 package com.csci201.marketplace.item.model;
 
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.csci201.marketplace.Store.Store;
-
 public class Item {
 
 	private int itemId;
@@ -99,8 +92,6 @@ public class Item {
 	}
 
 	public boolean isSold() {
-		boolean sold = buyerId != 0;
-		System.out.println("Sold?: " + sold);
 		return buyerId != 0;
 	}
 
