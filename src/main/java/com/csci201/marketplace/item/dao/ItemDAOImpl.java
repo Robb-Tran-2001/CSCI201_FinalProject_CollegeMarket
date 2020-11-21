@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 import javax.websocket.EncodeException;
 
 import com.csci201.marketplace.item.model.Item;
+import com.csci201.marketplace.item.model.ItemSimple;
 import com.csci201.marketplace.pushnotif.model.*;
 import com.csci201.marketplace.pushnotif.websocket.*;
 
@@ -49,6 +50,12 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
     }
 	
 	@Override
+	public List<ItemSimple> listAllSimple() {
+		String SQL = "SELECT name, price, item_id FROM Items WHERE buyer_id IS NULL;";
+		return jdbcTemplate.query(SQL, new ItemSimpleMapper());
+	}
+	
+	@Override
 	public Item get(int id) {
 		this.getAll();
 		//int counter = 0;
@@ -89,10 +96,6 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 		if(item.getDescription() != null) {
 			String update = "UPDATE Items i SET i.description = ? WHERE i.item_id = ?";
 			jdbcTemplate.update(update, item.getDescription(), item.getItemId());
-		}
-		if(item.getPictures() != null) {
-			String update = "UPDATE Items i SET i.images_json = ? WHERE i.item_id = ?";
-			jdbcTemplate.update(update, item.getPictures(), item.getItemId());
 		}
 		
 		return item.getItemId();
@@ -142,11 +145,6 @@ public class ItemDAOImpl extends JdbcDaoSupport implements ItemDAO {
 				if(item.getDescription() != null) {
 					jdbcTemplate.update("UPDATE Items i SET i.description = ? WHERE i.item_id = ?",
 							item.getDescription(),
-							item.getItemId());
-				}
-				if(item.getDescription() != null) {
-					jdbcTemplate.update("UPDATE Items i SET i.images_json = ? WHERE i.item_id = ?",
-							item.getPictures(),
 							item.getItemId());
 				}
 				

@@ -10,6 +10,9 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+//import static com.csci201.marketplace.user.model.User.encoder;
+
+
 @Repository("UserDemoDAO")
 public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     private static List<User> users = new ArrayList<User>();
@@ -49,7 +52,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     {
         for(User user : users)
             if(user.getName().matches(name)) return user;
-        String SQL = "SELECT * FROM Users WHERE User.name = " + name;
+        String SQL = "SELECT * FROM Users WHERE name = \"" + name + "\"";
         List<User> li = jdbcTemplateObject.query(SQL, new UserMapper());
         if(li.size() != 0) users.addAll(li);
         return li.get(0);
@@ -65,13 +68,12 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
         return li.get(0);
     }
     
-//    @Override // get userID by username
-//    public User getID(String username) {
-//    	for(User user : users) {
-//    		if(username.matches(user.getName())) return user.getUserID();
-//    	}
-//    	return -1;
-//    }
+
+    @Override // get userID by username
+    public int getID(String username) {
+    	int id = this.get(username).getUserID();
+    	return id;
+    }
 
     @Override //delete by ID
     public boolean delete(int id)
@@ -128,11 +130,13 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     private int create(User user) //create user
     {
         String sql =
-                "INSERT INTO Users (name, " +
+                "INSERT INTO Users (user_id, " +
+                        "    name, " +
                         "    password) " +
-                        "VALUES (?, ?)";
-        Object[] params = {user.getName(), user.getPassword()};
+                        "VALUES (?, ?, ?, ?)";
+        Object[] params = {user.getUserID(), user.getName(), user.getPassword()};
         int[] types = new int[] {
+                Types.INTEGER,
                 Types.VARCHAR,
                 Types.VARCHAR
         };

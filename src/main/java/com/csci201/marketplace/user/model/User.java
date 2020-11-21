@@ -16,7 +16,6 @@ public class User { //User interacts with mapper
 	private transient Set<Integer> toBuy;
 	private transient Set<Integer> forSale;
 	
-	
 	public User(@JsonProperty("user_id") int id, @JsonProperty("name")String name, @JsonProperty("password") String password)
 	{
 		this.userID = userID;
@@ -29,11 +28,15 @@ public class User { //User interacts with mapper
 	{
 		//this.userID = userID;
 		this.name = name;
-		this.password = password;
+    this.password = password;
 		Store.getUsers().add(this);
-	}
+    
+	
+  public User() {
 
-	public int getUserID() {
+  }
+
+  public int getUserID() {
 		return userID;
 	}
 
