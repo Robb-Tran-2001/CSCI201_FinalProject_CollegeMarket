@@ -60,10 +60,10 @@ public class ItemResource {
 
 	@GetMapping(path = "/items")
 	@ResponseBody
-	public ResponseEntity<List<ItemSimple>> list() {
+    public ResponseEntity<List<ItemSimple>> list() {
 		List<ItemSimple> list = iservice.listAllSimple();
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
 	@GetMapping(path = "/items/{id}")
 	@ResponseBody
@@ -71,10 +71,10 @@ public class ItemResource {
 		Item item = iservice.get(Integer.parseInt(id));
 
 		if (item == null) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 		else {
-			return new ResponseEntity<>(item, HttpStatus.OK);
+	        return new ResponseEntity<>(item, HttpStatus.OK);
 		}
 	}
 
@@ -93,14 +93,12 @@ public class ItemResource {
 		}
 		return new ResponseEntity<>(Integer.valueOf(iservice.add(item)), HttpStatus.OK);
 	}
-
-
+	
 	@PostMapping(path = "/buy")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
 	@ResponseBody
-	public ResponseEntity<Boolean> buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {
-
+	public ResponseEntity<Boolean> buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
 		Item item;
 		String username;
 		int itemId;
