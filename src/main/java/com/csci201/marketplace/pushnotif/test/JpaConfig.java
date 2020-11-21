@@ -13,12 +13,12 @@
 //
 //@SpringBootConfiguration
 //public class JpaConfig {
-// 
+//
 ////    public static void main(String[] args) {
 ////        SpringApplication.run(JpaConfig.class, args);
 ////    }
 //	@Autowired Environment env;
-//	
+//
 //	@Bean
 //	public DataSource setDataSource() {
 //		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();

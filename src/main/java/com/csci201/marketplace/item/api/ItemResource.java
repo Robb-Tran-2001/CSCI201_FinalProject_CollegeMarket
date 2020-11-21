@@ -47,24 +47,24 @@ import com.csci201.marketplace.user.service.UserService;
 @RestController
 @RequestMapping("/api")
 public class ItemResource {
-	
+
 	private ItemService iservice;
 	private UserService uservice;
-	
+
 	@Autowired
 	public ItemResource(ItemService is, UserService us) {
 		this.iservice = is;
 		this.uservice = us;
 	}
-	
-	
+
+
 	@GetMapping(path = "/items")
 	@ResponseBody
     public ResponseEntity<List<ItemSimple>> list() {
 		List<ItemSimple> list = iservice.listAllSimple();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-	
+
 	@GetMapping(path = "/items/{id}")
 	@ResponseBody
 	public ResponseEntity<Item> get(@PathVariable("id") String id) {
@@ -77,7 +77,7 @@ public class ItemResource {
 	        return new ResponseEntity<>(item, HttpStatus.OK);
 		}
 	}
-	
+
 	@PostMapping(path = "/sell")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@ResponseBody
@@ -94,13 +94,11 @@ public class ItemResource {
 		return new ResponseEntity<>(Integer.valueOf(iservice.add(item)), HttpStatus.OK);
 	}
 	
-	
 	@PostMapping(path = "/buy")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 	@ResponseBody
 	public ResponseEntity<Boolean> buy_item(@RequestBody BuyJson json) throws URISyntaxException, IOException, EncodeException {	
-		
 		Item item;
 		String username;
 		int itemId;
@@ -108,17 +106,17 @@ public class ItemResource {
 		try {
 			username = json.getUsername();
 			itemId = Integer.parseInt(json.getItemId());
-			
+
 			item = iservice.get(itemId);
 			buyerId = uservice.getID(username);
 		} catch(Exception e) {
 			return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		if (item == null || item.isSold() || item.getSellerId() == buyerId) {
 			return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		// NEED TO PASS IN BUYER ID 
 		item.setBuyerId(uservice.getID(username));
 		iservice.update(item);

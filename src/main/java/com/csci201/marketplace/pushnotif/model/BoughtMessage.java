@@ -1,18 +1,19 @@
 package com.csci201.marketplace.pushnotif.model;
 
 public class BoughtMessage {
-	private String buyer;
-	private String itemID;
-	public String getBuyer() {
-		return buyer;
+	private String user;
+	private String item;
+	
+	public String getUser() {
+		return user;
 	}
-	public void setBuyer(String buyer) {
-		this.buyer = buyer;
+	public void setUser(String user) {
+		this.user = user;
 	}
-	public String getItemID() {
-		return itemID;
+	public String getItem() {
+		return item;
 	}
-	public void setItemID(String itemID) {
-		this.itemID = itemID;
+	public void setItem(String item) {
+		this.item = item;
 	}
 }
