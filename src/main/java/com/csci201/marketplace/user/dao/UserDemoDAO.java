@@ -106,7 +106,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     public int update(String name, String password) {
         int counter = 0;
         for (User us : users) {
-            if (us.getName().matches(name)) {
+            if (us.getName().compareTo(name) == 0) {
                 us.setPassword(password);
                 int row = update(us);
                 return row;

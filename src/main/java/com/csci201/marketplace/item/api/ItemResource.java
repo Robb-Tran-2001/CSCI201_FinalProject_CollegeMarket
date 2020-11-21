@@ -79,9 +79,9 @@ public class ItemResource {
 	}
 
 	@PostMapping(path = "/sell")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ResponseBody
-	public ResponseEntity<Integer> add(SellItemForm form) throws URISyntaxException {
+	public ResponseEntity<Integer> add(@RequestBody SellItemForm form) throws URISyntaxException {
 		// Parse new Item from JSON 
 		Item item;
 		try{
@@ -105,7 +105,7 @@ public class ItemResource {
 		int buyerId;
 		try {
 			username = json.getUsername();
-			itemId = Integer.parseInt(json.getItemId());
+			itemId = json.getItemId();
 
 			item = iservice.get(itemId);
 			buyerId = uservice.getID(username);
