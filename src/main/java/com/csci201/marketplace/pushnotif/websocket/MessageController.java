@@ -14,4 +14,15 @@ public class MessageController {
 	public BoughtMessage send(BoughtMessage message) throws Exception {
 	    return message;
 	}
+	
+	//@MessageMapping("/push_notif")
+	@SendTo("/topic/messages")
+	public static BoughtMessage send(String user, String item) throws Exception {
+		BoughtMessage msg = new BoughtMessage();
+		
+		msg.setUser(user);
+		msg.setItem(item);
+		
+	    return msg;
+	}
 }
