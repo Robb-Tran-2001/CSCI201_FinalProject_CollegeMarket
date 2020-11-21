@@ -9,7 +9,7 @@ import com.csci201.marketplace.pushnotif.model.BoughtMessage;
 @Controller
 public class MessageController {
 	
-	@MessageMapping("/chat")
+	@MessageMapping("/push_notif")
 	@SendTo("/topic/messages")
 	public BoughtMessage send(BoughtMessage message) throws Exception {
 	    return message;
