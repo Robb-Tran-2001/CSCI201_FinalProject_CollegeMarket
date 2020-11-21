@@ -47,14 +47,17 @@ export const Catalog = ({ username, searchitems }) => {
 
   useEffect(() => {
     if (searchitems) return
-    console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS)
-    fetch(ALL_ITEMS_SERVICE_ADDRESS)
+    const query = sessionStorage.getItem('username')
+      ? '?name=' + sessionStorage.getItem('username')
+      : ''
+    console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS + query)
+    fetch(ALL_ITEMS_SERVICE_ADDRESS + query)
       .then(res => res.json())
       .then(res => {
         setLoaded(true)
         setItems(res)
       })
-  }, [])
+  }, [username])
 
   // const closeModal = useCallback(() => {
   //   setModalItemID(-1)

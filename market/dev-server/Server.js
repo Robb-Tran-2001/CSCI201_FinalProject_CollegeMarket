@@ -15,8 +15,8 @@ server.use(function (req, res, next) {
 })
 server.use(middlewares)
 
-server.post('/login', (req, res) => {
-  if (req.body.username === 'a') {
+server.post('/user/login', (req, res) => {
+  if (req.body.name === 'a') {
     //res.send({ token: '1234' })
     res.send({ token: '1234', name: 'tommy trojan' })
   } else {

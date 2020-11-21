@@ -5,14 +5,14 @@ import { Catalog } from './Catalog'
 import { User } from './User'
 import { Sell } from './Sell'
 
-export const Router = ({ username, updateUser }) => {
+export const Router = ({ username }) => {
   const location = useLocation()
   return (
     <Switch className='p-0'>
       {username && (
         <Switch>
           <Route path='/user'>
-            <User username={username} updateUser={updateUser} />
+            <User username={username} />
           </Route>
           <Route path='/create'>
             <Sell username={username} />

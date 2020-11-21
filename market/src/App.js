@@ -30,7 +30,7 @@ function App() {
 
     var socket = new SockJS('/push_notif')
     const stompClient = Stomp.over(socket)
-    stompClient.debug = () => {}
+    // stompClient.debug = () => {}
     stompClient.connect({}, function () {
       stompClient.subscribe('/topic/messages', function (m) {
         const data = JSON.parse(m.body)
@@ -46,7 +46,7 @@ function App() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Nav username={username} updateUser={updateUsername} />
-      <Router username={username} updateUser={updateUsername} />
+      <Router username={username} />
     </BrowserRouter>
   )
 }

@@ -7,7 +7,7 @@ import {
   USER_APPROVE_PURCHASE_SERVICE_ADDRESS,
 } from '../Paths'
 
-export const User = ({ username, updateUser }) => {
+export const User = ({ username }) => {
   const [tab, setTab] = useState('orders')
   const [orders, setOrders] = useState([])
   useEffect(() => {
@@ -100,9 +100,6 @@ export const User = ({ username, updateUser }) => {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey='password'>Change password</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Button onClick={() => updateUser('')}>Log Out</Button>
             </Nav.Item>
           </Nav>
         </Col>
