@@ -187,7 +187,8 @@ Return 200 and token if correct, 401 if input is incorrect
 
 ```json
 {
-  "username": "username",
+  "seller": "sellername",
+  "buyer": "buyername"
   "itemid": "itemid"
 }
 ```

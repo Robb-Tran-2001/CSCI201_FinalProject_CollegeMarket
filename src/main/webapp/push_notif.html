@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Chat</title>
+        <title>Push_Notification</title>
     </head>
     <body>
 
@@ -8,7 +8,7 @@
             <tr>
                 <td colspan="2">
                     <input type="text" id="username" placeholder="Username"/>
-                    <button type="button" onclick="connect();" >Connect</button>
+                    <button id="connect" type="button" onclick="connect();" >Login</button>
                 </td>
             </tr>
            <!--  <tr>
@@ -19,12 +19,19 @@
             <tr>
                 <td>
                     <input type="text" id="itemID" placeholder="ItemID"/>
-                    <button type="button" onclick="send();" >Sell Item</button>
+                    <button type="button" onclick="sendBoughtMessage();" >Buy Item</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="disconnect" type="button" onclick="disconnect();" >Logout</button>
                 </td>
             </tr>
         </table>
     </body>
 
     <script src="websocket.js"></script>
+    <script src="resources/js/sockjs-0.3.4.js"></script>
+    <script src="resources/js/stomp.js"></script>
 
 </html>
