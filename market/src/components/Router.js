@@ -5,7 +5,7 @@ import { Catalog } from './Catalog'
 import { User } from './User'
 import { Sell } from './Sell'
 
-export const Router = ({ username }) => {
+export const Router = ({ username, send }) => {
   const location = useLocation()
   return (
     <Switch className='p-0'>
@@ -23,7 +23,7 @@ export const Router = ({ username }) => {
         <Catalog username={username} searchitems={location.state} />
       ) : (
         <Route path='/' exact>
-          <Catalog username={username} />
+          <Catalog username={username} send={send} />
         </Route>
       )}
     </Switch>

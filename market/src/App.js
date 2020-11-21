@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import Nav from './components/Nav'
 import './App.scss'
 import { BrowserRouter } from 'react-router-dom'
@@ -16,6 +16,20 @@ function App() {
     if (u === username) return
     setUsername(u)
   }, [])
+  const pushClient = useMemo(() => {
+    var socket = new SockJS('/push_notif')
+    return Stomp.over(socket)
+  }, [])
+  const send = useCallback(
+    item => {
+      pushClient.send(
+        '/app/push_notif',
+        {},
+        JSON.stringify({ user: username, item: item })
+      )
+    },
+    [username]
+  )
   const updateUsername = n => {
     sessionStorage.setItem('username', n)
     setUsername(n)
@@ -28,25 +42,24 @@ function App() {
     // console.info('Connecting to push')
     // console.info(WEBSOCKET_ADDRESS)
 
-    var socket = new SockJS('/push_notif')
-    const stompClient = Stomp.over(socket)
     // stompClient.debug = () => {}
-    stompClient.connect({}, function () {
-      stompClient.subscribe('/topic/messages', function (m) {
+    pushClient.connect({}, function () {
+      pushClient.subscribe('/topic/messages', function (m) {
         const data = JSON.parse(m.body)
-        addToast(data.buyer + ' just bought ' + data.item + '!', {
+        console.log(data)
+        addToast(data.user + ' just bought ' + data.item + '!', {
           appearance: 'info',
         })
       })
     })
     return () => {
-      stompClient.disconnect()
+      pushClient.disconnect()
     }
   }, [addToast])
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Nav username={username} updateUser={updateUsername} />
-      <Router username={username} />
+      <Router username={username} send={send} />
     </BrowserRouter>
   )
 }
