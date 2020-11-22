@@ -1,5 +1,8 @@
 package com.csci201.marketplace.item.service;
 
+/**
+ * Spring wrapper for Item DAO
+ */
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +63,4 @@ public class ItemService {
 		return itemDAOImpl.update(item);
 	}
 	
-	public boolean update_sell(Item item, String username) throws IOException, EncodeException {
-		return itemDAOImpl.update_sell(item, username);
-	}
-	
-	public void send_sold_msg(Item item, String username) throws IOException, EncodeException {
-		itemDAOImpl.send_sold_msg(item, username);
-	}
 }

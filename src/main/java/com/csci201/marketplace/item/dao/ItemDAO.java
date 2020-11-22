@@ -16,6 +16,4 @@ public interface ItemDAO {
 	public int add(Item item);
 	public boolean delete(int id);
 	public boolean update(Item item) throws IOException, EncodeException ;
-	public boolean update_sell(Item item, String username) throws IOException, EncodeException;
-	public void send_sold_msg(Item item, String username) throws IOException, EncodeException;
 }

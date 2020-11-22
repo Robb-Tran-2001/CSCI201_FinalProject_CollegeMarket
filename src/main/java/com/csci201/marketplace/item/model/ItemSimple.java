@@ -1,13 +1,6 @@
 package com.csci201.marketplace.item.model;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.csci201.marketplace.Store.Store;
-
-
 /**
  * Only for returning items when listing all available items
  *
