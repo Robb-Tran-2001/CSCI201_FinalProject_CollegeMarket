@@ -78,4 +78,13 @@ public class UserService { //implements DAO, interacts with USER
         }
         return requests;
     }
+    
+    public String getNameFromID(int id) {
+    	List<User> users = this.listAll();
+    	for(User user : users) {
+    		if(user.getUserID() == id)
+    			return user.getName();
+    	}
+		return null;
+    }
 }

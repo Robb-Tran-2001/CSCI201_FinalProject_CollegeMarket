@@ -1,11 +1,6 @@
 package com.csci201.marketplace.user.model;
 
-import com.csci201.marketplace.Store.Store;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Set;
-
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
 
 public class User { //User interacts with mapper
 	private transient int userID;

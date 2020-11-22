@@ -2,6 +2,7 @@ package com.csci201.marketplace.user.api;
 
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.item.service.ItemService;
+import com.csci201.marketplace.user.dao.Request;
 import com.csci201.marketplace.user.model.User;
 import com.csci201.marketplace.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +109,7 @@ public class UserController { //interacts with user service
 	//GET http://placeholder.com/api/user/name
 	@GetMapping(path = "{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity<List<Item>> getRequests(@PathVariable("name") String name) {
+	public ResponseEntity<List<Request>> getRequests(@PathVariable("name") String name) {
 		User seller = uservice.getProf(name);
 		if(seller == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		List<Item> items = iservice.listAll();
@@ -117,7 +118,12 @@ public class UserController { //interacts with user service
 			if(it.getSellerId() == seller.getUserID() && it.getBuyerId() != 0)
 				requests.add(it);
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(requests);
+		List<Request> requestsForReal = new ArrayList<>();
+		for(Item it : requests) {
+			String buyername = uservice.getNameFromID(it.getBuyerId());
+			requestsForReal.add(new Request(it, buyername));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(requestsForReal);
 	}
 }
 
