@@ -1,3 +1,4 @@
+//Tutorial Source: https://www.yawintutor.com/how-to-enable-and-disable-csrf/
 package com.csci201.marketplace.securityconfig;
 
 import org.springframework.context.ApplicationContextAware;
@@ -18,11 +19,4 @@ public class WebSecurityConfig
                 // ...
                 .csrf().disable();
     }
-
-//    @Override
-//    protected void registerAuthentication(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
-//        authManagerBuilder
-//                .inMemoryAuthentication()
-//                .withUser("user").password("password").roles("ADMIN");
-//    }
 }
