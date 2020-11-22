@@ -12,7 +12,15 @@ INSERT INTO Items (name, seller_id, price, description) VALUES ("bbb", 2, 13.0, 
 INSERT INTO Items (name, seller_id, buyer_id, price, description) VALUES ("ccc", 1, 2, 14.0, "c desc");
 INSERT INTO Items (name, seller_id, price, description) VALUES ("tumbleweed", 1, 1.0, "hey how'd this roll in here?");
 INSERT INTO Items (name, seller_id, price, description) VALUES ("clay helton's hat", 3, 233, "now that's a lot of sweat");
+<<<<<<< HEAD
 INSERT INTO Items (name, seller_id, buyer_id, price, description) VALUES ("evk table", 1, 2, 24.0, "better than ikea");
 INSERT INTO Items (name, seller_id, price, description) VALUES ("keys to SAL", 3, 999999.0, "treasure");
 INSERT INTO Items (name, seller_id, price, description) VALUES ("tide pod", 2, 13.0, "inflation, eh?");
 INSERT INTO Items (name, seller_id, buyer_id, price, description) VALUES ("cheese", 1, 2, 14.0, "of the cheddar variety");
+=======
+INSERT INTO Items (name, seller_id, price, description) VALUES ("evk table", 1, 24.0, "better than ikea");
+INSERT INTO Items (name, seller_id, price, description) VALUES ("keys to SAL", 3, 999999.0, "treasure");
+INSERT INTO Items (name, seller_id, price, description) VALUES ("tide pod", 2, 13.0, "inflation, eh?");
+INSERT INTO Items (name, seller_id, price, description) VALUES ("cheese", 1, 14.0, "of the cheddar variety");
+INSERT INTO Items (name, seller_id, price, description) VALUES ("more cheese", 1, 14.0, "of the swiss variety");
+>>>>>>> main
