@@ -13,13 +13,13 @@ public class User { //User interacts with mapper
 	private String password;
 
 	//itemID = key, bid to buy = value
-	private transient Set<Integer> toBuy;
-	private transient Set<Integer> forSale;
+//	private transient Set<Integer> toBuy;
+//	private transient Set<Integer> forSale;
+
 	
-	
-	public User(int id, String name, String password)
+	public User(int id, String name, String password, int userID)
 	{
-		this.userID = userID;
+		this.userID = id;
 		this.name = name;
 		this.password = password;
 		//Store.getUsers().add(this);
@@ -61,20 +61,20 @@ public class User { //User interacts with mapper
 		this.password = password;
 	}
 
-	public Set<Integer> getForSale() {
-		return forSale;
-	}
-
-	public void setForSale(Set<Integer> forSale) {
-		this.forSale = forSale;
-	}
-
-	public Set<Integer> getToBuy() {
-		return toBuy;
-	}
-
-	public void setToBuy(Set<Integer> toBuy) {
-		this.toBuy = toBuy;
-	}
+//	public Set<Integer> getForSale() {
+//		return forSale;
+//	}
+//
+//	public void setForSale(Set<Integer> forSale) {
+//		this.forSale = forSale;
+//	}
+//
+//	public Set<Integer> getToBuy() {
+//		return toBuy;
+//	}
+//
+//	public void setToBuy(Set<Integer> toBuy) {
+//		this.toBuy = toBuy;
+//	}
 	
 }
