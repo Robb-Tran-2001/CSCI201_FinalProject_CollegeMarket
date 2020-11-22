@@ -19,8 +19,8 @@ function App() {
     if (!username) {
       return
     }
-    console.info('Connecting to push')
-    console.info(WEBSOCKET_ADDRESS)
+    // console.info('Connecting to push')
+    // console.info(WEBSOCKET_ADDRESS)
     const ws = new WebSocket(WEBSOCKET_ADDRESS + username)
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data)

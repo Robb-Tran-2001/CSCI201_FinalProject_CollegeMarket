@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Nav from './components/Nav'
 import './App.scss'
 import { BrowserRouter } from 'react-router-dom'
@@ -30,7 +30,7 @@ function App() {
     // console.info(WEBSOCKET_ADDRESS)
     const socket = new SockJS('/push_notif')
     const pushClient = Stomp.over(socket)
-    // stompClient.debug = () => {}
+    pushClient.debug = () => {}
     pushClient.connect({}, function () {
       pushClient.subscribe('/topic/messages', function (m) {
         const data = JSON.parse(m.body)
