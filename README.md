@@ -36,7 +36,7 @@
 - Run the file as a Java Project by either left clicking the Run button in the top navigation bar, or right click on the file from within the Package Explorer and get to Run As > Java Application, left click it. At this point, the project should be running.
 
 #### Frontend
-- After having done the above, in Google Chrome, go to localhost:8080, which should take you to the frontend.
+- After having done the above, in Google Chrome, go to `localhost:8080`, which should take you to the frontend.
 - If prompted for authorization, enter “user” (without the quotation marks) in the Username field and enter “pw” (also without the quotation marks) in the Password field.
 - At this point, the project should be ready to run.
 
@@ -49,7 +49,7 @@
 - Click approve to accept the request, and the item is sold successfully. The request should disappear once approved.
 - Go back to the homepage to buy/sell new items.
 - To change password, click on the username in the top right corner, and on the left, there is the option “Change Password”. Enter a new desirable password to successfully change the new login.
-- Open a new tab and go to localhost:8080 again to sign in as a new user or login as a new user.
+- Open a new tab and go to `localhost:8080` again to sign in as a new user or login as a new user.
 
 
 
