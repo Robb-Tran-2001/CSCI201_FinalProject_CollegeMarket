@@ -41,7 +41,7 @@
 - At this point, the project should be ready to run.
 
 ### How to Navigate the Website
-- At first, only guest features are allowed (essentially viewing the website). The “Buy now” button will not function. 
+- At first, only guest features are allowed (essentially viewing the website). The “Buy Now” button will not function. 
 - Click the login button on the top right of the screen to pop up a window, sign in with an existing account (Username: admin, Password: root). If you want to sign up for a new account, create a new user by clicking the bottom right corner text that says “Don’t have an account?”, and enter your desired username and password.
 - Once you’re at this step, you’re already logged in and can use other functionalities. Select the “Create a New Listing” button to put an item up for sale.
 - Click “Buy Now” next to an item to buy the item. This sends a buy request to the seller, which the seller has to approve in order for the purchase to be finalized. The item should not show up in the item listings anymore. Additionally, once “Buy Now” is pressed, a push notification will be sent to everyone on the website notifying them that an item purchase has been requested.
