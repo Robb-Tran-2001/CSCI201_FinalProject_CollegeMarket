@@ -43,6 +43,8 @@ import com.csci201.marketplace.user.api.*;
 import com.csci201.marketplace.user.dao.*;
 import com.csci201.marketplace.user.model.*;
 import com.csci201.marketplace.user.service.UserService;
+import com.csci201.marketplace.pushnotif.websocket.MessageController;
+
 
 @Repository
 @RestController
@@ -51,6 +53,9 @@ public class ItemResource {
 
 	private ItemService iservice;
 	private UserService uservice;
+	
+	@Autowired
+	private MessageController msg_controller;
 
 	@Autowired
 	public ItemResource(ItemService is, UserService us) {
@@ -132,7 +137,19 @@ public class ItemResource {
 		item.setBuyerId(uservice.getID(username));
 		iservice.update(item);
 		Boolean bool = iservice.update_sell(item, username);
-		if(bool) return new ResponseEntity<> (Boolean.TRUE, HttpStatus.OK);
+		if(bool) {
+			
+			System.out.println("ENTERSHERE ENTERSHERE ENTERSHERE");
+			
+			try {
+				msg_controller.send(username,  item.getName());
+			} catch (Exception e) {
+				// TODO Auto-generated catch 
+				System.out.println("Push notification failed");
+				e.printStackTrace();
+			}
+			return new ResponseEntity<> (Boolean.TRUE, HttpStatus.OK);
+		}
 		else return new ResponseEntity<> (Boolean.FALSE, HttpStatus.BAD_REQUEST);
 
 	}
