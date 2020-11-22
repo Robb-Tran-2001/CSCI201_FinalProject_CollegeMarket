@@ -15,7 +15,7 @@ export const Catalog = ({ username, searchitems }) => {
 
   useEffect(() => {
     if (searchitems) return
-    console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS)
+    // console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS)
     fetch(ALL_ITEMS_SERVICE_ADDRESS)
       .then((res) => res.json())
       .then((res) => setItems(res))

@@ -23,10 +23,10 @@ export const Catalog = ({ username, searchitems }) => {
   // }
 
   const handleBuy = item => {
-    console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
-      itemid: item.itemId,
-      username: username,
-    })
+    // console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
+    //   itemid: item.itemId,
+    //   username: username,
+    // })
     fetch(BUY_ITEM_SERVICE_ADDRESS, {
       method: 'POST',
       headers: {
@@ -50,12 +50,12 @@ export const Catalog = ({ username, searchitems }) => {
     const query = sessionStorage.getItem('username')
       ? '?name=' + sessionStorage.getItem('username')
       : ''
-    console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS + query)
+    // console.info('GET ' + ALL_ITEMS_SERVICE_ADDRESS + query)
     fetch(ALL_ITEMS_SERVICE_ADDRESS + query)
       .then(res => res.json())
       .then(res => {
         setLoaded(true)
-        setItems(res)
+        setItems(res.filter(e => e.sellerName !== username))
       })
   }, [username])
 

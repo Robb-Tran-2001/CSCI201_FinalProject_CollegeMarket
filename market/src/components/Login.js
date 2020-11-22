@@ -19,11 +19,11 @@ export const Login = ({ show, handleClose, updateUser }) => {
       const body = { name: form.username }
       const hashed = SHA256(form.username + ':' + form.password).toString()
       body.password = hashed
-      console.info(
-        'POST',
-        login ? LOGIN_SERVICE_ADDRESS : SIGNUP_SERVICE_ADDRESS,
-        body
-      )
+      // console.info(
+      //   'POST',
+      //   login ? LOGIN_SERVICE_ADDRESS : SIGNUP_SERVICE_ADDRESS,
+      //   body
+      // )
       fetch(login ? LOGIN_SERVICE_ADDRESS : SIGNUP_SERVICE_ADDRESS, {
         method: 'POST',
         headers: {

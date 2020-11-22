@@ -18,10 +18,10 @@ export const ItemModal = ({ username, itemid, close }) => {
   const handleBuy = (e) => {
     e.stopPropagation()
     setBuyAttempted(true)
-    console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
-      itemid: item.itemid,
-      username: username,
-    })
+    // console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
+    //   itemid: item.itemid,
+    //   username: username,
+    // })
     fetch(BUY_ITEM_SERVICE_ADDRESS, {
       method: 'POST',
       headers: {
@@ -54,7 +54,7 @@ export const ItemModal = ({ username, itemid, close }) => {
 
   useEffect(() => {
     if (itemid === -1) return
-    console.info('GET ' + ITEM_DETAIL_SERVICE_ADDRESS + itemid)
+    // console.info('GET ' + ITEM_DETAIL_SERVICE_ADDRESS + itemid)
     fetch(ITEM_DETAIL_SERVICE_ADDRESS + itemid)
       .then((res) => res.json())
       .then(

@@ -61,7 +61,7 @@ export const Sell = ({ username }) => {
     if (event.currentTarget.checkValidity()) {
       setFormLoading(true)
       // const data = new FormData(event.target)
-      console.info('POST', CREATE_ITEM_SERVICE_ADDRESS, form)
+      // console.info('POST', CREATE_ITEM_SERVICE_ADDRESS, form)
       // for (var pair of data.entries()) {
       //   console.log(pair[0] + ' - ' + pair[1])
       // }
