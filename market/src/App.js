@@ -16,20 +16,7 @@ function App() {
     if (u === username) return
     setUsername(u)
   }, [])
-  const pushClient = useMemo(() => {
-    var socket = new SockJS('/push_notif')
-    return Stomp.over(socket)
-  }, [])
-  const send = useCallback(
-    item => {
-      pushClient.send(
-        '/app/push_notif',
-        {},
-        JSON.stringify({ user: username, item: item })
-      )
-    },
-    [username]
-  )
+
   const updateUsername = n => {
     sessionStorage.setItem('username', n)
     setUsername(n)
@@ -41,13 +28,14 @@ function App() {
     // }
     // console.info('Connecting to push')
     // console.info(WEBSOCKET_ADDRESS)
-
+    const socket = new SockJS('/push_notif')
+    const pushClient = Stomp.over(socket)
     // stompClient.debug = () => {}
     pushClient.connect({}, function () {
       pushClient.subscribe('/topic/messages', function (m) {
         const data = JSON.parse(m.body)
         console.log(data)
-        addToast(data.user + ' just bought ' + data.item + '!', {
+        addToast(data.user + ' just requested to buy ' + data.item + '!', {
           appearance: 'info',
         })
       })
@@ -59,7 +47,7 @@ function App() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Nav username={username} updateUser={updateUsername} />
-      <Router username={username} send={send} />
+      <Router username={username} />
     </BrowserRouter>
   )
 }

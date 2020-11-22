@@ -13,7 +13,7 @@ import { ALL_ITEMS_SERVICE_ADDRESS } from '../Paths'
 // import { ItemModal } from './ItemModal'
 import { BUY_ITEM_SERVICE_ADDRESS } from '../Paths'
 
-export const Catalog = ({ username, searchitems, send }) => {
+export const Catalog = ({ username, searchitems }) => {
   // const [modalItemID, setModalItemID] = useState(-1)
   const [items, setItems] = useState(searchitems || [])
   const [page, setPage] = useState(1)
@@ -38,7 +38,6 @@ export const Catalog = ({ username, searchitems, send }) => {
       }),
     }).then(res => {
       if (res.status === 200) {
-        send(item.name)
         alert('Successful. Waiting for seller approval now.')
       } else {
         alert('Item is not available.')
