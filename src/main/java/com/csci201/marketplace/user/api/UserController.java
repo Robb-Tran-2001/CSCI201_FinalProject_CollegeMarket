@@ -96,7 +96,7 @@ public class UserController { //interacts with user service
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<User> approve(@RequestBody ApproveJson req) {
 		String username = req.getUsername();
-		String.out.println(username);
+		System.out.println(username);
 		//int sellerid = uservice.getID(username);
 		int id = req.getItemId();
 		boolean success = iservice.delete(id);
