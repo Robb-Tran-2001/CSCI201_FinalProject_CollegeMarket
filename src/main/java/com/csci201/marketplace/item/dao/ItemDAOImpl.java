@@ -2,6 +2,8 @@ package com.csci201.marketplace.item.dao;
 
 /**
  * DAO Implementation for Items
+ * Source for general implementation : https://www.javainuse.com/spring/bootjdbc
+ * Source for DB initialization : https://www.baeldung.com/spring-boot-data-sql-and-schema-sql
  */
 
 import java.io.IOException;
