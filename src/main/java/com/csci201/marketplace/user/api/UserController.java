@@ -91,11 +91,12 @@ public class UserController { //interacts with user service
 //	}
 
 	//Dele http://placeholder.com/api/user/approve
-	@DeleteMapping(path = "approve")
+	@PostMapping(path = "approve")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<User> approve(@RequestBody ApproveJson req) {
 		String username = req.getUsername();
+		String.out.println(username);
 		//int sellerid = uservice.getID(username);
 		int id = req.getItemId();
 		boolean success = iservice.delete(id);
