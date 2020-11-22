@@ -4,9 +4,10 @@
 - Contributors: Eugene Lee, Samuel Sommerer, Robert Tran, Anuj Vasil, Felix Liao
 
 ## Requirements
-- MySQL Workbench
+- MySQL and MySQL Workbench
+- Maven
+- Java JDK
 - Eclipse IDE
-- Apache Tomcat
 
 ## Running this Web Application
 
@@ -31,6 +32,7 @@
 
 #### Backend
 - Navigate to the project in Package Explorer and click on it to show all the packages.
+- Right-click on the project and click on Maven > Update Project. A pop window will appear. Make sure that the correct project has a check mark next to it, then press OK to continue.
 - Go to the package src/main/java, and expand it.
 - Click on the subpackage `com.csci201.marketplace`, there should be a file called `MarketplaceApplication.java`
 - Run the file as a Java Project by either left clicking the Run button in the top navigation bar, or right click on the file from within the Package Explorer and get to Run As > Java Application, left click it. At this point, the project should be running.
