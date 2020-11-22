@@ -11,7 +11,7 @@ export const User = ({ username }) => {
   const [tab, setTab] = useState('orders')
   const [orders, setOrders] = useState([])
   useEffect(() => {
-    console.info('GET', USER_INFO_SERVICE_ADDRESS + username)
+    // console.info('GET', USER_INFO_SERVICE_ADDRESS + username)
     fetch(USER_INFO_SERVICE_ADDRESS + username)
       .then(res => res.json())
       .then(res => {
@@ -26,10 +26,10 @@ export const User = ({ username }) => {
       alert('Please enter a valid password')
       return
     }
-    console.info('PUT', USER_PASSWORD_SERVICE_ADDRESS, {
-      username: username,
-      password: SHA256(username + ':' + form.get('password')).toString(),
-    })
+    // console.info('PUT', USER_PASSWORD_SERVICE_ADDRESS, {
+    //   username: username,
+    //   password: SHA256(username + ':' + form.get('password')).toString(),
+    // })
     fetch(USER_PASSWORD_SERVICE_ADDRESS, {
       method: 'PUT',
       headers: {
@@ -48,10 +48,10 @@ export const User = ({ username }) => {
     })
   }
   const handleApprovePurchase = order => {
-    console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
-      username: username,
-      itemid: order.itemId,
-    })
+    // console.info('POST', USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
+    //   username: username,
+    //   itemid: order.itemId,
+    // })
     fetch(USER_APPROVE_PURCHASE_SERVICE_ADDRESS, {
       method: 'POST',
       headers: {
@@ -78,7 +78,7 @@ export const User = ({ username }) => {
       <tr key={order.itemId}>
         <td>{order.name}</td>
         <td>${order.price}</td>
-        <td>{order.buyer}</td>
+        <td>{order.buyerName}</td>
         <td>
           <Button onClick={() => handleApprovePurchase(order)}>Approve</Button>
         </td>

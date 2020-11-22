@@ -9,10 +9,10 @@ const ItemCard = ({ username, item, handleClick }) => {
   const handleBuy = (e) => {
     e.stopPropagation()
     setBuyAttempted(true)
-    console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
-      itemid: item.itemid,
-      username: username,
-    })
+    // console.info('POST ' + BUY_ITEM_SERVICE_ADDRESS, {
+    //   itemid: item.itemid,
+    //   username: username,
+    // })
     fetch(BUY_ITEM_SERVICE_ADDRESS, {
       method: 'POST',
       headers: {
