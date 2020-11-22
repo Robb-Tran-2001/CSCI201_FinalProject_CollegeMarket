@@ -23,7 +23,7 @@ export const Router = ({ username, send }) => {
         <Catalog username={username} searchitems={location.state} />
       ) : (
         <Route path='/' exact>
-          <Catalog username={username} send={send} />
+          <Catalog username={username} />
         </Route>
       )}
     </Switch>
