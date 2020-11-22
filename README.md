@@ -16,10 +16,10 @@
 - Open “Users and Privileges”
 - Ensure there exists a user with username:`root` and password:`root` with DBA privileges
 - If such a user does not exist, click “Add Account” to create a new user with username and password root
--- Select new user in the list on the left-hand side
--- Under “Details for account [username]@localhost” go to “Administrative roles” tab
--- Make sure Role: “DBA” is checked
--- Username and password can be changed, but ‘CSCI201_FinalProject_CollegeMarket/src/main/resource/application.properties’ file, lines 8 and 9 (spring.datasource.username and spring.datasource.password) must be changed to the new credentials 
+    - Select new user in the list on the left-hand side
+    - Under “Details for account [username]@localhost” go to “Administrative roles” tab
+    - Make sure Role: “DBA” is checked
+    - Username and password can be changed, but ‘CSCI201_FinalProject_CollegeMarket/src/main/resource/application.properties’ file, lines 8 and 9 (spring.datasource.username and spring.datasource.password) must be changed to the new credentials 
 
 ### Importing the Project into Eclipse
 - Clone this project to your local machine with `git clone https://github.com/Robb-Tran-2001/CSCI201_FinalProject_CollegeMarket.git`
