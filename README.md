@@ -29,9 +29,10 @@
 
 
 ### Importing the Project into Eclipse
-- Clone this project to your local machine with `git clone https://github.com/Robb-Tran-2001/CSCI201_FinalProject_CollegeMarket.git` or download the zip file in the submission folder.
+- Clone this project to your local machine with `git clone https://github.com/Robb-Tran-2001/CSCI201_FinalProject_CollegeMarket.git`. Or alternatively, download the zip file in the submission folder.
+- Right click on the zip file, select Extract Here.
 - Open Eclipse IDE, go to File > Import > Maven > Existing Maven Project then click Next.
-- Click Browse and search for the CSCI201_FinalProject_CollegeMarket folder that was cloned/downloaded in step one. Click Select.
+- Click Browse and search for the CSCI201_FinalProject_CollegeMarket folder that was either cloned in step 1 or extracted in step 2. Click Select.
 - Click Finish and the project should be imported into the Workspace. Package Explorer should now contain the imported project.
 
 ### Running the Project in Eclipse
