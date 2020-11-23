@@ -47,7 +47,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
         try {
             li = jdbcTemplateObject.query(SQL, new Object[]{name}, new UserMapper());
         } catch (DataAccessException e) {
-            System.out.println("Data access exception while getting profile, name = " + name);
+            //System.out.println("Data access exception while getting profile, name = " + name);
         }
         if(li != null && li.size() != 0) {
             users.addAll(li);
@@ -56,7 +56,8 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
         return null;
     }
 
-    @Override //get by name and password, login functionality
+    @SuppressWarnings("unused")
+	@Override //get by name and password, login functionality
     public User getMyProfile(String name, String password) {
         for(User user : users)
             if(name.matches(user.getName()) && password.matches(user.getPassword())) return user;
@@ -65,7 +66,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
         try {
             jdbcTemplateObject.query(SQL, new Object[]{name, password}, new UserMapper());
         } catch (DataAccessException e) {
-            System.out.println("Data access exception while getting My profile, name = " + name);
+            //System.out.println("Data access exception while getting My profile, name = " + name);
         }
         if(li != null && li.size() != 0) {
             users.addAll(li);
@@ -161,7 +162,7 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
         try {
             row = jdbcTemplateObject.update(sql, params, types);
         } catch (DataAccessException e) {
-            System.out.println("Duplicate insertion, user already exists with name " + user.getName());
+            //System.out.println("Duplicate insertion, user already exists with name the same name");
         }
         return row;
     }
