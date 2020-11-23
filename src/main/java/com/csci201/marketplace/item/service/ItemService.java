@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import com.csci201.marketplace.item.dao.ItemDAOImpl;
 import com.csci201.marketplace.item.model.Item;
 import com.csci201.marketplace.item.model.ItemSimple;
-import com.csci201.marketplace.pushnotif.model.Message;
-import com.csci201.marketplace.pushnotif.websocket.PushEndpoint;
 
 @Service
 public class ItemService {
