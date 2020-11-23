@@ -20,7 +20,13 @@
     - Select new user in the list on the left-hand side
     - Under “Details for account [username]@localhost” go to “Administrative roles” tab
     - Make sure Role: “DBA” is checked
-    - Username and password can be changed, but ‘CSCI201_FinalProject_CollegeMarket/src/main/resource/application.properties’ file, lines 8 and 9 (spring.datasource.username and spring.datasource.password) must be changed to the new credentials 
+    - Username and password can be changed, but ‘CSCI201_FinalProject_CollegeMarket/src/main/resource/application.properties’ file, lines 8 and 9 (spring.datasource.username and spring.datasource.password) must be changed to the new credentials
+- The database is reset and initialized with sample data every time the application is started. Pre-configured user credentials can be found in ‘CSCI201_FinalProject_CollegeMarket/src/main/resources/application.properties’. 
+    - Schema creation is done in the “spring.datasource.url” datasource link (creates database “marketplace” if it does not exist). 
+    - Table creation is done in ‘CSCI201_FinalProject_CollegeMarket/src/main/resources/schema-mysql.sql’. Tables Items and Users are dropped if exists, then recreated. 
+    - Data to be pre populated is found in ‘CSCI201_FinalProject_CollegeMarket/src/main/resources/data-mysql.sql’.
+    - If data persistence across each run of the application is desired, remove lines 3 and 4 in the ‘schema-mysql.sql’ file. Warning: unless ‘data-mysql.sql’ is modified, the prepopulation data will be added to the table each time, regardless of if they already exist in the database. 
+
 
 ### Importing the Project into Eclipse
 - Clone this project to your local machine with `git clone https://github.com/Robb-Tran-2001/CSCI201_FinalProject_CollegeMarket.git` or download the zip file in the submission folder.
