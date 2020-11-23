@@ -34,12 +34,18 @@ public class UserController { //interacts with user service
 		this.iservice = iservice;
 	}
 
+	/*
+	 * Unused in the frontend, for testing
+	 */
 	@GetMapping(path = "profile/all")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> list() {
 		return uservice.listAll();
 	}
-
+	
+	/*
+	 * Unused in the frontend, for testing
+	 */
 	@GetMapping(path = "profile/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<User> getProfile(@PathVariable("name") String name) //get another user's profile
@@ -49,7 +55,7 @@ public class UserController { //interacts with user service
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(user);
 		else
 			return ResponseEntity.status(HttpStatus.OK).body(user);
-	}
+	} 
 
 	//POST http://placeholder/api/user/login send JSON of username and password
 	@PostMapping(path = "login")
@@ -78,23 +84,14 @@ public class UserController { //interacts with user service
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<User> changePassword(@RequestBody User user) {
-		System.out.println(user.getName() + " WTF ");
 		int row = uservice.update(user.getName(), user.getPassword());
 		if (row != 0)
 			return ResponseEntity.status(HttpStatus.OK).body(user);  //code 200 ok
 		return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(user); //code 304 unmodified
 	}
-	
-//	@DeleteMapping(path = "deleted")
-//	public Response delete(int id) {
-//		boolean bool = uservice.delete(id);
-//		if (bool) {
-//			return Response.ok().build();
-//		}
-//		return Response.notModified().build();
-//	}
 
-	//Dele http://placeholder.com/api/user/approve
+
+	//Delete http://placeholder.com/api/user/approve
 	@PostMapping(path = "approve")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

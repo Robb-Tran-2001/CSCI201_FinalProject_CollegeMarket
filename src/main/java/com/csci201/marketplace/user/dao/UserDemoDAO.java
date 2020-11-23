@@ -131,8 +131,6 @@ public class UserDemoDAO extends JdbcDaoSupport implements UserDAO {
     //sign up functionality
     @Override //add by User
     public int add(User user) {
-        for(User us : users)
-            if(us.getName().matches(user.getName())) return 0;
         //System.out.println("User's ID" + user.getUserID());
         int row = create(user);
         if(row != 0) {
