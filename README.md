@@ -23,9 +23,9 @@
     - Username and password can be changed, but ‘CSCI201_FinalProject_CollegeMarket/src/main/resource/application.properties’ file, lines 8 and 9 (spring.datasource.username and spring.datasource.password) must be changed to the new credentials 
 
 ### Importing the Project into Eclipse
-- Clone this project to your local machine with `git clone https://github.com/Robb-Tran-2001/CSCI201_FinalProject_CollegeMarket.git`
+- Clone this project to your local machine with `git clone https://github.com/Robb-Tran-2001/CSCI201_FinalProject_CollegeMarket.git` or download the zip file in the submission folder.
 - Open Eclipse IDE, go to File > Import > Maven > Existing Maven Project then click Next.
-- Click Browse and search for the CSCI201_FinalProject_CollegeMarket folder that was cloned in step one. Click Select.
+- Click Browse and search for the CSCI201_FinalProject_CollegeMarket folder that was cloned/downloaded in step one. Click Select.
 - Click Finish and the project should be imported into the Workspace. Package Explorer should now contain the imported project.
 
 ### Running the Project in Eclipse
